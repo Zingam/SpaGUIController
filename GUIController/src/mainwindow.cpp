@@ -30,14 +30,14 @@ MainWindow::MainWindow(QWidget *parent) :
     // Load program setting from persistant storage
     QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
     QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
-    QCoreApplication::setApplicationName(APPLICATION_NAME);
+    QCoreApplication::setApplicationName(_programSettings.applicationName);
 
     _programSettingsPersistant = new QSettings(this);
 
     // Setup the GUI
     ui->setupUi(this);  
     connect(ui->action_About, SIGNAL(triggered()), this, SLOT(onActionAboutTriggered()));
-    setWindowTitle(QString("%1 Initializing...").arg(PROJECT_NAME));
+    setWindowTitle(QString("%1 Initializing...").arg(_programSettings.applicationName));
 
     // Setup the indicators display area
     _scene = new CGraphicsScene(this);
@@ -240,7 +240,7 @@ void MainWindow::connectSocket()
     _socket = new QTcpSocket();
     _socket->connectToHost(_programSettings.server.ipV4Address,
                            _programSettings.server.port);
-    setWindowTitle(QString("%1 Connecting...").arg(PROJECT_NAME));
+    setWindowTitle(QString("%1 Connecting...").arg(_programSettings.applicationName));
 }
 
 void MainWindow::sendTemperatureTarget(TemperatureIndicator* temperatureIndicator)
@@ -354,7 +354,7 @@ void MainWindow::onConnected()
                                            .arg(_socket->localPort());
 
     _isConnected = true;
-    setWindowTitle(PROJECT_NAME);
+    setWindowTitle(_programSettings.applicationName);
 
     // Send all target temperatures on connect
     for (TemperatureIndicator* currentTemperatureIndicator: _temperatureIndicators) {

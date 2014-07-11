@@ -157,7 +157,10 @@ void ConfigLoader::parseProgramSettings(QDomElement& element)
 
     QDomElement currentElement;
 
-    currentElement = this->firstChildElement("server", element);
+    currentElement = this->firstChildElement("application", element);
+    _programSettings.applicationName = getAttributeValue("name", currentElement);
+
+    currentElement = this->nextSiblingElement("server", currentElement);
     _programSettings.server.ipV4Address = getAttributeValue("ipV4Address", currentElement);
     _programSettings.server.port = getAttributeValue("port", currentElement).toInt();
 

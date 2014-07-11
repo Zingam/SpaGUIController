@@ -1,5 +1,6 @@
 ﻿<config>
     <settings>
+        <application name="SpaCentralSoft"/>
         <server ipV4Address="192.168.87.245" port="7812"/>
         <language value="en"/>
         <assets path="dark/"/>

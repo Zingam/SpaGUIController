@@ -9,8 +9,6 @@
 #include "cgraphicsscene.h"
 #include "temperatureindicator.h"
 
-#define PROJECT_NAME "SpaCentralSoft"
-
 namespace Ui {
     class MainWindow;
 }

@@ -13,6 +13,7 @@ struct ProgramSettings
         int port;
     } server;
 
+    QString applicationName;
     QString language;
     QString assetsPath;
     QString backgroundImageFileName;

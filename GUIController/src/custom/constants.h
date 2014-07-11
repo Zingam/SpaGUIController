@@ -3,7 +3,6 @@
 
 #define ORGANIZATION_NAME "MSD Systems"
 #define ORGANIZATION_DOMAIN "msd-systems.com"
-#define APPLICATION_NAME "SpaCentralSoft"
 
 #define CONFIG_FILE "assets/config.xml"
 #define ASSETS_PATH "assets/"
@@ -14,20 +13,5 @@
 #define COMMAND_ERROR 'E'
 
 #define TEMPERATURE_THRESHOLD 0.05
-
-#ifdef USE_OBSOLETE
-#define ASSETS_BMP_MAP "assets/map.png"
-
-#define SETTINGS_HIGHLIGHTOPACITY 0.6
-#define SETTINGS_OPACITY 1
-#define SETTINGS_BORDERWIDTH 3
-#define SETTINGS_FONTFAMILY "Helvetica"
-#define SETTINGS_FONTSIZE 38
-#define SETTINGS_FONTWEIGHTBOLD true
-#define SETTINGS_FONTCOLOR "White"
-#define SETTINGS_RECTPADDING 10
-#define SETTINGS_ALPHA_SELECTED 150
-#define SETTINGS_ALPHA_UNSELECTED 100
-#endif // USE_OBSOLETE
 
 #endif // CONSTANTS_H
