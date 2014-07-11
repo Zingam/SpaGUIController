@@ -18,12 +18,13 @@ TemperatureIndicator::TemperatureIndicator(IndicatorProperties indicatorProperti
     _listWidget = listWidget;
     _listWidget->addItem(_text);
 
+#ifdef USE_HIGHLIGHTING
     // Load the highlight image map
     QString imageFileName(ASSETS_PATH
                           + _programSettings.assetsPath
                           + _indicatorProperties.highlightImageFileName);
 
-#if defined USE_GRAPHICSRECTITEM_ZONE && defined USE_HIGHLIGHTING
+#ifdef USE_GRAPHICSRECTITEM_ZONE
     QImage image(imageFileName);
 
     if (image.isNull()) {
@@ -39,7 +40,7 @@ TemperatureIndicator::TemperatureIndicator(IndicatorProperties indicatorProperti
     _graphicsRectItem_Zone->setOpacity(programSettings.highlightOpacity);
     _graphicsRectItem_Zone->setVisible(false);
     _graphicsRectItem_Zone->setZValue(0);
-#elif USE_HIGHLIGHTING
+#else
     QPixmap pixmap(imageFileName);
     if (pixmap.isNull()) {
         qDebug() << "Pixmap failed to load:" << imageFileName;
@@ -49,10 +50,11 @@ TemperatureIndicator::TemperatureIndicator(IndicatorProperties indicatorProperti
     }
 
     _graphicsPixmapItem = new QGraphicsPixmapItem(pixmap);
-    _graphicsPixmapItem->setOpacity(_programSettings.opacity);
+    _graphicsPixmapItem->setOpacity(_programSettings.highlightOpacity);
     _graphicsPixmapItem->setVisible(false);
     _graphicsPixmapItem->setZValue(0);
 #endif // USE_GRAPHICSRECTITEM_ZONE
+#endif // USE_HIGHLIGHTING
 
     // Add item to the GraphicsScene
     _graphicsScene = static_cast<CGraphicsScene*>(parent);
@@ -79,7 +81,7 @@ TemperatureIndicator::TemperatureIndicator(IndicatorProperties indicatorProperti
     _graphicsScene->addItem(_graphicsRectItem_Zone);
 #elif USE_HIGHLIGHTING
     _graphicsScene->addItem(_graphicsPixmapItem);
-#endif
+#endif // USE_GRAPHICSRECTITEM_ZONE && USE_HIGHLIGHTING
     _graphicsScene->addItem(_graphicsRectItem);
     _graphicsScene->addItem(_graphicsTextItem);
 
@@ -113,7 +115,7 @@ quint8 TemperatureIndicator::getSensorId()
 
 bool TemperatureIndicator::isSensorFunctional()
 {
-    return (SensorState::Disconnected != _sensorState) && (SensorState::Undefined != _sensorState);
+    return SensorError::OK == _sensorError;
 }
 
 qreal TemperatureIndicator::getTemperatureCurrent()
@@ -137,7 +139,7 @@ void TemperatureIndicator::setPosition(QPointF& position)
     _graphicsRectItem_Zone->setPos(0, 0);
 #elif USE_HIGHLIGHTING
     _graphicsPixmapItem->setPos(0, 0);
-#endif // USE_GRAPHICSRECTITEM_ZONE
+#endif // USE_GRAPHICSRECTITEM_ZONE && USE_HIGHLIGHTING
     _graphicsRectItem->setPos(position);
     _graphicsTextItem->setPos(position);
 }
@@ -152,6 +154,13 @@ void TemperatureIndicator::setIndicatorSelected(bool indicatorSelected)
 void TemperatureIndicator::setSensorState(SensorState sensorState)
 {
     _sensorState = sensorState;
+    update();
+}
+
+void TemperatureIndicator::setSensorError(SensorError sensorError)
+{
+    _sensorError = sensorError;
+    update();
 }
 
 void TemperatureIndicator::update()
@@ -159,7 +168,7 @@ void TemperatureIndicator::update()
     // Build the text string for the indication in the format "10° / 11°"
     QString indication("");
 
-    if ((SensorState::Disconnected != _sensorState) && (SensorState::Undefined != _sensorState)) {
+    if (SensorError::OK == _sensorError) {
         indication += QString::number(_temperatureCurrent, 'f', 1);
     }
     else {
@@ -200,22 +209,37 @@ void TemperatureIndicator::update()
         alpha = _programSettings.indicator.alphaDisselected;
     }
 
-    switch (_sensorState) {
-    case SensorState::Undefined:
-        qDebug() << "ERROR: Undefined SensorState";
-        break;
-    case SensorState::Disconnected:
-        brush.setColor(QColor(128, 128, 128, alpha));
-        break;
-    case SensorState::TemperatureNormal:
-        brush.setColor(QColor(23, 142, 0, alpha));
-        break;
-    case SensorState::TemperatureHigher:
-        brush.setColor(QColor(244, 0, 0, alpha));
-        break;
-    case SensorState::TemperatureLower:
-        brush.setColor(QColor(0, 75, 244, alpha));
-        break;
+    if( _sensorError != SensorError::OK)
+    {
+        alpha = 180;
+        switch( _sensorError)
+        {
+        case SensorError::Disconnected:
+            brush.setColor(QColor(0, 0, 0, alpha));
+            break;
+        case SensorError::OK:
+            // Do nothing...
+            // Prevents compiler warning:
+            // "Enumeration value not handled in switch"
+            break;
+        case SensorError::Undefined:
+            brush.setColor(QColor(50, 50, 50, alpha));
+            break;
+        }
+    }else
+    {
+        switch (_sensorState)
+        {
+        case SensorState::TemperatureNormal:
+            brush.setColor(QColor(23, 142, 0, alpha));
+            break;
+        case SensorState::TemperatureHigher:
+            brush.setColor(QColor(244, 0, 0, alpha));
+            break;
+        case SensorState::TemperatureLower:
+            brush.setColor(QColor(0, 75, 244, alpha));
+            break;
+        }
     }
 
     _graphicsRectItem->setBrush(brush);
@@ -236,7 +260,7 @@ void TemperatureIndicator::update()
         _graphicsRectItem_Zone->setVisible(true);
 #elif USE_HIGHLIGHTING
         _graphicsPixmapItem->setVisible(true);
-#endif // USE_GRAPHICSRECTITEM_ZONE
+#endif // USE_GRAPHICSRECTITEM_ZONE && USE_HIGHLIGHTING
         _graphicsRectItem->setPen(pen);
     }
     else {
@@ -245,7 +269,7 @@ void TemperatureIndicator::update()
         _graphicsRectItem_Zone->setVisible(false);
 #elif USE_HIGHLIGHTING
         _graphicsPixmapItem->setVisible(false);
-#endif // USE_GRAPHICSRECTITEM_ZONE
+#endif // USE_GRAPHICSRECTITEM_ZONE && USE_HIGHLIGHTING
         _graphicsRectItem->setPen(pen);
     }
 }

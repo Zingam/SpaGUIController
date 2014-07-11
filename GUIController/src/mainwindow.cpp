@@ -4,6 +4,7 @@
 #include <QtNetwork/QHostAddress>
 #include <QMessageBox>
 #include <QtMath>
+#include <QTime>
 
 #include <QDebug>
 
@@ -36,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Setup the GUI
     ui->setupUi(this);  
     connect(ui->action_About, SIGNAL(triggered()), this, SLOT(onActionAboutTriggered()));
+    setWindowTitle(QString("%1 Initializing...").arg(PROJECT_NAME));
 
     // Setup the indicators display area
     _scene = new CGraphicsScene(this);
@@ -63,7 +65,6 @@ MainWindow::MainWindow(QWidget *parent) :
                                          ui->listWidget,
                                          _scene);
         temperatureIndicator->setPosition(currentIndicatorProperties.position);
-        temperatureIndicator->setSensorState(SensorState::Disconnected);
         temperatureIndicator->update();
 
         QString key = QString::number(temperatureIndicator->getSensorId());
@@ -239,6 +240,7 @@ void MainWindow::connectSocket()
     _socket = new QTcpSocket();
     _socket->connectToHost(_programSettings.server.ipV4Address,
                            _programSettings.server.port);
+    setWindowTitle(QString("%1 Connecting...").arg(PROJECT_NAME));
 }
 
 void MainWindow::sendTemperatureTarget(TemperatureIndicator* temperatureIndicator)
@@ -262,14 +264,33 @@ void MainWindow::sendTemperatureTarget(TemperatureIndicator* temperatureIndicato
     }
 }
 
-void MainWindow::setTemperatureIndicator(quint8 sensorId, qreal temperature)
+TemperatureIndicator* MainWindow::findTemperatureIndicatorById(quint8 sensorId)
 {
-    for (TemperatureIndicator* currentTemperatureIndicator: _temperatureIndicators) {
-        if (currentTemperatureIndicator->getSensorId() == sensorId) {   
-
-            currentTemperatureIndicator->setTemperatureCurrent(temperature);
+    for (TemperatureIndicator* currentTemperatureIndicator: _temperatureIndicators)
+    {
+        if (currentTemperatureIndicator->getSensorId() == sensorId)
+        {
+            return currentTemperatureIndicator;
         }
     }
+    return nullptr;
+}
+
+void MainWindow::setTemperatureIndicator(quint8 sensorId, qreal temperature)
+{
+    TemperatureIndicator* currentTemperatureIndicator = findTemperatureIndicatorById(sensorId);
+    if( currentTemperatureIndicator )
+    {
+        currentTemperatureIndicator->setTemperatureCurrent(temperature);
+        currentTemperatureIndicator->setSensorError(SensorError::OK);
+    }
+}
+
+void MainWindow::setTemperatureSensorDisconnected(quint8 sensorId)
+{
+    TemperatureIndicator* currentTemperatureIndicator = findTemperatureIndicatorById(sensorId);
+    if( currentTemperatureIndicator )
+        currentTemperatureIndicator->setSensorError(SensorError::Disconnected);
 }
 
 // Private slots
@@ -279,35 +300,45 @@ void MainWindow::onDataRecieved()
 
     while( dataIncomming.size() > 0 )
     {
-        qDebug()<< QString::fromLatin1(dataIncomming.toHex(), dataIncomming.size());
-
         char byte00_Command = QChar(dataIncomming[0]).toUpper().toLatin1();
         quint8 byte01_SensorId = static_cast<quint8>(dataIncomming[1]);
         qint8 byte02 = static_cast<qint8>(dataIncomming[2]);
         quint8 byte03 = static_cast<quint8>(dataIncomming[3]);
 
+        qDebug()<< QString("[%1]").arg(QTime::currentTime().toString()) << byte00_Command << byte01_SensorId << byte02 << byte03;
+
         switch(byte00_Command)
         {
         case COMMAND_SET:
         {
-            qDebug()<< "SET";
             qreal integralPart = static_cast<qreal>(byte02);
             qreal fractionalPart = static_cast<qreal>(byte03) / FRACTIONAL_BASE;
             qreal temperature;
+            temperature = integralPart + fractionalPart;
+            /*
             if (0 > integralPart) {
                 temperature = integralPart - fractionalPart;
             }
             else {
                 temperature = integralPart + fractionalPart;
             }
+            */
             setTemperatureIndicator(byte01_SensorId, temperature);
+
         }
             break;
         case COMMAND_ERROR:
-            qDebug()<< "ERROR";
+        {
+            // on error read additional 8 bytes of sensor's mac id
+            setTemperatureSensorDisconnected(byte01_SensorId);
+            QByteArray mac = _socket->read(8);
+            QString mac_hex = QString::fromLatin1(mac.toHex());
+            qDebug() << "0x" << mac_hex;
             break;
+        }
         default:
             qDebug()<< "Error:Unknown command byte!";
+            break;
         }
 
         dataIncomming = _socket->read(4);
@@ -322,6 +353,9 @@ void MainWindow::onConnected()
     qDebug() << "Peer address:" << QString("%1:%2").arg(_socket->peerAddress().toString())
                                            .arg(_socket->localPort());
 
+    _isConnected = true;
+    setWindowTitle(PROJECT_NAME);
+
     // Send all target temperatures on connect
     for (TemperatureIndicator* currentTemperatureIndicator: _temperatureIndicators) {
         sendTemperatureTarget(currentTemperatureIndicator);
@@ -331,6 +365,8 @@ void MainWindow::onConnected()
 void MainWindow::onErrorSocket(QAbstractSocket::SocketError socketError)
 {
     Q_UNUSED(socketError);
+
+    _isConnected = false;
 
     qDebug()<< "Error connecting: " << _socket->errorString();
 
@@ -350,5 +386,10 @@ void MainWindow::onDisconnected()
     delete _socket;
     _socket = nullptr;
 
-    connectSocket();
+   _isConnected = false;
+   for (TemperatureIndicator* currentTemperatureIndicator: _temperatureIndicators) {
+       currentTemperatureIndicator->setSensorError(SensorError::Undefined);
+   }
+
+   connectSocket();
 }

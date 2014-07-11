@@ -9,6 +9,8 @@
 #include "cgraphicsscene.h"
 #include "temperatureindicator.h"
 
+#define PROJECT_NAME "SpaCentralSoft"
+
 namespace Ui {
     class MainWindow;
 }
@@ -31,7 +33,8 @@ private:
     QList<TemperatureIndicator*> _temperatureIndicators;
     TemperatureIndicator* _currentTemperatureIndicator;
 
-    QTcpSocket* _socket = nullptr;
+    QTcpSocket* _socket = nullptr; 
+    bool _isConnected = false;
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -55,6 +58,9 @@ private:
     void connectSocket();
     void sendTemperatureTarget(TemperatureIndicator* temperatureIndicator);
     void setTemperatureIndicator(quint8 sensorId, qreal temperature);
+
+    TemperatureIndicator *findTemperatureIndicatorById(quint8 sensorId);
+    void setTemperatureSensorDisconnected(quint8 sensorId);
 
 private slots:
     void onDataRecieved();

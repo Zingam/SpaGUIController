@@ -3,11 +3,16 @@
 
 enum class SensorState
 {
-    Undefined,
-    Disconnected,
-    TemperatureNormal,
+    TemperatureHigher,
     TemperatureLower,
-    TemperatureHigher
+    TemperatureNormal
+};
+
+enum class SensorError
+{
+    Disconnected,
+    OK,
+    Undefined
 };
 
 #endif // C_TYPES_H

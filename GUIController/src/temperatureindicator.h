@@ -28,7 +28,8 @@ private:
     qreal _temperatureCurrent = 0.0;
     bool _sensorConnected = false;
     bool _indicatorSelected = false;
-    SensorState _sensorState = SensorState::Undefined;
+    SensorState _sensorState = SensorState::TemperatureNormal;
+    SensorError _sensorError = SensorError::Undefined;
 
     CGraphicsScene* _graphicsScene; 
 #ifdef USE_GRAPHICSRECTITEM_ZONE
@@ -58,6 +59,7 @@ public:
     void setPosition(QPointF& position);
     void setIndicatorSelected(bool indicatorSelected);
     void setSensorState(SensorState sensorState);
+    void setSensorError(SensorError sensorError);
     void setTemperatureTarget(qreal temperature);
     void setTemperatureCurrent(qreal temperature);
 
