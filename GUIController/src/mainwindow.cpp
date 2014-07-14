@@ -11,6 +11,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "forms/dialogabout.h"
+#include "forms/dialogsceneeditor.h"
 #include "forms/dialogtemperaturetarget.h"
 
 #include "custom/constants.h"
@@ -22,24 +23,27 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
-{  
-    // Load program settings from "assets/config.xml"
+{
+    bool isOk;
+
+    // Program settings: Load program settings from "assets/config.xml"
     ConfigLoader configLoader(CONFIG_FILE, this);
     _programSettings = configLoader.getProgramSettings();
 
-    // Load program setting from persistant storage
+    // Program settings: Load program setting from persistant storage
     QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
     QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
-    QCoreApplication::setApplicationName(_programSettings.applicationName);
+    QCoreApplication::setApplicationName(_programSettings.application.name);
 
     _programSettingsPersistant = new QSettings(this);
 
-    // Setup the GUI
-    ui->setupUi(this);  
-    connect(ui->action_About, SIGNAL(triggered()), this, SLOT(onActionAboutTriggered()));
-    setWindowTitle(QString("%1 Initializing...").arg(_programSettings.applicationName));
+    // UI: Setup UI
+    ui->setupUi(this);
 
-    // Setup the indicators display area
+    setWindowTitle(QString("%1 Initializing...")
+                   .arg(_programSettings.application.name));
+
+    // UI: Setup indicators display area
     _scene = new CGraphicsScene(this);
     ui->graphicsView->setScene(_scene);
 
@@ -55,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QGraphicsRectItem* sceneRectItemBackground = _scene->addRect(sceneRect);
     sceneRectItemBackground->setBrush(QBrush(imageBackgroundImage));
 
-    // Load the indicators
+    // UI: Load indicators
     _listIndicatorProperties = configLoader.getIndicatorProperties();
 
     for (IndicatorProperties currentIndicatorProperties: _listIndicatorProperties) {
@@ -80,7 +84,6 @@ MainWindow::MainWindow(QWidget *parent) :
         _temperatureIndicators.push_back(temperatureIndicator);
     }
 
-    bool isOk;
     for(auto indicator: _temperatureIndicators) {
         isOk = connect(indicator,
                        SIGNAL(doubleClicked(QGraphicsSceneMouseEvent*)),
@@ -93,7 +96,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _currentTemperatureIndicator = _temperatureIndicators[0];
     _currentTemperatureIndicator->setIndicatorSelected(true);
 
-    // Connect QListWidget signal to TemperatureIndicators
+    // UI: Connect QListWidget signal to TemperatureIndicators
     isOk = connect(ui->listWidget,
                    SIGNAL(itemClicked(QListWidgetItem*)),
                    this,
@@ -108,14 +111,26 @@ MainWindow::MainWindow(QWidget *parent) :
     Q_ASSERT(isOk);
     Q_UNUSED(isOk);
 
-    // Setup socket
+    // TcpSocket: Setup
     connectSocket();
 
-    connect(_socket, SIGNAL(readyRead()), this, SLOT(onDataRecieved()) );
-    connect(_socket, SIGNAL(connected()), this, SLOT(onConnected()) );
-    connect(_socket, SIGNAL(disconnected()), this, SLOT(onDisconnected()) );
-    connect(_socket, SIGNAL(error(QAbstractSocket::SocketError)),
-            this, SLOT(onErrorSocket(QAbstractSocket::SocketError)));
+    // TcpSocket: Connect signals and slots
+    isOk = connect(_socket, SIGNAL(readyRead()), this, SLOT(onDataRecieved()));
+    Q_ASSERT(isOk);
+    Q_UNUSED(isOk);
+
+    isOk = connect(_socket, SIGNAL(connected()), this, SLOT(onConnected()));
+    Q_ASSERT(isOk);
+    Q_UNUSED(isOk);
+
+    isOk = connect(_socket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
+    Q_ASSERT(isOk);
+    Q_UNUSED(isOk);
+
+    isOk = connect(_socket, SIGNAL(error(QAbstractSocket::SocketError)),
+                   this, SLOT(onErrorSocket(QAbstractSocket::SocketError)));
+    Q_ASSERT(isOk);
+    Q_UNUSED(isOk);
 }
 
 MainWindow::~MainWindow()
@@ -138,16 +153,13 @@ void MainWindow::showDialogChangeTemperature()
                                                     temperatureTarget,
                                                     temperatureCurrent);
 
-    // Remove ? from TitleBar
-    Qt::WindowFlags windowFlags = dialogChangeTemperature.windowFlags();
-    windowFlags &= ~Qt::WindowContextHelpButtonHint;
-    dialogChangeTemperature.setWindowFlags(windowFlags);
-
     if(dialogChangeTemperature.exec()) {
         qreal temperature = dialogChangeTemperature.getValue();
         _currentTemperatureIndicator->setTemperatureTarget(temperature);
+
         QString key = QString::number(_currentTemperatureIndicator->getSensorId());
         _programSettingsPersistant->setValue(key, temperature);
+
         sendTemperatureTarget(_currentTemperatureIndicator);
     }
 }
@@ -189,9 +201,9 @@ void MainWindow::selectTemperatureIndicator(QPointF point)
     }
 }
 
-void MainWindow::onActionAboutTriggered()
+void MainWindow::on_action_About_triggered()
 {
-    DialogAbout dialogAbout;
+    DialogAbout dialogAbout(_programSettings);
     dialogAbout.exec();
 }
 
@@ -221,6 +233,18 @@ void MainWindow::onListWidgetItemDoubleClicked(QListWidgetItem* item)
     showDialogChangeTemperature();
 }
 
+void MainWindow::on_pushButton_ScenesEditor_clicked()
+{
+    DialogSceneEditor dialogSceneEditor(this);
+
+    dialogSceneEditor.exec();
+}
+
+void MainWindow::on_pushButton_ScenesSet_clicked()
+{
+
+}
+
 void MainWindow::onTemperatureIndicatorDoubleClicked(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event);
@@ -240,7 +264,7 @@ void MainWindow::connectSocket()
     _socket = new QTcpSocket();
     _socket->connectToHost(_programSettings.server.ipV4Address,
                            _programSettings.server.port);
-    setWindowTitle(QString("%1 Connecting...").arg(_programSettings.applicationName));
+    setWindowTitle(QString("%1 Connecting...").arg(_programSettings.application.name));
 }
 
 void MainWindow::sendTemperatureTarget(TemperatureIndicator* temperatureIndicator)
@@ -305,7 +329,11 @@ void MainWindow::onDataRecieved()
         qint8 byte02 = static_cast<qint8>(dataIncomming[2]);
         quint8 byte03 = static_cast<quint8>(dataIncomming[3]);
 
-        qDebug()<< QString("[%1]").arg(QTime::currentTime().toString()) << byte00_Command << byte01_SensorId << byte02 << byte03;
+        qDebug()<< QString("[%1]").arg(QTime::currentTime().toString())
+                << byte00_Command
+                << byte01_SensorId
+                << byte02
+                << byte03;
 
         switch(byte00_Command)
         {
@@ -315,16 +343,8 @@ void MainWindow::onDataRecieved()
             qreal fractionalPart = static_cast<qreal>(byte03) / FRACTIONAL_BASE;
             qreal temperature;
             temperature = integralPart + fractionalPart;
-            /*
-            if (0 > integralPart) {
-                temperature = integralPart - fractionalPart;
-            }
-            else {
-                temperature = integralPart + fractionalPart;
-            }
-            */
-            setTemperatureIndicator(byte01_SensorId, temperature);
 
+            setTemperatureIndicator(byte01_SensorId, temperature);
         }
             break;
         case COMMAND_ERROR:
@@ -354,7 +374,7 @@ void MainWindow::onConnected()
                                            .arg(_socket->localPort());
 
     _isConnected = true;
-    setWindowTitle(_programSettings.applicationName);
+    setWindowTitle(_programSettings.application.name);
 
     // Send all target temperatures on connect
     for (TemperatureIndicator* currentTemperatureIndicator: _temperatureIndicators) {

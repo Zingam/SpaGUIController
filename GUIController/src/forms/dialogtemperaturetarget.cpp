@@ -10,8 +10,17 @@ DialogTemperatureTarget::DialogTemperatureTarget(QWidget* parent,
     QDialog(parent),
     ui(new Ui::DialogTemperatureTarget)
 {
-    ui->setupUi(this);
+    // Set dialog title
     this->setWindowTitle(dialogTitle);
+
+    // Remove ? from TitleBar
+    Qt::WindowFlags windowFlags = this->windowFlags();
+    windowFlags &= ~Qt::WindowContextHelpButtonHint;
+
+    this->setWindowFlags(windowFlags);
+
+    // Setup UI
+    ui->setupUi(this);
 
     _sensorId = sensorId;
 

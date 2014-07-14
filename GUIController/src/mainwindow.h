@@ -46,9 +46,11 @@ public:
     void selectTemperatureIndicator(QPointF point);
     
 private slots:
-    void onActionAboutTriggered();
+    void on_action_About_triggered();
     void onListWidgetItemClicked(QListWidgetItem* item);
     void onListWidgetItemDoubleClicked(QListWidgetItem* item);
+    void on_pushButton_ScenesEditor_clicked();
+    void on_pushButton_ScenesSet_clicked();
     void onTemperatureIndicatorDoubleClicked(QGraphicsSceneMouseEvent* event);
 
 // Socket connection

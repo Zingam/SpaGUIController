@@ -13,7 +13,14 @@ struct ProgramSettings
         int port;
     } server;
 
-    QString applicationName;
+    struct Application
+    {
+        QString date;
+        QString name;
+        QString version;
+    } application;
+
+
     QString language;
     QString assetsPath;
     QString backgroundImageFileName;
@@ -42,6 +49,17 @@ struct IndicatorProperties
     QString highlightImageFileName;
     QPointF position;
     qreal temperatureTarget;
+};
+
+struct Sensor {
+    QString sceneName;
+    quint8 sensorId;
+    qreal temperatureTarget;
+};
+
+struct Scene {
+    QString sceneName;
+    QList<Sensor> sensors;
 };
 
 #endif // STRUCTURES_H

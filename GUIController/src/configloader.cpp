@@ -158,7 +158,9 @@ void ConfigLoader::parseProgramSettings(QDomElement& element)
     QDomElement currentElement;
 
     currentElement = this->firstChildElement("application", element);
-    _programSettings.applicationName = getAttributeValue("name", currentElement);
+    _programSettings.application.date = getAttributeValue("date", currentElement);
+    _programSettings.application.name = getAttributeValue("name", currentElement);
+    _programSettings.application.version = getAttributeValue("version", currentElement);
 
     currentElement = this->nextSiblingElement("server", currentElement);
     _programSettings.server.ipV4Address = getAttributeValue("ipV4Address", currentElement);

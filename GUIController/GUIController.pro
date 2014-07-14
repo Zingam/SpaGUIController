@@ -29,7 +29,9 @@ SOURCES += src/main.cpp\
     src/cgraphicsscene.cpp \
     src/forms/dialogabout.cpp \
     src/configloader.cpp \
-    src/forms/dialogtemperaturetarget.cpp
+    src/forms/dialogtemperaturetarget.cpp \
+    src/forms/dialogsceneeditor.cpp \
+    src/scenedatamodel.cpp
 
 HEADERS  += src/mainwindow.h \
     src/temperatureindicator.h \
@@ -40,11 +42,14 @@ HEADERS  += src/mainwindow.h \
     src/custom/constants.h \
     src/custom/types.h \
     src/custom/structures.h \
-    src/forms/dialogtemperaturetarget.h
+    src/forms/dialogtemperaturetarget.h \
+    src/forms/dialogsceneeditor.h \
+    src/scenedatamodel.h
 
 FORMS    += src/forms/mainwindow.ui \
     src/forms/dialogabout.ui \
-    src/forms/dialogtemperaturetarget.ui
+    src/forms/dialogtemperaturetarget.ui \
+    src/forms/dialogsceneeditor.ui
 
 OTHER_FILES += \
     assets/map.png \
@@ -62,7 +67,8 @@ OTHER_FILES += \
     assets/light/zone5.png \
     assets/light/zone6.png \
     assets/light/zone7.png \
-    assets/config.xml
+    assets/config.xml \
+    assets/SceneData.xml
 
 ###################################################################################################
 # Copy assets to DESTDIR
