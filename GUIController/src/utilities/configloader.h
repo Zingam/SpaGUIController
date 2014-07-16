@@ -6,7 +6,7 @@
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
-#include "custom/structures.h"
+#include "../custom/structures.h"
 
 #define ERROR_MESSAGE "Failed to load \"config.xml\""
 

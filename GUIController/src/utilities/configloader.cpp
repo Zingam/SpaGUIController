@@ -21,7 +21,7 @@ ConfigLoader::ConfigLoader(QString fileName, QMainWindow* mainWindow)
     // Open config.xml file from device
     isOk = configFile.open(QIODevice::ReadOnly | QIODevice::Text);
     if (!isOk) {
-        this->showFatalError("Fialed to open file in path: \n" + fileName);
+        this->showFatalError("Failed to open file in path: \n" + fileName);
     }
 
     // Set config.xml as content of the dom document
@@ -289,7 +289,10 @@ QList<IndicatorProperties> ConfigLoader::getIndicatorProperties() const
 ///
 void ConfigLoader::logToConsole(const QDomElement& element) const
 {
+    Q_UNUSED(element)
+#ifdef NO_DEBUG_OUTPUT
     qDebug() << "Loaded element:" << element.tagName();
+#endif
 }
 
 ///
@@ -300,7 +303,10 @@ void ConfigLoader::logToConsole(const QDomElement& element) const
 ///
 void ConfigLoader::logToConsole(const QDomAttr& attribute) const
 {
+    Q_UNUSED(attribute)
+#ifdef NO_DEBUG_OUTPUT
     qDebug() << "Loaded attribute: " + attribute.name() + "=\"" + attribute.value() +"\"";
+#endif
 }
 
 ///

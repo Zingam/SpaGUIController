@@ -5,9 +5,9 @@
 #include <QGraphicsTextItem>
 #include <QListWidget>
 
-#include "custom/constants.h"
-#include "custom/structures.h"
-#include "custom/types.h"
+#include "../custom/constants.h"
+#include "../custom/structures.h"
+#include "../custom/types.h"
 #include "cgraphicsscene.h"
 #include "cgraphicsrectitem.h"
 

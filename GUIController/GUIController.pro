@@ -24,32 +24,34 @@ DESTDIR = ../../SpaCentralSoftBin
 
 SOURCES += src/main.cpp\
     src/mainwindow.cpp \
-    src/temperatureindicator.cpp \
-    src/cgraphicsrectitem.cpp \
-    src/cgraphicsscene.cpp \
+    src/graphics/cgraphicsrectitem.cpp \
+    src/graphics/cgraphicsscene.cpp \
+    src/graphics/temperatureindicator.cpp \
     src/forms/dialogabout.cpp \
-    src/configloader.cpp \
     src/forms/dialogtemperaturetarget.cpp \
-    src/forms/dialogsceneeditor.cpp \
-    src/scenedatamodel.cpp
+    src/sceneeditor/forms/dialogsceneeditor.cpp \
+    src/sceneeditor/scenedatamodel.cpp \
+    src/utilities/configloader.cpp \
+    src/utilities/xmlloader.cpp
 
 HEADERS  += src/mainwindow.h \
-    src/temperatureindicator.h \
-    src/cgraphicsrectitem.h \
-    src/cgraphicsscene.h \
-    src/forms/dialogabout.h \
-    src/configloader.h \
     src/custom/constants.h \
-    src/custom/types.h \
     src/custom/structures.h \
+    src/custom/types.h \
+    src/graphics/cgraphicsrectitem.h \
+    src/graphics/cgraphicsscene.h \
+    src/graphics/temperatureindicator.h \
+    src/forms/dialogabout.h \
     src/forms/dialogtemperaturetarget.h \
-    src/forms/dialogsceneeditor.h \
-    src/scenedatamodel.h
+    src/sceneeditor/scenedatamodel.h \
+    src/sceneeditor/forms/dialogsceneeditor.h \
+    src/utlities/configloader.h \
+    src/utilities/xmlloader.h
 
 FORMS    += src/forms/mainwindow.ui \
     src/forms/dialogabout.ui \
     src/forms/dialogtemperaturetarget.ui \
-    src/forms/dialogsceneeditor.ui
+    src/sceneeditor/forms/dialogsceneeditor.ui
 
 OTHER_FILES += \
     assets/map.png \

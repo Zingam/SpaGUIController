@@ -1,16 +1,16 @@
 #ifndef CGRAPHICSSCENE_H
 #define CGRAPHICSSCENE_H
 
-#include <QGraphicsScene>
+#include <QtWidgets/QGraphicsScene>
 
-#include "mainwindow.h"
+#include "../mainwindow.h"
 
 class MainWindow;
 
 class CGraphicsScene : public QGraphicsScene
 {
 private:
-    MainWindow* m_mainWindow;
+    MainWindow* _mainWindow;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent);

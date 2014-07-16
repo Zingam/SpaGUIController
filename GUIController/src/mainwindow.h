@@ -5,9 +5,9 @@
 #include <QSettings>
 #include <QtNetwork/QTcpSocket>
 
-#include "configloader.h"
-#include "cgraphicsscene.h"
-#include "temperatureindicator.h"
+#include "utilities/configloader.h"
+#include "graphics/cgraphicsscene.h"
+#include "graphics/temperatureindicator.h"
 
 namespace Ui {
     class MainWindow;

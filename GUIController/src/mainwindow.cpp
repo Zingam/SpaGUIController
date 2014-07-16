@@ -11,14 +11,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "forms/dialogabout.h"
-#include "forms/dialogsceneeditor.h"
 #include "forms/dialogtemperaturetarget.h"
+#include "sceneeditor/forms/dialogsceneeditor.h"
 
 #include "custom/constants.h"
 #include "custom/types.h"
 #include "custom/structures.h"
-#include "cgraphicsrectitem.h"
-#include "temperatureindicator.h"
+#include "graphics/cgraphicsrectitem.h"
+#include "graphics/temperatureindicator.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
