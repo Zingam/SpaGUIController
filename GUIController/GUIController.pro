@@ -69,8 +69,7 @@ OTHER_FILES += \
     assets/light/zone5.png \
     assets/light/zone6.png \
     assets/light/zone7.png \
-    assets/config.xml \
-    assets/SceneData.xml
+    assets/config.xml
 
 ###################################################################################################
 # Copy assets to DESTDIR

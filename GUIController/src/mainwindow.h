@@ -8,6 +8,7 @@
 #include "utilities/configloader.h"
 #include "graphics/cgraphicsscene.h"
 #include "graphics/temperatureindicator.h"
+#include "sceneeditor/scenedatamodel.h"
 
 namespace Ui {
     class MainWindow;
@@ -20,6 +21,10 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+public:
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+
 private:
     Ui::MainWindow* ui;
 
@@ -31,12 +36,10 @@ private:
     QList<TemperatureIndicator*> _temperatureIndicators;
     TemperatureIndicator* _currentTemperatureIndicator;
 
-    QTcpSocket* _socket = nullptr; 
-    bool _isConnected = false;
+    SceneDataModel* _sceneDataModel;
 
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    QTcpSocket* _socket = nullptr;
+    bool _isConnected = false;
 
 // GUI
 private:

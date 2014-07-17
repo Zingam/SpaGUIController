@@ -40,7 +40,7 @@ ConfigLoader::ConfigLoader(QString fileName, QMainWindow* mainWindow)
     }
 
     // Start parsing the document
-    qDebug() << "Begin parsing of " << fileName;
+    qDebug() << "Begin parsing: " << fileName;
 
     QDomElement elementConfig = this->firstChildElement("config", _configDocument);
 
@@ -56,7 +56,7 @@ ConfigLoader::ConfigLoader(QString fileName, QMainWindow* mainWindow)
 
     for (int i = 0; listIndicatorsElement.count() > i; i++) {
         QDomElement currentIndicatorsElement = listIndicatorsElement.at(i).toElement();
-        if(currentIndicatorsElement.isNull()) {
+        if (currentIndicatorsElement.isNull()) {
             this->showFatalError("Failed at loading <indicators>");
         }
         this->logToConsole(currentIndicatorsElement);
@@ -72,7 +72,7 @@ ConfigLoader::ConfigLoader(QString fileName, QMainWindow* mainWindow)
         showFatalError("Could not find a valid language strings in \"config.xml\"");
     }
 
-    qDebug() << "Success!";
+    qDebug() << "Succeeded parsing: " << fileName;
 }
 
 /*
@@ -162,6 +162,10 @@ void ConfigLoader::parseProgramSettings(QDomElement& element)
     _programSettings.application.name = getAttributeValue("name", currentElement);
     _programSettings.application.version = getAttributeValue("version", currentElement);
 
+    currentElement = this->nextSiblingElement("datafile", currentElement);
+    _programSettings.datafile.name = getAttributeValue("name", currentElement);
+    _programSettings.datafile.path = getAttributeValue("path", currentElement);
+
     currentElement = this->nextSiblingElement("server", currentElement);
     _programSettings.server.ipV4Address = getAttributeValue("ipV4Address", currentElement);
     _programSettings.server.port = getAttributeValue("port", currentElement).toInt();
@@ -243,7 +247,7 @@ void ConfigLoader::parseIndicatorProperties(QDomElement& element)
     for (int i = 0; listChildElement.count() > i; i++) {
         QDomElement currentChildElement = listChildElement.at(i).toElement();
 
-        if(currentChildElement.isNull()) {
+        if (currentChildElement.isNull()) {
             this->showFatalError("Failed to load <item>");
         }
         this->logToConsole(currentChildElement);

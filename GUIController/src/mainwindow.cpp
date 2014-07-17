@@ -111,6 +111,14 @@ MainWindow::MainWindow(QWidget *parent) :
     Q_ASSERT(isOk);
     Q_UNUSED(isOk);
 
+    //
+
+    _sceneDataModel = new SceneDataModel(_programSettings.datafile.path,
+                                         _programSettings.datafile.name,
+                                         this);
+    _sceneDataModel->load();
+    _sceneDataModel->save();
+
     // TcpSocket: Setup
     connectSocket();
 

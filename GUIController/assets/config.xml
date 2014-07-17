@@ -1,6 +1,7 @@
 ﻿<config>
     <settings>
         <application date="2014-07-11" name="SpaCentralSoft" version="1.1.0.0"/>
+        <datafile name="SceneData.xml" path="assets/"/>
         <server ipV4Address="192.168.87.245" port="7812"/>
         <language value="en"/>
         <assets path="dark/"/>

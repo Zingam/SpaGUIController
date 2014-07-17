@@ -7,6 +7,12 @@
 
 struct ProgramSettings
 {
+    struct DataFile
+    {
+        QString name;
+        QString path;
+    } datafile;
+
     struct Server
     {
         QString ipV4Address;
@@ -58,7 +64,7 @@ struct Sensor {
 };
 
 struct Scene {
-    QString sceneName;
+    QString name;
     QList<Sensor> sensors;
 };
 
