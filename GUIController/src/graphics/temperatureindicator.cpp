@@ -103,7 +103,7 @@ CGraphicsRectItem* TemperatureIndicator::getGraphicsRectItem() const
     return _graphicsRectItem;
 }
 
-QString TemperatureIndicator::text() const
+QString TemperatureIndicator::getText() const
 {
     return _text;
 }

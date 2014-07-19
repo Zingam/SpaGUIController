@@ -8,15 +8,37 @@
 
 #include <QtCore/QDebug>
 
-SceneDataModel::SceneDataModel(QString filePath, QString fileName, QMainWindow* mainWindow):
+SceneDataModel::SceneDataModel(QString filePath, QString fileName, MainWindow* mainWindow):
+    QObject(mainWindow),
     XmlLoader(QString(SCENEDATAMODEL_ERROR_MESSAGE )+ " " + fileName, mainWindow),
     _filePath(filePath),
     _fileName(fileName),
     _mainWindow(mainWindow)
 {
+    this->xmlSceneDataFileLoad();
+
+    this->getSensors();
 }
 
-void SceneDataModel::load()
+SceneDataModel::~SceneDataModel()
+{
+    qDebug() << "Decomposing SceneDataModel";
+}
+
+void SceneDataModel::getSensors()
+{
+    for (TemperatureIndicator* currentIndicator: _mainWindow->_temperatureIndicators) {
+        Sensor sensor;
+        sensor.sceneName = "";
+        sensor.sensorId = currentIndicator->getSensorId();
+        sensor.text = currentIndicator->getText();
+        sensor.temperatureTarget = currentIndicator->getTemperatureTarget();
+
+        _sensors.push_back(sensor);
+    }
+}
+
+void SceneDataModel::xmlSceneDataFileLoad()
 {
     QFile fileSceneData(_filePath + "/" + _fileName);
 
@@ -56,13 +78,13 @@ void SceneDataModel::load()
         }
         this->logToConsole(currentSceneElement);
 
-        load_ParseScene(currentSceneElement);
+        xmlSceneDataParse(currentSceneElement);
     }
 
     qDebug() << "Succeeded parsing: " << _fileName;
 }
 
-void SceneDataModel::save()
+void SceneDataModel::xmlSceneDataFileSave()
 {
     qDebug() << "Begin saving:" << _fileName;
 
@@ -124,7 +146,7 @@ void SceneDataModel::save()
     qDebug() << "Succeeded saving: " << _fileName;
 }
 
-void SceneDataModel::load_ParseScene(QDomElement &element)
+void SceneDataModel::xmlSceneDataParse(QDomElement &element)
 {
     Scene scene;
     scene.name = getAttributeValue("name", element);

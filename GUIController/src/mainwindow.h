@@ -15,11 +15,14 @@ namespace Ui {
 }
 
 class CGraphicsScene;
+class SceneDataModel;
 class TemperatureIndicator;
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+
+    friend class SceneDataModel;
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -47,7 +50,9 @@ private:
 
 public:
     void selectTemperatureIndicator(QPointF point);
-    
+
+    SceneDataModel *getSceneDataModel() const;
+
 private slots:
     void on_action_About_triggered();
     void onListWidgetItemClicked(QListWidgetItem* item);

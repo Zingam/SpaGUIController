@@ -1,19 +1,31 @@
 #ifndef DIALOGSCENEEEDITOR_H
 #define DIALOGSCENEEEDITOR_H
 
-#include <QDialog>
+#include <QtWidgets/QDialog>
+
+#include "../scenedatamodel.h"
+#include "../../mainwindow.h"
+
+#define SENSORSSELECTED_COLUMNS 2
 
 namespace Ui {
 class DialogSceneEditor;
 }
+
+class MainWindow;
 
 class DialogSceneEditor : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit DialogSceneEditor(QWidget *parent = 0);
+    explicit DialogSceneEditor(MainWindow* mainWindow);
     ~DialogSceneEditor();
+
+private:
+    void listWidget_Scenes_Update();
+    void listWidget_SensorsAll_Update();
+    void tableWidget_SensorsSelected_Update(const QString& sceneName);
 
 private slots:
     void on_pushButton_ButtonBox_Close_clicked();
@@ -25,6 +37,8 @@ private slots:
 
 private:
     Ui::DialogSceneEditor *ui;
+
+    MainWindow* _mainWindow;
 };
 
 #endif // DIALOGSCENEEEDITOR_H

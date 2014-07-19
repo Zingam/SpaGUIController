@@ -60,6 +60,7 @@ struct IndicatorProperties
 struct Sensor {
     QString sceneName;
     quint8 sensorId;
+    QString text;
     qreal temperatureTarget;
 };
 

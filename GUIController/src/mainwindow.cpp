@@ -111,13 +111,13 @@ MainWindow::MainWindow(QWidget *parent) :
     Q_ASSERT(isOk);
     Q_UNUSED(isOk);
 
-    //
-
+    // NOTE: SceneDataModel object has to be crated after all _temperatureIndicators
+    // have been loaded from config.xml as SceneDataModel uses getSensors() to
+    // retrieve a list of all sensors.
+    // All available sensors on the remote controller need to be defined in config.xml
     _sceneDataModel = new SceneDataModel(_programSettings.datafile.path,
                                          _programSettings.datafile.name,
                                          this);
-    _sceneDataModel->load();
-    _sceneDataModel->save();
 
     // TcpSocket: Setup
     connectSocket();
@@ -148,7 +148,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::showDialogChangeTemperature()
 {
-    QString dialogTitle = _currentTemperatureIndicator->text();
+    QString dialogTitle = _currentTemperatureIndicator->getText();
     quint8 sensorId = _currentTemperatureIndicator->getSensorId();
     bool temperatureIndicatorFunctional = _currentTemperatureIndicator->isSensorFunctional();
     qreal temperatureTarget = _currentTemperatureIndicator->getTemperatureTarget();
@@ -201,13 +201,19 @@ void MainWindow::selectTemperatureIndicator(QPointF point)
 
     for (TemperatureIndicator* indicator: _temperatureIndicators) {
         if (indicator->getGraphicsRectItem() == rectItem) {
-            qDebug() << "Clicked on the indicator:" << indicator->text();
+            qDebug() << "Clicked on the indicator:" << indicator->getText();
             _currentTemperatureIndicator->setIndicatorSelected(false);
             _currentTemperatureIndicator = indicator;
             _currentTemperatureIndicator->setIndicatorSelected(true);
         }
     }
 }
+
+SceneDataModel *MainWindow::getSceneDataModel() const
+{
+    return _sceneDataModel;
+}
+
 
 void MainWindow::on_action_About_triggered()
 {
@@ -222,7 +228,7 @@ void MainWindow::onListWidgetItemClicked(QListWidgetItem *item)
 
     // Match the clicked QListWidgetItem to the corresponding TemperatureIndicator
     for (auto indicator: _temperatureIndicators) {
-        if (indicator->text() == text) {
+        if (indicator->getText() == text) {
             _currentTemperatureIndicator->setIndicatorSelected(false);
             _currentTemperatureIndicator = indicator;
             _currentTemperatureIndicator->setIndicatorSelected(true);
@@ -365,7 +371,7 @@ void MainWindow::onDataRecieved()
             break;
         }
         default:
-            qDebug()<< "Error:Unknown command byte!";
+            qDebug()<< "Error: Unknown command byte!";
             break;
         }
 

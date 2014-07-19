@@ -17,10 +17,8 @@ class TemperatureIndicator : public QObject
 {
     Q_OBJECT
 private:
-#ifndef USE_OBSOLETE
     ProgramSettings _programSettings;
     IndicatorProperties _indicatorProperties;
-#endif // USE_OBSOLETE
 
     QString _text;
     QListWidget* _listWidget;
@@ -48,7 +46,7 @@ public:
                                   QObject* parent = 0);
 
     CGraphicsRectItem* getGraphicsRectItem() const;
-    QString text() const; 
+    QString getText() const;
 
     quint8 getSensorId();
     bool isSensorFunctional();
