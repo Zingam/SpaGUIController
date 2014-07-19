@@ -35,6 +35,8 @@ private:
     QList<Scene> _scenes;
     QList<Sensor> _sensors;
 
+    QString getSensorNameById(quint8 id);
+
 public:
 
 private:

@@ -15,9 +15,9 @@ SceneDataModel::SceneDataModel(QString filePath, QString fileName, MainWindow* m
     _fileName(fileName),
     _mainWindow(mainWindow)
 {
-    this->xmlSceneDataFileLoad();
-
     this->getSensors();
+
+    this->xmlSceneDataFileLoad();
 }
 
 SceneDataModel::~SceneDataModel()
@@ -167,7 +167,7 @@ void SceneDataModel::xmlSceneDataParse(QDomElement &element)
         sensor.sceneName = scene.name;
         sensor.sensorId = getAttributeValue("id", currentChildElement).toInt();
         sensor.temperatureTarget = getAttributeValue("target", currentChildElement).toDouble();
-
+        sensor.text = getSensorNameById(sensor.sensorId);
         scene.sensors.push_back(sensor);
     }
 
@@ -175,6 +175,13 @@ void SceneDataModel::xmlSceneDataParse(QDomElement &element)
 }
 
 
+QString SceneDataModel::getSensorNameById(quint8 id)
+{
+    for( Sensor sensor: _sensors )
+    {
+        if( sensor.sensorId == id )
+            return sensor.text;
+    }
 
-
-
+    return QString();
+}

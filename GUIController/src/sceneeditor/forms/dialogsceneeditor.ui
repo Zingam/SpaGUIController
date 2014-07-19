@@ -44,6 +44,13 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_ButtonBox_Save">
+            <property name="text">
+             <string>Запази</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
        </layout>
@@ -145,13 +152,6 @@
         </size>
        </property>
       </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_ButtonBox_Save">
-       <property name="text">
-        <string>Запази</string>
-       </property>
-      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer_ButtonBox_Middle">

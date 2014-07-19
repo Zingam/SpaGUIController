@@ -25,7 +25,9 @@ public:
 private:
     void listWidget_Scenes_Update();
     void listWidget_SensorsAll_Update();
-    void tableWidget_SensorsSelected_Update(const QString& sceneName);
+    void tableWidget_SensorsSelected_Update();
+    void tableWidget_SensorsSelected_SetRow(int row, Sensor& currentSensor);
+    void saveScene();
 
 private slots:
     void on_pushButton_ButtonBox_Close_clicked();
@@ -35,10 +37,15 @@ private slots:
     void on_pushButton_Sensors_ButtonBox_Add_clicked();
     void on_pushButton_Sensors_ButtonBox_Remove_clicked();
 
+    void on_listWidget_Scenes_itemClicked(QListWidgetItem *item);
+
 private:
     Ui::DialogSceneEditor *ui;
 
     MainWindow* _mainWindow;
+
+    Scene* _currentScene;
+    bool _tableSensorsModified = false;
 };
 
 #endif // DIALOGSCENEEEDITOR_H

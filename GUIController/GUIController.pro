@@ -33,7 +33,8 @@ SOURCES += src/main.cpp\
     src/sceneeditor/scenedatamodel.cpp \
     src/utilities/configloader.cpp \
     src/utilities/xmlloader.cpp \
-    src/sceneeditor/spinboxdelegate.cpp
+    src/sceneeditor/spinboxdelegate.cpp \
+    src/sceneeditor/forms/dialogaddscene.cpp
 
 HEADERS  += src/mainwindow.h \
     src/custom/constants.h \
@@ -48,12 +49,14 @@ HEADERS  += src/mainwindow.h \
     src/sceneeditor/forms/dialogsceneeditor.h \
     src/utlities/configloader.h \
     src/utilities/xmlloader.h \
-    src/sceneeditor/spinboxdelegate.h
+    src/sceneeditor/spinboxdelegate.h \
+    src/sceneeditor/forms/dialogaddscene.h
 
 FORMS    += src/forms/mainwindow.ui \
     src/forms/dialogabout.ui \
     src/forms/dialogtemperaturetarget.ui \
-    src/sceneeditor/forms/dialogsceneeditor.ui
+    src/sceneeditor/forms/dialogsceneeditor.ui \
+    src/sceneeditor/forms/dialogaddscene.ui
 
 OTHER_FILES += \
     assets/map.png \
