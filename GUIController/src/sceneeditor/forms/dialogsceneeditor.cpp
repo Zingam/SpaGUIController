@@ -299,9 +299,14 @@ void DialogSceneEditor::on_listWidget_Scenes_itemClicked(QListWidgetItem *item)
 
 void DialogSceneEditor::on_tableWidget_SensorsSelected_cellChanged(int row, int column)
 {
+#ifdef DEBUG
     qDebug() << QString("Scene Editor: Table cell changed: row: %1, column: %2")
                 .arg(row)
                 .arg(column);
+#else
+    Q_UNUSED(row);
+    Q_UNUSED(column);
+#endif // DEBUG
 
     _tableSensorsModified = true;
 }

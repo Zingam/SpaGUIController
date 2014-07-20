@@ -48,7 +48,6 @@ private:
 
     Scene* _currentScene = nullptr;
     bool _tableSensorsModified = false;
-    bool _hasUnsavedChanges = false;
 };
 
 #endif // DIALOGSCENEEEDITOR_H
