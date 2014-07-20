@@ -1,7 +1,7 @@
-#ifndef SPINBOXDELEGATE_H
-#define SPINBOXDELEGATE_H
+#ifndef DOUBLESPINBOXDELEGATE_H
+#define DOUBLESPINBOXDELEGATE_H
 
-#include <QStyledItemDelegate>
+#include <QtWidgets/QStyledItemDelegate>
 
 class DoubleSpinBoxDelegate : public QStyledItemDelegate
 {
@@ -27,4 +27,4 @@ public slots:
 
 };
 
-#endif // SPINBOXDELEGATE_H
+#endif // DOUBLESPINBOXDELEGATE_H

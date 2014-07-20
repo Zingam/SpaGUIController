@@ -61,16 +61,20 @@ private slots:
     void on_pushButton_ScenesSet_clicked();
     void onTemperatureIndicatorDoubleClicked(QGraphicsSceneMouseEvent* event);
 
-// Socket connection
 private:
+    // Socket connection
     void connectSocket();
+
+    void listWidget_Scenes_Update();
+
     void sendTemperatureTarget(TemperatureIndicator* temperatureIndicator);
     void setTemperatureIndicator(quint8 sensorId, qreal temperature);
 
-    TemperatureIndicator *findTemperatureIndicatorById(quint8 sensorId);
+    TemperatureIndicator* findTemperatureIndicatorById(quint8 sensorId);
     void setTemperatureSensorDisconnected(quint8 sensorId);
 
 private slots:
+    // Socket connection
     void onDataRecieved();
     void onDisconnected();
     void onConnected();

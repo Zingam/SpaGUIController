@@ -1,21 +1,22 @@
 #include "dialogsceneeditor.h"
 #include "ui_dialogsceneeditor.h"
 
-#include <QDebug>
-#include <QMessageBox>
+#include <QtCore/QDebug>
+#include <QtWidgets/QDoubleSpinBox>
+#include <QtWidgets/QMessageBox>
 
 #include "../../custom/structures.h"
-#include "../scenedatamodel.h"
+#include "../../custom/utilities.h"
 
 #include "dialogaddscene.h"
+#include "../doublespinboxdelegate.h"
+#include "../scenedatamodel.h"
 
 DialogSceneEditor::DialogSceneEditor(MainWindow* mainWindow) :
     QDialog(mainWindow),
     ui(new Ui::DialogSceneEditor),
     _mainWindow(mainWindow)
 {
-    _currentScene = nullptr;
-
     // Remove ? from TitleBar
     Qt::WindowFlags windowFlags = this->windowFlags();
     windowFlags &= ~Qt::WindowContextHelpButtonHint;
@@ -65,7 +66,7 @@ void DialogSceneEditor::listWidget_SensorsAll_Update()
             }
         }
 
-        if( !isSensorInTable )
+        if (!isSensorInTable)
             ui->listWidget_SensorsAll->addItem(currentSensor.text);
     }
 }
@@ -74,11 +75,13 @@ void DialogSceneEditor::tableWidget_SensorsSelected_Update()
 {
     ui->tableWidget_SensorsSelected->setRowCount(_currentScene->sensors.count());
     ui->tableWidget_SensorsSelected->setColumnCount(SENSORSSELECTED_COLUMNS);
-    int row = 0;
+
+    int currentRowIndex = 0;
+
     for (Sensor currentSensor: _currentScene->sensors)
     {
-        tableWidget_SensorsSelected_SetRow(row, currentSensor);
-        ++row;
+        tableWidget_SensorsSelected_SetRow(currentRowIndex, currentSensor);
+        ++currentRowIndex;
     }
 }
 
@@ -92,33 +95,37 @@ void DialogSceneEditor::tableWidget_SensorsSelected_SetRow(int row, Sensor &curr
 
     QString temperature = QString::number(currentSensor.temperatureTarget);
     QTableWidgetItem* sensorValue = new QTableWidgetItem(temperature);
-    sensorValue->setData(Qt::UserRole, QVariant(currentSensor.sensorId) );
+    sensorValue->setData(Qt::UserRole, QVariant(currentSensor.sensorId));
     ui->tableWidget_SensorsSelected->setItem(row, 1, sensorValue);
+    // This adds QDoubleSpinBox widget to the second column as an Input Widget
+    DoubleSpinBoxDelegate* doubleSpinBoxDelegate = new DoubleSpinBoxDelegate();
+    ui->tableWidget_SensorsSelected->setItemDelegateForColumn(1, doubleSpinBoxDelegate);
 
-    for( int i = 0; i < ui->listWidget_SensorsAll->count(); i ++)
+    for (int currentItemIndex = 0;
+         ui->listWidget_SensorsAll->count() > currentItemIndex;
+         currentItemIndex ++)
     {
-        QListWidgetItem* item = ui->listWidget_SensorsAll->item(i);
+        QListWidgetItem* listWidgettem = ui->listWidget_SensorsAll->item(currentItemIndex);
 
-        if( item->text() == currentSensor.text )
+        if( listWidgettem->text() == currentSensor.text )
         {
-            delete item;
+            delete_safe(listWidgettem);
             break;
         }
     }
 }
-
 
 void DialogSceneEditor::on_pushButton_ButtonBox_Close_clicked()
 {
     this->close();
 }
 
-
 void DialogSceneEditor::saveScene()
 {
     qDebug() << "Scenes saved";
 
     _currentScene->sensors.clear();
+
     for (Sensor sensor: _currentScene->sensors)
     {
         for (int currentRowIndex = 0;
@@ -153,12 +160,14 @@ void DialogSceneEditor::on_pushButton_Scenes_ButtonBox_Add_clicked()
     if (dialogAddScene.exec())
     {
         QString sceneName = dialogAddScene.getSceneName();
-        for( Scene currentScene: _mainWindow->getSceneDataModel()->_scenes)
+        for (Scene currentScene: _mainWindow->getSceneDataModel()->_scenes)
         {
-            if( sceneName == currentScene.name)
+            if (sceneName == currentScene.name)
             {
                 QMessageBox::critical(this, "Error", "Scene with same name already exists!");
+
                 on_pushButton_Scenes_ButtonBox_Add_clicked();
+
                 return;
             }
         }
@@ -172,19 +181,27 @@ void DialogSceneEditor::on_pushButton_Scenes_ButtonBox_Add_clicked()
 
 void DialogSceneEditor::on_pushButton_Scenes_ButtonBox_Delete_clicked()
 {
-    if( _currentScene == nullptr )
+    if (_currentScene == nullptr)
         return;
 
-    if (QMessageBox::critical("Delete scene", "Are you sure?")) {
+    qDebug() << _currentScene->name;
+
+    if (QMessageBox::Ok != QMessageBox::critical(this,
+                                                 "Delete scene",
+                                                 "Are you sure?",
+                                                 QMessageBox::Ok,
+                                                 QMessageBox::Cancel)) {
         return;
     }
 
-    for (int currentRowIndex = 0; ui->listWidget_Scenes->count() > currentRowIndex; currentRowIndex++)
+    for (int currentRowIndex = 0;
+         ui->listWidget_Scenes->count() > currentRowIndex;
+         currentRowIndex++)
     {
         QListWidgetItem* item = ui->listWidget_Scenes->item(currentRowIndex);
-        if( item->text() == _currentScene->name)
+        if (item->text() == _currentScene->name)
         {
-            delete item;
+            delete_safe(item);
             break;
         }
     }
@@ -195,7 +212,7 @@ void DialogSceneEditor::on_pushButton_Scenes_ButtonBox_Delete_clicked()
 void DialogSceneEditor::on_pushButton_Sensors_ButtonBox_Add_clicked()
 {
     QListWidgetItem *currentItem = ui->listWidget_SensorsAll->currentItem();
-    if( currentItem == nullptr)
+    if (currentItem == nullptr)
         return;
 
     _tableSensorsModified = true;
@@ -219,7 +236,8 @@ void DialogSceneEditor::on_pushButton_Sensors_ButtonBox_Remove_clicked()
     _tableSensorsModified = true;
 
     QList<QTableWidgetItem*> itemsList = ui->tableWidget_SensorsSelected->selectedItems();
-    if( itemsList.count() < 1 )
+
+    if (itemsList.count() < 1)
         return;
 
     QTableWidgetItem* item = *itemsList.begin();
@@ -227,6 +245,7 @@ void DialogSceneEditor::on_pushButton_Sensors_ButtonBox_Remove_clicked()
 
     ui->tableWidget_SensorsSelected->removeRow(row);
     listWidget_SensorsAll_Update();
+
     qDebug() << "Sensor removed:" << row;
 }
 
@@ -235,10 +254,15 @@ void DialogSceneEditor::on_listWidget_Scenes_itemClicked(QListWidgetItem *item)
     QString currentSceneName = item->text();
 
     // test for changes before setting a new selected scene
-    if( _currentScene != nullptr && _tableSensorsModified)
+    if (_currentScene != nullptr
+            && _tableSensorsModified)
     {
         QMessageBox msgBox;
-        if( QMessageBox::Yes == msgBox.question(this, "Save before change?", "Current scene has been modified. Do you want to save changes?", QMessageBox::Yes | QMessageBox::No, QMessageBox::No ))
+        if (QMessageBox::Yes == msgBox.question(this,
+                                                "Save before change?",
+                                                "Current scene has been modified. Do you want to save changes?",
+                                                QMessageBox::Yes | QMessageBox::No,
+                                                QMessageBox::No))
         {
             saveScene();
         }
@@ -246,11 +270,11 @@ void DialogSceneEditor::on_listWidget_Scenes_itemClicked(QListWidgetItem *item)
 
     // find current scene pointer by selected string in scenes list
     _currentScene = nullptr;
-    for( Scene scene:  _mainWindow->getSceneDataModel()->_scenes )
+    for (Scene scene: _mainWindow->getSceneDataModel()->_scenes)
     {
-        if( scene.name == currentSceneName )
+        if (scene.name == currentSceneName)
         {
-             _currentScene = &scene;
+            _currentScene = &scene;
              break;
         }
     }
@@ -263,7 +287,7 @@ void DialogSceneEditor::on_listWidget_Scenes_itemClicked(QListWidgetItem *item)
 
 
     // udpate sensors table if new scene is selected
-    if( _currentScene )
+    if (_currentScene)
     {
         this->tableWidget_SensorsSelected_Update();
         setWindowTitle( QString("%1").arg(item->text()));
@@ -271,4 +295,13 @@ void DialogSceneEditor::on_listWidget_Scenes_itemClicked(QListWidgetItem *item)
     }
 
     listWidget_SensorsAll_Update();
+}
+
+void DialogSceneEditor::on_tableWidget_SensorsSelected_cellChanged(int row, int column)
+{
+    qDebug() << QString("Scene Editor: Table cell changed: row: %1, column: %2")
+                .arg(row)
+                .arg(column);
+
+    _tableSensorsModified = true;
 }

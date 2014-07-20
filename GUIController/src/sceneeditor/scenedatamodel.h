@@ -21,6 +21,7 @@ class SceneDataModel : public QObject, public XmlLoader
     Q_OBJECT
 
     friend class DialogSceneEditor;
+    friend class MainWindow;
 
 public:
     explicit SceneDataModel(QString filePath, QString fileName, MainWindow* mainWindow);

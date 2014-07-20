@@ -1,4 +1,4 @@
-#include "spinboxdelegate.h"
+#include "doublespinboxdelegate.h"
 
 #include <QtWidgets/QDoubleSpinBox>
 

@@ -119,6 +119,8 @@ MainWindow::MainWindow(QWidget *parent) :
                                          _programSettings.datafile.name,
                                          this);
 
+    this->listWidget_Scenes_Update();
+
     // TcpSocket: Setup
     connectSocket();
 
@@ -252,11 +254,22 @@ void MainWindow::on_pushButton_ScenesEditor_clicked()
     DialogSceneEditor dialogSceneEditor(this);
 
     dialogSceneEditor.exec();
+
+    this->listWidget_Scenes_Update();
 }
 
 void MainWindow::on_pushButton_ScenesSet_clicked()
 {
+    QListWidgetItem* listWidgetItem = ui->listWidget_Scenes->currentItem();
+    QString sceneName = listWidgetItem->text();
+    if (QMessageBox::Ok == QMessageBox::question(this,
+                                                 QString("Set: %1").arg(sceneName),
+                                                 "Are you sure?",
+                                                 QMessageBox::Ok,
+                                                 QMessageBox::Cancel))
+    {
 
+    }
 }
 
 void MainWindow::onTemperatureIndicatorDoubleClicked(QGraphicsSceneMouseEvent *event)
@@ -279,6 +292,14 @@ void MainWindow::connectSocket()
     _socket->connectToHost(_programSettings.server.ipV4Address,
                            _programSettings.server.port);
     setWindowTitle(QString("%1 Connecting...").arg(_programSettings.application.name));
+}
+
+void MainWindow::listWidget_Scenes_Update()
+{
+    for (Scene currentScene: this->getSceneDataModel()->_scenes) {
+        QListWidgetItem* currentSceneName = new QListWidgetItem(currentScene.name);
+        ui->listWidget_Scenes->addItem(currentSceneName);
+    }
 }
 
 void MainWindow::sendTemperatureTarget(TemperatureIndicator* temperatureIndicator)

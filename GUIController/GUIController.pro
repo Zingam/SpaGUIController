@@ -49,8 +49,9 @@ HEADERS  += src/mainwindow.h \
     src/sceneeditor/forms/dialogsceneeditor.h \
     src/utlities/configloader.h \
     src/utilities/xmlloader.h \
-    src/sceneeditor/spinboxdelegate.h \
-    src/sceneeditor/forms/dialogaddscene.h
+    src/sceneeditor/forms/dialogaddscene.h \
+    src/custom/utilities.h \
+    src/sceneeditor/doublespinboxdelegate.h
 
 FORMS    += src/forms/mainwindow.ui \
     src/forms/dialogabout.ui \

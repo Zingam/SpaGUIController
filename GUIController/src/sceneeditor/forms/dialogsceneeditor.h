@@ -39,13 +39,16 @@ private slots:
 
     void on_listWidget_Scenes_itemClicked(QListWidgetItem *item);
 
+    void on_tableWidget_SensorsSelected_cellChanged(int row, int column);
+
 private:
     Ui::DialogSceneEditor *ui;
 
     MainWindow* _mainWindow;
 
-    Scene* _currentScene;
+    Scene* _currentScene = nullptr;
     bool _tableSensorsModified = false;
+    bool _hasUnsavedChanges = false;
 };
 
 #endif // DIALOGSCENEEEDITOR_H

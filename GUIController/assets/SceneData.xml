@@ -1,17 +1,17 @@
 <scenes>
     <scene name="Хидромасаж">
-        <sensor id="100" target="22.3"/>
-        <sensor id="101" target="25.1"/>
-        <sensor id="102" target="21.5"/>
-        <sensor id="103" target="23.3"/>
-        <sensor id="104" target="25.2"/>
-        <sensor id="105" target="25.1"/>
+        <sensor id="100" target="22.0"/>
+        <sensor id="101" target="25.5"/>
+        <sensor id="102" target="21.0"/>
+        <sensor id="103" target="23.5"/>
+        <sensor id="104" target="25.0"/>
+        <sensor id="105" target="25.5"/>
     </scene>
     <scene name="Басеин">
-        <sensor id="100" target="15.2"/>
-        <sensor id="101" target="23.7"/>
-        <sensor id="102" target="16.6"/>
-        <sensor id="103" target="18.9"/>
-        <sensor id="104" target="15.8"/>
+        <sensor id="100" target="15.5"/>
+        <sensor id="101" target="23.0"/>
+        <sensor id="102" target="16.5"/>
+        <sensor id="103" target="18.5"/>
+        <sensor id="104" target="15.0"/>
     </scene>
 </scenes>
