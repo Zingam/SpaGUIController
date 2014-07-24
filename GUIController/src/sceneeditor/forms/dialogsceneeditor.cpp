@@ -126,23 +126,23 @@ void DialogSceneEditor::saveScene()
 
     _currentScene->sensors.clear();
 
-    for (Sensor& currentSensor: _currentScene->sensors)
+    for (int currentRowIndex = 0;
+         ui->tableWidget_SensorsSelected->rowCount() > currentRowIndex;
+         currentRowIndex++)
     {
-        for (int currentRowIndex = 0;
-             ui->tableWidget_SensorsSelected->rowCount() > currentRowIndex;
-             currentRowIndex++)
-        {
-            // Get sensor name from first column
-            QTableWidgetItem* currentItem = ui->tableWidget_SensorsSelected->item(currentRowIndex, 0);
-            Sensor sensor;
-            sensor.text = currentItem->text();
+        // Get sensor name from first column
+        QTableWidgetItem *currentItem = ui->tableWidget_SensorsSelected->item(currentRowIndex, 0);
 
-            // Get target temperature from second column
-            currentItem = ui->tableWidget_SensorsSelected->item(currentRowIndex, 1);
-            sensor.temperatureTarget = currentItem->text().toDouble();
-            sensor.sensorId = (quint8) currentItem->data(Qt::UserRole).toInt();
-            _currentScene->sensors.push_back(sensor);
-        }
+        Sensor sensor;
+        sensor.text = currentItem->text();
+
+        // Get target temperature from second column
+        currentItem = ui->tableWidget_SensorsSelected->item(currentRowIndex, 1);
+
+        sensor.temperatureTarget = currentItem->text().toDouble();
+        sensor.sensorId = (quint8) currentItem->data(Qt::UserRole).toInt();
+
+        _currentScene->sensors.push_back(sensor);
     }
 
     _mainWindow->getSceneDataModel()->xmlSceneDataFileSave();
