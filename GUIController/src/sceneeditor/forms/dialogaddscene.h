@@ -1,7 +1,7 @@
 #ifndef DIALOGADDSCENE_H
 #define DIALOGADDSCENE_H
 
-#include <QDialog>
+#include <QtWidgets/QDialog>
 
 namespace Ui {
 class DialogAddScene;

@@ -1,7 +1,7 @@
 #include "cgraphicsrectitem.h"
 
-#include <QStyleOptionGraphicsItem>
-#include <QStyle>
+#include <QtWidgets/QStyle>
+#include <QtWidgets/QStyleOptionGraphicsItem>
 
 CGraphicsRectItem::CGraphicsRectItem(QGraphicsItem *parent) :
     QGraphicsRectItem(parent)

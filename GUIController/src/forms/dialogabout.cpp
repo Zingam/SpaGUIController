@@ -1,7 +1,7 @@
 #include "dialogabout.h"
 #include "ui_dialogabout.h"
 
-#include <QString>
+#include <QtCore/QString>
 
 DialogAbout::DialogAbout(const ProgramSettings& programSettings,
                          QWidget *parent) :

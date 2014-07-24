@@ -1,14 +1,12 @@
 #include "configloader.h"
 
-#include <QFile>
-#include <QMessageBox>
-#include <QSpacerItem>
-#include <QGridLayout>
-#include <QCoreApplication>
+#include <QtCore/QDebug>
+#include <QtCore/QFile>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QSpacerItem>
 #include <QtXml/QDomNodeList>
 #include <QtXml/QDomAttr>
-
-#include <QDebug>
 
 ConfigLoader::ConfigLoader(QString fileName, QMainWindow* mainWindow)
 {

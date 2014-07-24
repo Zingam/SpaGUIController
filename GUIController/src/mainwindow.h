@@ -1,14 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QSettings>
+#include <QtCore/QSettings>
+#include <QtWidgets/QMainWindow>
 #include <QtNetwork/QTcpSocket>
 
-#include "utilities/configloader.h"
 #include "graphics/cgraphicsscene.h"
 #include "graphics/temperatureindicator.h"
 #include "sceneeditor/scenedatamodel.h"
+#include "utilities/configloader.h"
 
 namespace Ui {
     class MainWindow;
@@ -36,6 +36,7 @@ private:
     QList<IndicatorProperties> _listIndicatorProperties;
 
     CGraphicsScene* _scene;
+
     QList<TemperatureIndicator*> _temperatureIndicators;
     TemperatureIndicator* _currentTemperatureIndicator;
 
@@ -44,45 +45,50 @@ private:
     QTcpSocket* _socket = nullptr;
     bool _isConnected = false;
 
-// GUI
-private:
-    void showDialogChangeTemperature();
-
+// Miscellaneous methods
 public:
+    SceneDataModel* getSceneDataModel() const;
+
     void selectTemperatureIndicator(QPointF point);
 
-    SceneDataModel *getSceneDataModel() const;
-
-    void setScene(QString sceneName);
-private slots:
-    void on_action_About_triggered();
-    void onListWidgetItemClicked(QListWidgetItem* item);
-    void onListWidgetItemDoubleClicked(QListWidgetItem* item);
-    void on_pushButton_ScenesEditor_clicked();
-    void on_pushButton_ScenesSet_clicked();
-    void onTemperatureIndicatorDoubleClicked(QGraphicsSceneMouseEvent* event);
-
+// GUI methods
 private:
-    // Socket connection
-    void connectSocket();
-
     void listWidget_Scenes_Update();
+    void setScene(QString sceneName);
+    void showDialogChangeTemperature();
+    void updateDialByCurrentTemperatureIndicator();
 
-    void sendTemperatureTarget(TemperatureIndicator* temperatureIndicator);
-    void setTemperatureIndicator(quint8 sensorId, qreal temperature);
-
+    // Temperature indicator
     TemperatureIndicator* findTemperatureIndicatorById(quint8 sensorId);
+    void setTemperatureIndicator(quint8 sensorId, qreal temperature);
     void setTemperatureSensorDisconnected(quint8 sensorId);
 
-    void updateDialByCurrentIndicator();
 private slots:
-    // Socket connection
-    void onDataRecieved();
-    void onDisconnected();
-    void onConnected();
-    void onErrorSocket(QAbstractSocket::SocketError socketError);
+    // Automatically connected
+    void on_action_About_triggered();
+
     void on_dial_sliderMoved(int position);
     void on_dial_valueChanged(int value);
+
+    void on_pushButton_ScenesEditor_clicked();
+    void on_pushButton_ScenesSet_clicked();
+
+    // Manually connected
+    void onListWidgetItemClicked(QListWidgetItem* item);
+    void onListWidgetItemDoubleClicked(QListWidgetItem* item);
+
+    void onTemperatureIndicatorDoubleClicked(QGraphicsSceneMouseEvent* event);
+
+// Socket connection methods
+private:
+    void connectSocket();
+    void sendTemperatureTarget(TemperatureIndicator* temperatureIndicator);
+
+private slots:
+    void onConnected();
+    void onDataRecieved();
+    void onDisconnected();
+    void onErrorSocket(QAbstractSocket::SocketError socketError);
 };
 
 #endif // MAINWINDOW_H

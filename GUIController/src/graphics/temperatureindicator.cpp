@@ -1,7 +1,7 @@
 #include "temperatureindicator.h"
 
-#include <QFontMetrics>
-#include <QDebug>
+#include <QtCore/QDebug>
+#include <QtGui/QFontMetrics>
 
 TemperatureIndicator::TemperatureIndicator(IndicatorProperties indicatorProperties,
                                            ProgramSettings programSettings,

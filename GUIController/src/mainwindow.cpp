@@ -1,25 +1,29 @@
-#include <QString>
-#include <QGraphicsItem>
-#include <QGraphicsSceneMouseEvent>
-#include <QtNetwork/QHostAddress>
-#include <QMessageBox>
-#include <QtMath>
-#include <QTime>
-
-#include <QDebug>
-
 #include "mainwindow.h"
+
+#include <QtCore/QDebug>
+#include <QtCore/QDir>
+#include <QtCore/QString>
+#include <QtCore/QTime>
+#include <QtCore/QtMath>
+#include <QtNetwork/QHostAddress>
+#include <QtWidgets/QGraphicsItem>
+#include <QtWidgets/QGraphicsSceneMouseEvent>
+#include <QtWidgets/QMessageBox>
+
+// Forms
 #include "ui_mainwindow.h"
 #include "forms/dialogabout.h"
 #include "forms/dialogtemperaturetarget.h"
 #include "sceneeditor/forms/dialogsceneeditor.h"
 
+// Custom constants and structures
 #include "custom/constants.h"
-#include "custom/types.h"
 #include "custom/structures.h"
+#include "custom/types.h"
+
+// Temperature indicator
 #include "graphics/cgraphicsrectitem.h"
 #include "graphics/temperatureindicator.h"
-#include <QDir>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -68,7 +72,7 @@ MainWindow::MainWindow(QWidget *parent) :
         TemperatureIndicator* temperatureIndicator =
                 new TemperatureIndicator(currentIndicatorProperties,
                                          _programSettings,
-                                         ui->listWidget,
+                                         ui->listWidget_Sensors,
                                          _scene);
         temperatureIndicator->setPosition(currentIndicatorProperties.position);
         temperatureIndicator->update();
@@ -99,14 +103,14 @@ MainWindow::MainWindow(QWidget *parent) :
     _currentTemperatureIndicator->setIndicatorSelected(true);
 
     // UI: Connect QListWidget signal to TemperatureIndicators
-    isOk = connect(ui->listWidget,
+    isOk = connect(ui->listWidget_Sensors,
                    SIGNAL(itemClicked(QListWidgetItem*)),
                    this,
                    SLOT(onListWidgetItemClicked(QListWidgetItem*)));
     Q_ASSERT(isOk);
     Q_UNUSED(isOk);
 
-    isOk = connect(ui->listWidget,
+    isOk = connect(ui->listWidget_Sensors,
                    SIGNAL(itemDoubleClicked(QListWidgetItem*)),
                    this,
                    SLOT(onListWidgetItemDoubleClicked(QListWidgetItem*)));
@@ -126,7 +130,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // TcpSocket: Setup
     connectSocket();
 
-    updateDialByCurrentIndicator();
+    updateDialByCurrentTemperatureIndicator();
 
     // TcpSocket: Connect signals and slots
     isOk = connect(_socket, SIGNAL(readyRead()), this, SLOT(onDataRecieved()));
@@ -152,33 +156,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::showDialogChangeTemperature()
+// PUBLIC: Miscellaneous methods
+SceneDataModel* MainWindow::getSceneDataModel() const
 {
-    QString dialogTitle = _currentTemperatureIndicator->getText();
-    quint8 sensorId = _currentTemperatureIndicator->getSensorId();
-    bool temperatureIndicatorFunctional = _currentTemperatureIndicator->isSensorFunctional();
-    qreal temperatureTarget = _currentTemperatureIndicator->getTemperatureTarget();
-    qreal temperatureCurrent = _currentTemperatureIndicator->getTemperatureCurrent();
-
-    DialogTemperatureTarget dialogChangeTemperature(this,
-                                                    dialogTitle,
-                                                    sensorId,
-                                                    temperatureIndicatorFunctional,
-                                                    temperatureTarget,
-                                                    temperatureCurrent);
-
-    if(dialogChangeTemperature.exec()) {
-        qreal temperature = dialogChangeTemperature.getValue();
-        _currentTemperatureIndicator->setTemperatureTarget(temperature);
-
-        QString key = QString::number(_currentTemperatureIndicator->getSensorId());
-        _programSettingsPersistant->setValue(key, temperature);
-
-        sendTemperatureTarget(_currentTemperatureIndicator);
-        updateDialByCurrentIndicator();
-    }
-}
-
+    return _sceneDataModel;
+} // getSceneDataModel()
 
 void MainWindow::selectTemperatureIndicator(QPointF point)
 {
@@ -216,66 +198,19 @@ void MainWindow::selectTemperatureIndicator(QPointF point)
         }
     }
 
-    updateDialByCurrentIndicator();
-}
+    updateDialByCurrentTemperatureIndicator();
+} // selectTemperatureIndicator()
 
-void MainWindow::updateDialByCurrentIndicator()
+
+// PRIVATE: GUI methods
+void MainWindow::listWidget_Scenes_Update()
 {
-    if( _currentTemperatureIndicator )
-    {
-        ui->lcdNumber->display( QString::number(_currentTemperatureIndicator->getTemperatureTarget(), 'f', 1) );
-        ui->dial->setValue(_currentTemperatureIndicator->getTemperatureTarget() * 10);
+    ui->listWidget_Scenes->clear();
+    for (Scene currentScene: this->getSceneDataModel()->_scenes) {
+        QListWidgetItem* currentSceneName = new QListWidgetItem(currentScene.name);
+        ui->listWidget_Scenes->addItem(currentSceneName);
     }
-}
-
-SceneDataModel *MainWindow::getSceneDataModel() const
-{
-    return _sceneDataModel;
-}
-
-
-void MainWindow::on_action_About_triggered()
-{
-    DialogAbout dialogAbout(_programSettings);
-    dialogAbout.exec();
-}
-
-void MainWindow::onListWidgetItemClicked(QListWidgetItem *item)
-{
-    QString text = item->text();
-    qDebug() << "Clicked QListWidgetItem: " << text;
-
-    // Match the clicked QListWidgetItem to the corresponding TemperatureIndicator
-    for (auto indicator: _temperatureIndicators) {
-        if (indicator->getText() == text) {
-            _currentTemperatureIndicator->setIndicatorSelected(false);
-            _currentTemperatureIndicator = indicator;
-            _currentTemperatureIndicator->setIndicatorSelected(true);
-        }
-    }
-
-    updateDialByCurrentIndicator();
-}
-
-void MainWindow::onListWidgetItemDoubleClicked(QListWidgetItem* item)
-{
-    Q_UNUSED(item);
-
-    if(nullptr == _currentTemperatureIndicator) {
-        return;
-    }
-
-    showDialogChangeTemperature();
-}
-
-void MainWindow::on_pushButton_ScenesEditor_clicked()
-{
-    DialogSceneEditor dialogSceneEditor(this);
-
-    dialogSceneEditor.exec();
-
-    this->listWidget_Scenes_Update();
-}
+} // listWidget_Scenes_Update()
 
 void MainWindow::setScene(QString sceneName)
 {
@@ -294,7 +229,108 @@ void MainWindow::setScene(QString sceneName)
         indicator->setTemperatureTarget(temperatureTarget);
         sendTemperatureTarget(indicator);
     }
-}
+} // setScene()
+
+void MainWindow::showDialogChangeTemperature()
+{
+    QString dialogTitle = _currentTemperatureIndicator->getText();
+    quint8 sensorId = _currentTemperatureIndicator->getSensorId();
+    bool temperatureIndicatorFunctional = _currentTemperatureIndicator->isSensorFunctional();
+    qreal temperatureTarget = _currentTemperatureIndicator->getTemperatureTarget();
+    qreal temperatureCurrent = _currentTemperatureIndicator->getTemperatureCurrent();
+
+    DialogTemperatureTarget dialogChangeTemperature(this,
+                                                    dialogTitle,
+                                                    sensorId,
+                                                    temperatureIndicatorFunctional,
+                                                    temperatureTarget,
+                                                    temperatureCurrent);
+
+    if(dialogChangeTemperature.exec()) {
+        qreal temperature = dialogChangeTemperature.getValue();
+        _currentTemperatureIndicator->setTemperatureTarget(temperature);
+
+        QString key = QString::number(_currentTemperatureIndicator->getSensorId());
+        _programSettingsPersistant->setValue(key, temperature);
+
+        sendTemperatureTarget(_currentTemperatureIndicator);
+        updateDialByCurrentTemperatureIndicator();
+    }
+} // showDialogChangeTemperature()
+
+void MainWindow::updateDialByCurrentTemperatureIndicator()
+{
+    if( _currentTemperatureIndicator )
+    {
+        qreal temperature = _currentTemperatureIndicator->getTemperatureTarget();
+        ui->lcdNumber->display(QString::number(temperature, 'f',1));
+        ui->dial->setValue(_currentTemperatureIndicator->getTemperatureTarget() * 10);
+    }
+} // updateDialByCurrentIndicator()
+
+TemperatureIndicator* MainWindow::findTemperatureIndicatorById(quint8 sensorId)
+{
+    for (TemperatureIndicator* currentTemperatureIndicator: _temperatureIndicators)
+    {
+        if (currentTemperatureIndicator->getSensorId() == sensorId)
+        {
+            return currentTemperatureIndicator;
+        }
+    }
+    return nullptr;
+} // findTemperatureIndicatorById()
+
+void MainWindow::setTemperatureIndicator(quint8 sensorId, qreal temperature)
+{
+    TemperatureIndicator* currentTemperatureIndicator = findTemperatureIndicatorById(sensorId);
+    if( currentTemperatureIndicator )
+    {
+        currentTemperatureIndicator->setTemperatureCurrent(temperature);
+        currentTemperatureIndicator->setSensorError(SensorError::OK);
+    }
+} // setTemperatureIndicator()
+
+void MainWindow::setTemperatureSensorDisconnected(quint8 sensorId)
+{
+    TemperatureIndicator* currentTemperatureIndicator = findTemperatureIndicatorById(sensorId);
+    if( currentTemperatureIndicator )
+        currentTemperatureIndicator->setSensorError(SensorError::Disconnected);
+} // setTemperatureSensorDisconnected()
+
+
+// PRIVATE: SLOTS
+// Automatically connected
+void MainWindow::on_action_About_triggered()
+{
+    DialogAbout dialogAbout(_programSettings);
+    dialogAbout.exec();
+} // on_action_About_triggered()
+
+void MainWindow::on_dial_sliderMoved(int position)
+{
+    qreal value = static_cast<qreal>(position * 0.1);
+    ui->lcdNumber->display( QString::number(value, 'f', 1) );
+} // on_dial_sliderMoved()
+
+void MainWindow::on_dial_valueChanged(int value)
+{
+    if( _currentTemperatureIndicator == nullptr)
+        return;
+
+    qreal valueReal = static_cast<qreal>(value * 0.1);
+
+    _currentTemperatureIndicator->setTemperatureTarget(valueReal);
+    sendTemperatureTarget(_currentTemperatureIndicator);
+} // on_dial_valueChanged
+
+void MainWindow::on_pushButton_ScenesEditor_clicked()
+{
+    DialogSceneEditor dialogSceneEditor(this);
+
+    dialogSceneEditor.exec();
+
+    this->listWidget_Scenes_Update();
+} // on_pushButton_ScenesEditor_clicked()
 
 void MainWindow::on_pushButton_ScenesSet_clicked()
 {
@@ -308,7 +344,36 @@ void MainWindow::on_pushButton_ScenesSet_clicked()
     {
         setScene(sceneName);
     }
-}
+} // on_pushButton_ScenesSet_clicked()
+
+// Manually connected
+void MainWindow::onListWidgetItemClicked(QListWidgetItem *item)
+{
+    QString text = item->text();
+    qDebug() << "Clicked QListWidgetItem: " << text;
+
+    // Match the clicked QListWidgetItem to the corresponding TemperatureIndicator
+    for (auto indicator: _temperatureIndicators) {
+        if (indicator->getText() == text) {
+            _currentTemperatureIndicator->setIndicatorSelected(false);
+            _currentTemperatureIndicator = indicator;
+            _currentTemperatureIndicator->setIndicatorSelected(true);
+        }
+    }
+
+    updateDialByCurrentTemperatureIndicator();
+} // onListWidgetItemClicked()
+
+void MainWindow::onListWidgetItemDoubleClicked(QListWidgetItem* item)
+{
+    Q_UNUSED(item);
+
+    if(nullptr == _currentTemperatureIndicator) {
+        return;
+    }
+
+    showDialogChangeTemperature();
+} // onListWidgetItemDoubleClicked()
 
 void MainWindow::onTemperatureIndicatorDoubleClicked(QGraphicsSceneMouseEvent *event)
 {
@@ -319,9 +384,9 @@ void MainWindow::onTemperatureIndicatorDoubleClicked(QGraphicsSceneMouseEvent *e
     }
 
     showDialogChangeTemperature();
-}
+} // onTemperatureIndicatorDoubleClicked
 
-// Connection
+// PRIVATE: Socket connection methods
 void MainWindow::connectSocket()
 {
     Q_ASSERT(nullptr == _socket);
@@ -329,16 +394,10 @@ void MainWindow::connectSocket()
     _socket = new QTcpSocket();
     _socket->connectToHost(_programSettings.server.ipV4Address,
                            _programSettings.server.port);
-    setWindowTitle(QString("%1 Connecting... %2:%3").arg(_programSettings.application.name).arg(_programSettings.server.ipV4Address).arg(_programSettings.server.port));
-}
-
-void MainWindow::listWidget_Scenes_Update()
-{
-    ui->listWidget_Scenes->clear();
-    for (Scene currentScene: this->getSceneDataModel()->_scenes) {
-        QListWidgetItem* currentSceneName = new QListWidgetItem(currentScene.name);
-        ui->listWidget_Scenes->addItem(currentSceneName);
-    }
+    setWindowTitle(QString("%1 Connecting... %2:%3")
+                   .arg(_programSettings.application.name)
+                   .arg(_programSettings.server.ipV4Address)
+                   .arg(_programSettings.server.port));
 }
 
 void MainWindow::sendTemperatureTarget(TemperatureIndicator* temperatureIndicator)
@@ -362,36 +421,24 @@ void MainWindow::sendTemperatureTarget(TemperatureIndicator* temperatureIndicato
     }
 }
 
-TemperatureIndicator* MainWindow::findTemperatureIndicatorById(quint8 sensorId)
+// PRIVATE: SLOTS
+void MainWindow::onConnected()
 {
-    for (TemperatureIndicator* currentTemperatureIndicator: _temperatureIndicators)
-    {
-        if (currentTemperatureIndicator->getSensorId() == sensorId)
-        {
-            return currentTemperatureIndicator;
-        }
+    qDebug()<< "Connected!";
+    qDebug() << "Local address" << QString("%1:%2").arg(_socket->localAddress().toString())
+                                           .arg(_socket->localPort());
+    qDebug() << "Peer address:" << QString("%1:%2").arg(_socket->peerAddress().toString())
+                                           .arg(_socket->localPort());
+
+    _isConnected = true;
+    setWindowTitle(_programSettings.application.name);
+
+    // Send all target temperatures on connect
+    for (TemperatureIndicator* currentTemperatureIndicator: _temperatureIndicators) {
+        sendTemperatureTarget(currentTemperatureIndicator);
     }
-    return nullptr;
-}
+} // onConnected()
 
-void MainWindow::setTemperatureIndicator(quint8 sensorId, qreal temperature)
-{
-    TemperatureIndicator* currentTemperatureIndicator = findTemperatureIndicatorById(sensorId);
-    if( currentTemperatureIndicator )
-    {
-        currentTemperatureIndicator->setTemperatureCurrent(temperature);
-        currentTemperatureIndicator->setSensorError(SensorError::OK);
-    }
-}
-
-void MainWindow::setTemperatureSensorDisconnected(quint8 sensorId)
-{
-    TemperatureIndicator* currentTemperatureIndicator = findTemperatureIndicatorById(sensorId);
-    if( currentTemperatureIndicator )
-        currentTemperatureIndicator->setSensorError(SensorError::Disconnected);
-}
-
-// Private slots
 void MainWindow::onDataRecieved()
 {
     QByteArray dataIncomming = _socket->read(4);
@@ -437,24 +484,22 @@ void MainWindow::onDataRecieved()
 
         dataIncomming = _socket->read(4);
     }
-}
+} // onDataRecieved()
 
-void MainWindow::onConnected()
+void MainWindow::onDisconnected()
 {
-    qDebug()<< "Connected!";
-    qDebug() << "Local address" << QString("%1:%2").arg(_socket->localAddress().toString())
-                                           .arg(_socket->localPort());
-    qDebug() << "Peer address:" << QString("%1:%2").arg(_socket->peerAddress().toString())
-                                           .arg(_socket->localPort());
+    qDebug() << "Disconnected!";
 
-    _isConnected = true;
-    setWindowTitle(_programSettings.application.name);
+    delete _socket;
+    _socket = nullptr;
 
-    // Send all target temperatures on connect
-    for (TemperatureIndicator* currentTemperatureIndicator: _temperatureIndicators) {
-        sendTemperatureTarget(currentTemperatureIndicator);
-    }
-}
+   _isConnected = false;
+   for (TemperatureIndicator* currentTemperatureIndicator: _temperatureIndicators) {
+       currentTemperatureIndicator->setSensorError(SensorError::Undefined);
+   }
+
+   connectSocket();
+} // onDisconnected
 
 void MainWindow::onErrorSocket(QAbstractSocket::SocketError socketError)
 {
@@ -471,39 +516,6 @@ void MainWindow::onErrorSocket(QAbstractSocket::SocketError socketError)
                           QMessageBox::Close);
 
     this->close();
-}
-
-void MainWindow::onDisconnected()
-{
-    qDebug() << "Disconnected!";
-
-    delete _socket;
-    _socket = nullptr;
-
-   _isConnected = false;
-   for (TemperatureIndicator* currentTemperatureIndicator: _temperatureIndicators) {
-       currentTemperatureIndicator->setSensorError(SensorError::Undefined);
-   }
-
-   connectSocket();
-}
-
-void MainWindow::on_dial_sliderMoved(int position)
-{
-    qreal value = (qreal)position * 0.1;
-    ui->lcdNumber->display( QString::number(value, 'f', 1) );
-}
-
-void MainWindow::on_dial_valueChanged(int value)
-{
-    if( _currentTemperatureIndicator == nullptr)
-        return;
-
-    qreal valueReal = (qreal)value * 0.1;
-    _currentTemperatureIndicator->setTemperatureTarget(valueReal);
-    sendTemperatureTarget(_currentTemperatureIndicator);
-
-    qDebug() << "on_dial_valueChanged";
-}
+} // onErrorSocket()
 
 

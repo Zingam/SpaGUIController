@@ -25,6 +25,31 @@ SceneDataModel::~SceneDataModel()
     qDebug() << "Decomposing SceneDataModel";
 }
 
+Scene* SceneDataModel::getSceneByName(QString sceneName)
+{
+    for( int sceneIndex =0; sceneIndex < _mainWindow->getSceneDataModel()->_scenes.count(); sceneIndex ++ )
+    {
+        const Scene* scene = &_mainWindow->getSceneDataModel()->_scenes.at(sceneIndex);
+        if (scene->name == sceneName)
+        {
+            return (Scene*)scene;
+        }
+    }
+
+    return nullptr;
+}
+
+QString SceneDataModel::getSensorNameById(quint8 id)
+{
+    for( Sensor sensor: _sensors )
+    {
+        if( sensor.sensorId == id )
+            return sensor.text;
+    }
+
+    return QString();
+}
+
 void SceneDataModel::getSensors()
 {
     for (TemperatureIndicator* currentIndicator: _mainWindow->_temperatureIndicators) {
@@ -174,30 +199,4 @@ void SceneDataModel::xmlSceneDataParse(QDomElement &element)
     }
 
     _scenes.push_back(scene);
-}
-
-
-QString SceneDataModel::getSensorNameById(quint8 id)
-{
-    for( Sensor sensor: _sensors )
-    {
-        if( sensor.sensorId == id )
-            return sensor.text;
-    }
-
-    return QString();
-}
-
-Scene* SceneDataModel::getSceneByName(QString sceneName)
-{
-    for( int sceneIndex =0; sceneIndex < _mainWindow->getSceneDataModel()->_scenes.count(); sceneIndex ++ )
-    {
-        const Scene* scene = &_mainWindow->getSceneDataModel()->_scenes.at(sceneIndex);
-        if (scene->name == sceneName)
-        {
-            return (Scene*)scene;
-        }
-    }
-
-    return nullptr;
 }
