@@ -1,6 +1,7 @@
 #include "scenedatamodel.h"
 
 #include <QtCore/QFile>
+#include <QtCore/QString>
 #include <QtCore/QXmlStreamWriter>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QMessageBox>
@@ -168,9 +169,9 @@ void SceneDataModel::xmlSceneDataFileSave()
     fileSceneDataWriter.writeEndElement();
     fileSceneDataWriter.writeEndDocument();
 
-    qDebug() << "Succeeded saving: " << _fileName;
+    QString messageSave = QString("Scenes saved to: %1").arg(_fileName);
 
-    QMessageBox::information(_mainWindow, "Saved", "Scenes save successful!");
+    qDebug() << messageSave;
 }
 
 void SceneDataModel::xmlSceneDataParse(QDomElement &element)

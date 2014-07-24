@@ -27,7 +27,7 @@ private:
     void listWidget_SensorsAll_Update();
     void tableWidget_SensorsSelected_Update();
     void tableWidget_SensorsSelected_SetRow(int row, Sensor& currentSensor);
-    void saveScene();
+    void sceneTrySave();
 
 private slots:
     void on_listWidget_Scenes_itemSelectionChanged();

@@ -94,7 +94,7 @@ MainWindow::MainWindow(QWidget *parent) :
         _temperatureIndicators.push_back(temperatureIndicator);
     }
 
-    for(auto indicator: _temperatureIndicators) {
+    for (auto indicator: _temperatureIndicators) {
         isOk = connect(indicator,
                        SIGNAL(doubleClicked(QGraphicsSceneMouseEvent*)),
                        this,
@@ -105,6 +105,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     _currentTemperatureIndicator = _temperatureIndicators[0];
     _currentTemperatureIndicator->setIndicatorSelected(true);
+
+    updateDialByCurrentTemperatureIndicator();
 
     // UI: Connect QListWidget signal to TemperatureIndicators
     isOk = connect(ui->listWidget_Sensors,
@@ -133,26 +135,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // TcpSocket: Setup
     connectSocket();
-
-    updateDialByCurrentTemperatureIndicator();
-
-    // TcpSocket: Connect signals and slots
-    isOk = connect(_socket, SIGNAL(readyRead()), this, SLOT(onDataRecieved()));
-    Q_ASSERT(isOk);
-    Q_UNUSED(isOk);
-
-    isOk = connect(_socket, SIGNAL(connected()), this, SLOT(onConnected()));
-    Q_ASSERT(isOk);
-    Q_UNUSED(isOk);
-
-    isOk = connect(_socket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
-    Q_ASSERT(isOk);
-    Q_UNUSED(isOk);
-
-    isOk = connect(_socket, SIGNAL(error(QAbstractSocket::SocketError)),
-                   this, SLOT(onErrorSocket(QAbstractSocket::SocketError)));
-    Q_ASSERT(isOk);
-    Q_UNUSED(isOk);
 }
 
 MainWindow::~MainWindow()
@@ -204,7 +186,6 @@ void MainWindow::selectTemperatureIndicator(QPointF point)
 
     updateDialByCurrentTemperatureIndicator();
 } // selectTemperatureIndicator()
-
 
 // PRIVATE: GUI methods
 void MainWindow::listWidget_Scenes_Update()
@@ -259,6 +240,7 @@ void MainWindow::showDialogChangeTemperature()
         _programSettingsPersistant->setValue(key, temperature);
 
         sendTemperatureTarget(_currentTemperatureIndicator);
+
         updateDialByCurrentTemperatureIndicator();
     }
 } // showDialogChangeTemperature()
@@ -340,11 +322,13 @@ void MainWindow::on_pushButton_ScenesSet_clicked()
 {
     QListWidgetItem* listWidgetItem = ui->listWidget_Scenes->currentItem();
     QString sceneName = listWidgetItem->text();
-    if (QMessageBox::Ok == QMessageBox::question(this,
-                                                 QString("Set: %1").arg(sceneName),
-                                                 "Are you sure?",
-                                                 QMessageBox::Ok,
-                                                 QMessageBox::Cancel))
+
+    int answer = QMessageBox::question(this,
+                                       QString("Set: %1").arg(sceneName),
+                                       "Are you sure?",
+                                       QMessageBox::Ok,
+                                       QMessageBox::Cancel);
+    if (QMessageBox::Ok == answer)
     {
         setScene(sceneName);
     }
@@ -396,6 +380,29 @@ void MainWindow::connectSocket()
     Q_ASSERT(nullptr == _socket);
 
     _socket = new QTcpSocket();
+
+    _socket->setSocketOption(QAbstractSocket::KeepAliveOption, 1);
+
+    // TcpSocket: Connect signals and slots
+    bool isOk;
+
+    isOk = connect(_socket, SIGNAL(readyRead()), this, SLOT(onDataRecieved()));
+    Q_ASSERT(isOk);
+    Q_UNUSED(isOk);
+
+    isOk = connect(_socket, SIGNAL(connected()), this, SLOT(onConnected()));
+    Q_ASSERT(isOk);
+    Q_UNUSED(isOk);
+
+    isOk = connect(_socket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
+    Q_ASSERT(isOk);
+    Q_UNUSED(isOk);
+
+    isOk = connect(_socket, SIGNAL(error(QAbstractSocket::SocketError)),
+                   this, SLOT(onErrorSocket(QAbstractSocket::SocketError)));
+    Q_ASSERT(isOk);
+    Q_UNUSED(isOk);
+
     _socket->connectToHost(_programSettings.server.ipV4Address,
                            _programSettings.server.port);
     setWindowTitle(QString("%1 Connecting... %2:%3")
@@ -469,8 +476,9 @@ void MainWindow::onDataRecieved()
             temperature = integralPart + fractionalPart;
 
             setTemperatureIndicator(byte01_SensorId, temperature);
-        }
+
             break;
+        }
         case COMMAND_ERROR:
         {
             // on error read additional 8 bytes of sensor's mac id

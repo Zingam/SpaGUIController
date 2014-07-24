@@ -54,20 +54,19 @@ void DialogSceneEditor::listWidget_Scenes_Update()
 void DialogSceneEditor::listWidget_SensorsAll_Update()
 {
     ui->listWidget_SensorsAll->clear();
-    for (Sensor& currentSensor: _mainWindow->getSceneDataModel()->_sensors)
-    {
+    for (Sensor& currentSensor: _mainWindow->getSceneDataModel()->_sensors) {
         bool isSensorInTable = false;
-        for( int row = 0; row < ui->tableWidget_SensorsSelected->rowCount(); row ++ )
-        {
-            if( ui->tableWidget_SensorsSelected->item(row, 0)->text() == currentSensor.text )
-            {
+        for( int row = 0; row < ui->tableWidget_SensorsSelected->rowCount(); row ++ ) {
+            if (ui->tableWidget_SensorsSelected->item(row, 0)->text() == currentSensor.text) {
                 isSensorInTable = true;
+
                 break;
             }
         }
 
-        if (!isSensorInTable)
+        if (!isSensorInTable) {
             ui->listWidget_SensorsAll->addItem(currentSensor.text);
+        }
     }
 }
 
@@ -78,8 +77,7 @@ void DialogSceneEditor::tableWidget_SensorsSelected_Update()
 
     int currentRowIndex = 0;
 
-    for (Sensor& currentSensor: _currentScene->sensors)
-    {
+    for (Sensor& currentSensor: _currentScene->sensors) {
         tableWidget_SensorsSelected_SetRow(currentRowIndex, currentSensor);
         ++currentRowIndex;
     }
@@ -107,9 +105,9 @@ void DialogSceneEditor::tableWidget_SensorsSelected_SetRow(int row, Sensor &curr
     {
         QListWidgetItem* listWidgettem = ui->listWidget_SensorsAll->item(currentItemIndex);
 
-        if( listWidgettem->text() == currentSensor.text )
-        {
+        if (listWidgettem->text() == currentSensor.text) {
             delete_safe(listWidgettem);
+
             break;
         }
     }
@@ -117,13 +115,34 @@ void DialogSceneEditor::tableWidget_SensorsSelected_SetRow(int row, Sensor &curr
 
 void DialogSceneEditor::on_pushButton_ButtonBox_Close_clicked()
 {
+    this->sceneTrySave();
+
+    _mainWindow->getSceneDataModel()->xmlSceneDataFileSave();
+
     this->close();
 }
 
-void DialogSceneEditor::saveScene()
+void DialogSceneEditor::sceneTrySave()
 {
-    qDebug() << "Scenes saved";
+    // Check if user wants to save current scene
+    if (nullptr != _currentScene
+            && _tableSensorsModified)
+    {
+        int answer = QMessageBox::question(this,
+                                           "Save before change?",
+                                           "Current scene has been modified."
+                                           "Do you want to save changes?",
+                                           QMessageBox::Yes | QMessageBox::No,
+                                           QMessageBox::No);
+        if (QMessageBox::Yes != answer) {
+            return;
+        }
+    }
+    else {
+        return;
+    }
 
+    // Continue saving current scene
     _currentScene->sensors.clear();
 
     for (int currentRowIndex = 0;
@@ -144,31 +163,16 @@ void DialogSceneEditor::saveScene()
 
         _currentScene->sensors.push_back(sensor);
     }
-
-    _mainWindow->getSceneDataModel()->xmlSceneDataFileSave();
 }
 
 void DialogSceneEditor::on_listWidget_Scenes_itemSelectionChanged()
 {
-    QListWidgetItem* item = ui->listWidget_Scenes->currentItem();
+    QListWidgetItem* currentItem = ui->listWidget_Scenes->currentItem();
 
-    QString currentSceneName = item->text();
+    QString currentSceneName = currentItem->text();
 
-    // test for changes before setting a new selected scene
-    if (_currentScene != nullptr
-            && _tableSensorsModified)
-    {
-        QMessageBox msgBox;
-        if (QMessageBox::Yes == msgBox.question(this,
-                                                "Save before change?",
-                                                "Current scene has been modified."
-                                                "Do you want to save changes?",
-                                                QMessageBox::Yes | QMessageBox::No,
-                                                QMessageBox::No))
-        {
-            saveScene();
-        }
-    }
+    // Try saving current scene if modified
+    this->sceneTrySave();
 
     // Find current scene pointer by selected string in scenes list
     _currentScene = _mainWindow->getSceneDataModel()->getSceneByName(currentSceneName);
@@ -181,19 +185,21 @@ void DialogSceneEditor::on_listWidget_Scenes_itemSelectionChanged()
 
 
     // Update sensors table if new scene is selected
-    if (_currentScene)
-    {
+    if (_currentScene) {
         this->tableWidget_SensorsSelected_Update();
-        setWindowTitle(QString("%1").arg(item->text()));
+
+        setWindowTitle(QString("%1").arg(currentItem->text()));
+
         _tableSensorsModified = false;
     }
 
-    listWidget_SensorsAll_Update();
+    this->listWidget_SensorsAll_Update();
 }
 
 void DialogSceneEditor::on_pushButton_ButtonBox_Save_clicked()
 {
-    saveScene();
+    // Try saving the current scene if modified
+    this->sceneTrySave();
 }
 
 void DialogSceneEditor::on_pushButton_Scenes_ButtonBox_Add_clicked()
@@ -226,8 +232,7 @@ void DialogSceneEditor::on_pushButton_Scenes_ButtonBox_Add_clicked()
 
 void DialogSceneEditor::on_pushButton_Scenes_ButtonBox_Delete_clicked()
 {
-    if (_currentScene == nullptr)
-    {
+    if (_currentScene == nullptr) {
         QMessageBox::critical(this,
                               "Error delete scene",
                               "Scene not selected.");
@@ -237,12 +242,13 @@ void DialogSceneEditor::on_pushButton_Scenes_ButtonBox_Delete_clicked()
 
     qDebug() << _currentScene->name;
 
-    if (QMessageBox::Ok != QMessageBox::critical(this,
-                                                 "Are you sure",
-                                                 QString("Delete scene \"%1\" ?")
-                                                 .arg(_currentScene->name),
-                                                 QMessageBox::Ok,
-                                                 QMessageBox::Cancel)) {
+    int answer = QMessageBox::critical(this,
+                                       "Are you sure",
+                                       QString("Delete scene \"%1\" ?")
+                                       .arg(_currentScene->name),
+                                       QMessageBox::Ok,
+                                       QMessageBox::Cancel);
+    if (QMessageBox::Ok != answer) {
         return;
     }
 
