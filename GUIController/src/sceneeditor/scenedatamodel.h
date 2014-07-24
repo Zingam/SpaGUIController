@@ -40,6 +40,7 @@ private:
 
 public:
 
+    Scene *getSceneByName(QString sceneName);
 private:
     void getSensors();
     void xmlSceneDataFileLoad();

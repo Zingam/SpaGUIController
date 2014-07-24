@@ -182,18 +182,24 @@ void DialogSceneEditor::on_pushButton_Scenes_ButtonBox_Add_clicked()
 void DialogSceneEditor::on_pushButton_Scenes_ButtonBox_Delete_clicked()
 {
     if (_currentScene == nullptr)
+    {
+        QMessageBox::critical(this, "Error delete scene", "Scene not selected.");
         return;
+    }
 
     qDebug() << _currentScene->name;
 
     if (QMessageBox::Ok != QMessageBox::critical(this,
-                                                 "Delete scene",
-                                                 "Are you sure?",
+                                                 "Are you sure",
+                                                 QString("Delete scene \"%1\" ?").arg(_currentScene->name),
                                                  QMessageBox::Ok,
                                                  QMessageBox::Cancel)) {
         return;
     }
 
+    Scene* _scenePtr = _currentScene;
+
+    // remove from list widget
     for (int currentRowIndex = 0;
          ui->listWidget_Scenes->count() > currentRowIndex;
          currentRowIndex++)
@@ -201,12 +207,22 @@ void DialogSceneEditor::on_pushButton_Scenes_ButtonBox_Delete_clicked()
         QListWidgetItem* item = ui->listWidget_Scenes->item(currentRowIndex);
         if (item->text() == _currentScene->name)
         {
+            _currentScene = nullptr;
             delete_safe(item);
             break;
         }
     }
 
-    _currentScene = nullptr;
+    // remove from scenes list
+    for( int sceneIndex =0; sceneIndex < _mainWindow->getSceneDataModel()->_scenes.count(); sceneIndex ++ )
+    {
+        const Scene* scene = &_mainWindow->getSceneDataModel()->_scenes.at(sceneIndex);
+        if (scene == _scenePtr)
+        {
+            _mainWindow->getSceneDataModel()->_scenes.removeAt(sceneIndex);
+            break;
+        }
+    }
 }
 
 void DialogSceneEditor::on_pushButton_Sensors_ButtonBox_Add_clicked()
@@ -249,8 +265,27 @@ void DialogSceneEditor::on_pushButton_Sensors_ButtonBox_Remove_clicked()
     qDebug() << "Sensor removed:" << row;
 }
 
-void DialogSceneEditor::on_listWidget_Scenes_itemClicked(QListWidgetItem *item)
+
+
+void DialogSceneEditor::on_tableWidget_SensorsSelected_cellChanged(int row, int column)
 {
+#ifdef DEBUG
+    qDebug() << QString("Scene Editor: Table cell changed: row: %1, column: %2")
+                .arg(row)
+                .arg(column);
+#else
+    Q_UNUSED(row);
+    Q_UNUSED(column);
+#endif // DEBUG
+
+    _tableSensorsModified = true;
+}
+
+
+void DialogSceneEditor::on_listWidget_Scenes_itemSelectionChanged()
+{
+    QListWidgetItem* item = ui->listWidget_Scenes->currentItem();
+
     QString currentSceneName = item->text();
 
     // test for changes before setting a new selected scene
@@ -269,15 +304,17 @@ void DialogSceneEditor::on_listWidget_Scenes_itemClicked(QListWidgetItem *item)
     }
 
     // find current scene pointer by selected string in scenes list
-    _currentScene = nullptr;
-    for (Scene scene: _mainWindow->getSceneDataModel()->_scenes)
-    {
-        if (scene.name == currentSceneName)
-        {
-            _currentScene = &scene;
-             break;
-        }
-    }
+    _currentScene = _mainWindow->getSceneDataModel()->getSceneByName(currentSceneName);
+
+//    WARNING!! This bellow in comment is incorrect!  _currentScene will point to local object, created in loop!!
+//    for (Scene scene: _mainWindow->getSceneDataModel()->_scenes)
+//    {
+//        if (scene.name == currentSceneName)
+//        {
+//            _currentScene = &scene;
+//             break;
+//        }
+//    }
 
     // enable/disable save button, depending on scene selection
     ui->pushButton_ButtonBox_Save->setEnabled(_currentScene != nullptr );
@@ -295,18 +332,4 @@ void DialogSceneEditor::on_listWidget_Scenes_itemClicked(QListWidgetItem *item)
     }
 
     listWidget_SensorsAll_Update();
-}
-
-void DialogSceneEditor::on_tableWidget_SensorsSelected_cellChanged(int row, int column)
-{
-#ifdef DEBUG
-    qDebug() << QString("Scene Editor: Table cell changed: row: %1, column: %2")
-                .arg(row)
-                .arg(column);
-#else
-    Q_UNUSED(row);
-    Q_UNUSED(column);
-#endif // DEBUG
-
-    _tableSensorsModified = true;
 }

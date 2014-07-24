@@ -144,6 +144,8 @@ void SceneDataModel::xmlSceneDataFileSave()
     fileSceneDataWriter.writeEndDocument();
 
     qDebug() << "Succeeded saving: " << _fileName;
+
+    QMessageBox::information(_mainWindow, "Saved", "Scenes save successful!");
 }
 
 void SceneDataModel::xmlSceneDataParse(QDomElement &element)
@@ -184,4 +186,18 @@ QString SceneDataModel::getSensorNameById(quint8 id)
     }
 
     return QString();
+}
+
+Scene* SceneDataModel::getSceneByName(QString sceneName)
+{
+    for( int sceneIndex =0; sceneIndex < _mainWindow->getSceneDataModel()->_scenes.count(); sceneIndex ++ )
+    {
+        const Scene* scene = &_mainWindow->getSceneDataModel()->_scenes.at(sceneIndex);
+        if (scene->name == sceneName)
+        {
+            return (Scene*)scene;
+        }
+    }
+
+    return nullptr;
 }

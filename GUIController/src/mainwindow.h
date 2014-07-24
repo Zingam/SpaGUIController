@@ -53,6 +53,7 @@ public:
 
     SceneDataModel *getSceneDataModel() const;
 
+    void setScene(QString sceneName);
 private slots:
     void on_action_About_triggered();
     void onListWidgetItemClicked(QListWidgetItem* item);
@@ -73,12 +74,15 @@ private:
     TemperatureIndicator* findTemperatureIndicatorById(quint8 sensorId);
     void setTemperatureSensorDisconnected(quint8 sensorId);
 
+    void updateDialByCurrentIndicator();
 private slots:
     // Socket connection
     void onDataRecieved();
     void onDisconnected();
     void onConnected();
     void onErrorSocket(QAbstractSocket::SocketError socketError);
+    void on_dial_sliderMoved(int position);
+    void on_dial_valueChanged(int value);
 };
 
 #endif // MAINWINDOW_H

@@ -36,10 +36,8 @@ private slots:
     void on_pushButton_Scenes_ButtonBox_Delete_clicked();
     void on_pushButton_Sensors_ButtonBox_Add_clicked();
     void on_pushButton_Sensors_ButtonBox_Remove_clicked();
-
-    void on_listWidget_Scenes_itemClicked(QListWidgetItem *item);
-
     void on_tableWidget_SensorsSelected_cellChanged(int row, int column);
+    void on_listWidget_Scenes_itemSelectionChanged();
 
 private:
     Ui::DialogSceneEditor *ui;
