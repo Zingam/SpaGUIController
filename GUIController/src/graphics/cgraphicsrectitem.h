@@ -16,7 +16,8 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     int type() const {return Type;} //QGraphicsItem::Type
 
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event);    
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 signals:
     void doubleClicked(QGraphicsSceneMouseEvent *event);

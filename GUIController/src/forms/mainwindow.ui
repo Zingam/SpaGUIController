@@ -33,13 +33,13 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>250</width>
+             <width>300</width>
              <height>0</height>
             </size>
            </property>
            <property name="font">
             <font>
-             <pointsize>20</pointsize>
+             <pointsize>14</pointsize>
             </font>
            </property>
            <property name="selectionRectVisible">
@@ -83,7 +83,7 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>250</width>
+             <width>300</width>
              <height>0</height>
             </size>
            </property>

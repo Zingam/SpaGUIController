@@ -59,24 +59,6 @@ FORMS    += src/forms/mainwindow.ui \
     src/sceneeditor/forms/dialogsceneeditor.ui \
     src/sceneeditor/forms/dialogaddscene.ui
 
-OTHER_FILES += \
-    assets/map.png \
-    assets/dark/zone1.png \
-    assets/dark/zone2.png \
-    assets/dark/zone3.png \
-    assets/dark/zone4.png \
-    assets/dark/zone5.png \
-    assets/dark/zone6.png \
-    assets/dark/zone7.png \
-    assets/light/zone1.png \
-    assets/light/zone2.png \
-    assets/light/zone3.png \
-    assets/light/zone4.png \
-    assets/light/zone5.png \
-    assets/light/zone6.png \
-    assets/light/zone7.png \
-    assets/config.xml
-
 ###################################################################################################
 # Copy assets to DESTDIR
 ###################################################################################################

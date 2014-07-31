@@ -3,36 +3,60 @@
         <application date="2014-07-11" name="SpaCentralSoft" version="1.1.0.0"/>
         <datafile name="SceneData.xml" path="assets/"/>
         <server ipV4Address="127.0.0.1" port="7812"/>
-        <language value="en"/>
+        <language value="bg"/>
         <assets path="dark/"/>
-        <background imageSource="map.png"/>
+        <background imageSource="_0010_Background.png"/>
         <highlight opacity="0.6"/>
         <indicator>
             <opacity value="1"/>
             <borderwidth value="3"/>
             <bordercolor value="white"/>
-            <font family="Helvetica" size="38" weight="bold" color="White"/>
+            <font family="Helvetica" size="21" weight="normal" color="White"/>
             <rectpadding value="10"/>
             <alpha selected="150" disselected="100"/>
         </indicator>
     </settings>
     <indicators language="bg">
-        <item sensorid="100" text="Сауна 1"            image="zone1.png" x="555"  y="273" temperaturetarget="25.5"/>
-        <item sensorid="101" text="Сауна 2"            image="zone2.png" x="830"  y="200" temperaturetarget="25.5"/>
-        <item sensorid="102" text="Басейн"             image="zone3.png" x="1165" y="269" temperaturetarget="25.5"/>
-        <item sensorid="103" text="Масаж 1"            image="zone4.png" x="1152" y="490" temperaturetarget="25.5"/>
-        <item sensorid="104" text="Масаж 2"            image="zone5.png" x="686"  y="686" temperaturetarget="25.5"/>
-        <item sensorid="105" text="Хидро Масаж 1"      image="zone6.png" x="903"  y="645" temperaturetarget="25.5"/>
-        <item sensorid="106" text="Хидро Масаж 2"      image="zone7.png" x="1094" y="824" temperaturetarget="25.5"/>
+        <item sensorid="101" text="Финландска баня - стайна" image="_0000_Zone-1---Finlandska-banya.png" x="681"  y="822" temperaturetarget="25.5"/>
+        <item sensorid="102" text="Турска баня - под" image="_0001_Zone-2---Turska-banya.png" x="895"  y="508" temperaturetarget="25.5"/>
+        <item sensorid="103" text="Турска баня - легло ляво" image="_0001_Zone-2---Turska-banya.png" x="895"  y="558" temperaturetarget="25.5"/>
+        <item sensorid="104" text="Турска баня - легло дясно" image="_0001_Zone-2---Turska-banya.png" x="895"  y="608" temperaturetarget="25.5"/>
+        <item sensorid="105" text="Турска баня - пейка предна" image="_0001_Zone-2---Turska-banya.png" x="895"  y="658" temperaturetarget="25.5"/>
+        <item sensorid="106" text="Турска баня - пейка задна" image="_0001_Zone-2---Turska-banya.png" x="895"  y="708" temperaturetarget="25.5"/>
+        <item sensorid="107" text="Коридор - пейка" image="_0002_Zone-3---Peyka.png" x="668" y="598" temperaturetarget="25.5"/>
+        <item sensorid="108" text="Коридор - под" image="_0003_Zone-4---Podovo.png" x="569" y="483" temperaturetarget="25.5"/>
+        <item sensorid="109" text="Парна баня - подово" image="_0004_Zone-5---Parna-banya.png" x="243"  y="517" temperaturetarget="25.5"/>
+        <item sensorid="110" text="Парна баня - пейка" image="_0004_Zone-5---Parna-banya.png" x="243"  y="567" temperaturetarget="25.5"/>
+        <item sensorid="111" text="Руска баня - стайна" image="_0005_Zone-6---Ruska-banya.png" x="972"  y="327" temperaturetarget="25.5"/>
+        <item sensorid="112" text="Релакс - подово" image="_0006_Zone-7---Relaks.png" x="503" y="183" temperaturetarget="25.5"/>
+        <item sensorid="113" text="Басейн - подово" image="_0007_Zone-8---Basein.png" x="148" y="430" temperaturetarget="25.5"/>
+        <item sensorid="114" text="Басейн - вода" image="_0007_Zone-8---Basein.png" x="148" y="155" temperaturetarget="25.5"/>
+        <item sensorid="115" text="Предверие - подово" image="_0008_Zone-9---Predverie-Ruska-banya" x="989" y="95" temperaturetarget="25.5"/>
+        <item sensorid="116" text="Мокър масаж - под" image="_0009_Zone-10---Mokar-masaj.png" x="427" y="257" temperaturetarget="25.5"/>
+        <item sensorid="117" text="Мокър масаж - стайна" image="_0009_Zone-10---Mokar-masaj.png" x="427" y="307" temperaturetarget="25.5"/>
+        <item sensorid="118" text="Мокър масаж - пейка" image="_0009_Zone-10---Mokar-masaj" x="427" y="357" temperaturetarget="25.5"/>
+        <item sensorid="119" text="Мокър масаж - лежанка" image="_0009_Zone-10---Mokar-masaj.png" x="427" y="407" temperaturetarget="25.5"/>
     </indicators>
     <indicators language="en">
-        <item sensorid="100" text="Sauna 1"            image="zone1.png" x="555"  y="273" temperaturetarget="25.5"/>
-        <item sensorid="101" text="Sauna 2"            image="zone2.png" x="830"  y="200" temperaturetarget="25.5"/>
-        <item sensorid="102" text="Pool"               image="zone3.png" x="1165" y="269" temperaturetarget="25.5"/>
-        <item sensorid="103" text="Massage 1"          image="zone4.png" x="1152" y="490" temperaturetarget="25.5"/>
-        <item sensorid="104" text="Massage 2"          image="zone5.png" x="686"  y="686" temperaturetarget="25.5"/>
-        <item sensorid="105" text="Hydro-Massage 1"    image="zone6.png" x="903"  y="645" temperaturetarget="25.5"/>
-        <item sensorid="106" text="Hydro-Massage 2"    image="zone7.png" x="1094" y="824" temperaturetarget="25.5"/>
+        <item sensorid="101" text="Finish bath - room" image="_0000_Zone-1---Finlandska-banya.png" x="681"  y="822" temperaturetarget="25.5"/>
+        <item sensorid="102" text="Turkish bath - floor" image="_0001_Zone-2---Turska-banya.png" x="895"  y="508" temperaturetarget="25.5"/>
+        <item sensorid="103" text="Turkish bath - bed left" image="_0001_Zone-2---Turska-banya.png" x="895"  y="558" temperaturetarget="25.5"/>
+        <item sensorid="104" text="Turkish bath - bed right" image="_0001_Zone-2---Turska-banya.png" x="895"  y="608" temperaturetarget="25.5"/>
+        <item sensorid="105" text="Turkish bath - bench front" image="_0001_Zone-2---Turska-banya.png" x="895"  y="658" temperaturetarget="25.5"/>
+        <item sensorid="106" text="Turkish bath - bench back" image="_0001_Zone-2---Turska-banya.png" x="895"  y="708" temperaturetarget="25.5"/>
+        <item sensorid="107" text="Hallway - bench" image="_0002_Zone-3---Peyka.png" x="668" y="598" temperaturetarget="25.5"/>
+        <item sensorid="108" text="Hallway - floor" image="_0003_Zone-4---Podovo.png" x="569" y="483" temperaturetarget="25.5"/>
+        <item sensorid="109" text="Steam bath - floor" image="_0004_Zone-5---Parna-banya.png" x="243"  y="517" temperaturetarget="25.5"/>
+        <item sensorid="110" text="Steam bath - bench" image="_0004_Zone-5---Parna-banya.png" x="243"  y="567" temperaturetarget="25.5"/>
+        <item sensorid="111" text="Russian bath - room" image="_0005_Zone-6---Ruska-banya.png" x="972"  y="327" temperaturetarget="25.5"/>
+        <item sensorid="112" text="Relax - floor" image="_0006_Zone-7---Relaks.png" x="503" y="183" temperaturetarget="25.5"/>
+        <item sensorid="113" text="Pool - floor" image="_0007_Zone-8---Basein.png" x="148" y="430" temperaturetarget="25.5"/>
+        <item sensorid="114" text="Pool - water" image="_0007_Zone-8---Basein.png" x="148" y="155" temperaturetarget="25.5"/>
+        <item sensorid="115" text="Entry - floor" image="_0008_Zone-9---Predverie-Ruska-banya" x="989" y="95" temperaturetarget="25.5"/>
+        <item sensorid="116" text="Wet massage - floor" image="_0009_Zone-10---Mokar-masaj.png" x="427" y="257" temperaturetarget="25.5"/>
+        <item sensorid="117" text="Wet massage - room" image="_0009_Zone-10---Mokar-masaj.png" x="427" y="307" temperaturetarget="25.5"/>
+        <item sensorid="118" text="Wet massage - bench" image="_0009_Zone-10---Mokar-masaj.png" x="427" y="357" temperaturetarget="25.5"/>
+        <item sensorid="119" text="Wet massage - bench 2" image="_0009_Zone-10---Mokar-masaj.png" x="427" y="407" temperaturetarget="25.5"/>
     </indicators>
 </config>
     

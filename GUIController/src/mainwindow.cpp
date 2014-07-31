@@ -167,17 +167,20 @@ void MainWindow::selectTemperatureIndicator(QPointF point)
 
         if (CGraphicsRectItem::Type == item->type()) {
             rectItem = qgraphicsitem_cast<CGraphicsRectItem*>(item);
-
+#ifdef DEBUG_MODE_FINETUNING
             qDebug() << "Clicked CGraphicsRectItem at: "
                         + QString::number(rectItem->x()) + ", "
-                        + QString::number(rectItem->x());
+                        + QString::number(rectItem->y());
+#endif // DEBUG_MODE_FINETUNING
             break;
         }
     }
 
     for (TemperatureIndicator* indicator: _temperatureIndicators) {
         if (indicator->getGraphicsRectItem() == rectItem) {
-            qDebug() << "Clicked on the indicator:" << indicator->getText();
+#ifdef DEBUG_MODE_FINETUNING
+            qDebug() << "Clicked on indicator:" << indicator->getText();
+#endif // DEBUG_MODE_FINETUNING
             _currentTemperatureIndicator->setIndicatorSelected(false);
             _currentTemperatureIndicator = indicator;
             _currentTemperatureIndicator->setIndicatorSelected(true);
