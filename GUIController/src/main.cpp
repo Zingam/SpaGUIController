@@ -9,62 +9,48 @@
 #include "custom/constants.h"
 #include "utilities/singleinstanceapplication.h"
 
-const QString GUID("140805-roccoor-ab8f8ec8-f505-41b0-9b67-916cfb54c88a-b5755918-24c4-4b05-bf96-f41d7065e241");
-
 int main(int argc, char *argv[])
 {
-//    bool isOk;
+    bool isOk;
+    QString language = "bg";
 
-    SingleInstanceApplication app(argc, argv, GUID, SingleInstanceApplication::SingletonType::LocalSocket);
+    SingleInstanceApplication app(argc,
+                                  argv,
+                                  QString(GUID),
+                                  SingleInstanceApplication::SingletonType::LocalSocket);
 
-//    QLocale locale(QLocale::Bulgarian, QLocale::Bulgaria);
-//    QString localeName = locale.name();
-//    QLocale localeEn(QLocale::English, QLocale::UnitedStates);
-//    QString localeNameEn = localeEn.name();
+    QLocale locale;
+    if ("bg" == language) {
+        locale = QLocale(QLocale::Bulgarian, QLocale::Bulgaria);
+    }
+    else {
+        locale = QLocale(QLocale::English, QLocale::UnitedStates);
+    }
 
-//    QTranslator translatorQt;
-//    QString translationFileNameQt("qt_" + localeNameEn);
-//    QString locationQt = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+    // Load translation of the application for the selected language
+    QString translationFileNameApp(QString(APPLICATION_NAME)
+                                   + locale.name());
+    QString translationPathApp("assets/languages");
 
-//    isOk = translatorQt.load(translationFileNameQt,
-//                             locationQt);
-//    if (!isOk) {
-//        qDebug() << "Failed to load translation:"
-//                    << translationFileNameQt
-//                        << " in location: "
-//                            << locationQt;
-//    }
-//    else {
-//        app.installTranslator(&translatorQt);
-//        qDebug() << "Loaded translation:"
-//                    << translationFileNameQt
-//                        << " in location: "
-//                            << locationQt;
-//    }
+    QTranslator translatorApp;
+    isOk = translatorApp.load(translationFileNameApp, translationPathApp);
+    if (isOk) {
+        app.installTranslator(&translatorApp);
+        qDebug() << "Loaded translation:" << translationFileNameApp
+                    << "in location: "
+                        << translationPathApp;
+    }
+    else {
+        qDebug() << "Failed to load translation:" << translationFileNameApp
+                    << "in location: "
+                        << translationPathApp;
+    }
 
-//    QTranslator translatorApp;
-//    QString translationFileNameApp(QString(APPLICATION_NAME)
-//                                   + localeName);
-//    QString locationApp("assets/languages");
-
-//    isOk = translatorApp.load(translationFileNameApp);
-//    if (!isOk) {
-//        qDebug() << "Failed to load translation:" << translationFileNameApp
-//                    << "in location: "
-//                       << locationApp;
-//    }
-//    else {
-//        app.installTranslator(&translatorApp);
-//        qDebug() << "Loaded translation:" << translationFileNameApp
-//                    << "in location: "
-//                        << locationApp;
-//    }
-
-
+    // Check if the application was already instanciated once and prevent a second instance
     if (app.isInstanciated()) {
         QString titleMessage(QObject::tr("ERROR: Application is already instanciated!"));
         QString message(QObject::tr("Application is already instanciated!!!"));
-        message += QObject::tr("\nCan't run a second instance.");
+        message += "\n" + QObject::tr("Can't run a second instance.");
         QMessageBox::critical(nullptr, titleMessage, message);
 
         return -1;

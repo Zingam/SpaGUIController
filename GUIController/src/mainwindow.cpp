@@ -50,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // UI: Setup UI
     ui->setupUi(this);
 
-    setWindowTitle(QString("%1 Initializing...")
+    setWindowTitle(QString(tr("%1 Initializing..."))
                    .arg(_programSettings.application.name));
 
     // UI: Setup indicators display area
@@ -327,8 +327,8 @@ void MainWindow::on_pushButton_ScenesSet_clicked()
     QString sceneName = listWidgetItem->text();
 
     int answer = QMessageBox::question(this,
-                                       QString("Set: %1").arg(sceneName),
-                                       "Are you sure?",
+                                       QString(tr("Set: %1")).arg(sceneName),
+                                       tr("Are you sure?"),
                                        QMessageBox::Ok,
                                        QMessageBox::Cancel);
     if (QMessageBox::Ok == answer)
@@ -408,7 +408,7 @@ void MainWindow::connectSocket()
 
     _socket->connectToHost(_programSettings.server.ipV4Address,
                            _programSettings.server.port);
-    setWindowTitle(QString("%1 Connecting... %2:%3")
+    setWindowTitle(QString(tr("%1 Connecting... %2:%3"))
                    .arg(_programSettings.application.name)
                    .arg(_programSettings.server.ipV4Address)
                    .arg(_programSettings.server.port));
@@ -527,9 +527,10 @@ void MainWindow::onErrorSocket(QAbstractSocket::SocketError socketError)
     qDebug() << "Error connecting: " << _socket->errorString();
 
     QMessageBox::critical(this,
-                          "Connection error",
-                          "Connection error: " + _socket->errorString()
-                          + "\n\nPlease restart the application",
+                          tr("Connection error"),
+                          tr("Connection error: ") + _socket->errorString()
+                          + "\n\n"
+                          + tr("Please restart the application!"),
                           QMessageBox::Close);
 
     this->close();

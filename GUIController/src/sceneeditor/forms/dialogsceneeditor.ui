@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Profile Editor</string>
+   <string>Scene Editor</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -22,9 +22,9 @@
      <item>
       <widget class="QGroupBox" name="groupBox_Scenes">
        <property name="title">
-        <string>Сцени</string>
+        <string>Scenes</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <layout class="QVBoxLayout" name="verticalLayout_Scenes">
         <item>
          <widget class="QListWidget" name="listWidget_Scenes"/>
         </item>
@@ -33,21 +33,21 @@
           <item>
            <widget class="QPushButton" name="pushButton_Scenes_ButtonBox_Add">
             <property name="text">
-             <string>Добави</string>
+             <string>Add</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_Scenes_ButtonBox_Delete">
             <property name="text">
-             <string>Изтрий</string>
+             <string>Delete</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_ButtonBox_Save">
             <property name="text">
-             <string>Запази</string>
+             <string>Save</string>
             </property>
            </widget>
           </item>
@@ -59,9 +59,9 @@
      <item>
       <widget class="QGroupBox" name="groupBox_SensorsAll">
        <property name="title">
-        <string>Всички сензори</string>
+        <string>All Sensors</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_6">
+       <layout class="QVBoxLayout" name="verticalLayout_SensorsAll">
         <item>
          <widget class="QListWidget" name="listWidget_SensorsAll"/>
         </item>
@@ -127,9 +127,9 @@
      <item>
       <widget class="QGroupBox" name="groupBox_SensorsSelected">
        <property name="title">
-        <string>Избрани сензори</string>
+        <string>Selected Sensors</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
+       <layout class="QVBoxLayout" name="verticalLayout_SensorsSelected">
         <item>
          <widget class="QTableWidget" name="tableWidget_SensorsSelected"/>
         </item>
@@ -172,7 +172,7 @@
      <item>
       <widget class="QPushButton" name="pushButton_ButtonBox_Close">
        <property name="text">
-        <string>Затвори</string>
+        <string>Close</string>
        </property>
       </widget>
      </item>

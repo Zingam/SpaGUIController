@@ -63,7 +63,6 @@ FORMS    += src/forms/mainwindow.ui \
 
 TRANSLATIONS = languages/$${TARGET}_bg_BG.ts \
     languages/$${TARGET}_en_US.ts
-CODECFORSRC = UTF-8
 
 ###################################################################################################
 # Copy assets to DESTDIR
@@ -94,9 +93,9 @@ assetsImagesLight.path = $$DESTDIR/assets/light
 assetsImagesLight.files += $$files(assets/light/*.*)
 INSTALLS += assetsImagesLight
 
-#assetsLanguages.path = $$DESTDIR
-#assetsLanguages.files += $$files(languages/*.qm)
-#INSTALLS += assetsLanguages
+assetsLanguages.path = $$DESTDIR/assets/languages
+assetsLanguages.files += $$files(languages/*.qm)
+INSTALLS += assetsLanguages
 
 #copydata.commands = $(COPY_DIR) $$PWD/assets $$DESTDIR
 #first.depends = $(first) copydata

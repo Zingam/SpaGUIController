@@ -26,9 +26,9 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Target temperature</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_TemperatureTarget">
    <item>
     <spacer name="verticalSpacer_Top">
      <property name="orientation">

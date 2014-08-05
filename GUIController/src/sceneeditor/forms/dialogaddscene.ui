@@ -17,13 +17,13 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Добавяне на сцена</string>
+   <string>Add scene</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Въведете име на сцената</string>
+      <string>Enter scene name</string>
      </property>
     </widget>
    </item>

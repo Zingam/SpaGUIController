@@ -5,102 +5,102 @@
     <name>DialogAbout</name>
     <message>
         <location filename="../src/forms/dialogabout.ui" line="26"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <source>About SpaCentralSoft</source>
+        <translation>Относно SpaCentralSoft</translation>
     </message>
     <message>
         <location filename="../src/forms/dialogabout.ui" line="65"/>
         <source>SpaCentralSoft</source>
-        <translation type="unfinished"></translation>
+        <translation>SpaCentralSoft</translation>
     </message>
     <message>
         <location filename="../src/forms/dialogabout.ui" line="81"/>
         <source>Version 1.0</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия 1.0</translation>
     </message>
     <message>
         <location filename="../src/forms/dialogabout.cpp" line="22"/>
         <source>Version: %1; Date: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия: %1; Дата: %2</translation>
     </message>
 </context>
 <context>
     <name>DialogAddScene</name>
     <message>
         <location filename="../src/sceneeditor/forms/dialogaddscene.ui" line="20"/>
-        <source>Добавяне на сцена</source>
-        <translation type="unfinished"></translation>
+        <source>Add scene</source>
+        <translation>Добавяне на сцена</translation>
     </message>
     <message>
         <location filename="../src/sceneeditor/forms/dialogaddscene.ui" line="26"/>
-        <source>Въведете име на сцената</source>
-        <translation type="unfinished"></translation>
+        <source>Enter scene name</source>
+        <translation type="unfinished">Въведете име на сцена</translation>
     </message>
 </context>
 <context>
     <name>DialogSceneEditor</name>
     <message>
         <location filename="../src/sceneeditor/forms/dialogsceneeditor.ui" line="17"/>
-        <source>Profile Editor</source>
-        <translation type="unfinished"></translation>
+        <source>Scene Editor</source>
+        <translation>Редактор на сцени</translation>
     </message>
     <message>
         <location filename="../src/sceneeditor/forms/dialogsceneeditor.ui" line="25"/>
-        <source>Сцени</source>
-        <translation type="unfinished"></translation>
+        <source>Scenes</source>
+        <translation>Сцени</translation>
     </message>
     <message>
         <location filename="../src/sceneeditor/forms/dialogsceneeditor.ui" line="36"/>
-        <source>Добави</source>
-        <translation type="unfinished"></translation>
+        <source>Add</source>
+        <translation>Добави</translation>
     </message>
     <message>
         <location filename="../src/sceneeditor/forms/dialogsceneeditor.ui" line="43"/>
-        <source>Изтрий</source>
-        <translation type="unfinished"></translation>
+        <source>Delete</source>
+        <translation>Изтрий</translation>
     </message>
     <message>
         <location filename="../src/sceneeditor/forms/dialogsceneeditor.ui" line="50"/>
-        <source>Запази</source>
-        <translation type="unfinished"></translation>
+        <source>Save</source>
+        <translation>Запази</translation>
     </message>
     <message>
         <location filename="../src/sceneeditor/forms/dialogsceneeditor.ui" line="62"/>
-        <source>Всички сензори</source>
-        <translation type="unfinished"></translation>
+        <source>All Sensors</source>
+        <translation>Всички сензори</translation>
     </message>
     <message>
         <location filename="../src/sceneeditor/forms/dialogsceneeditor.ui" line="95"/>
         <source>&gt;&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&gt;&gt;</translation>
     </message>
     <message>
         <location filename="../src/sceneeditor/forms/dialogsceneeditor.ui" line="108"/>
         <source>&lt;&lt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;&lt;</translation>
     </message>
     <message>
         <location filename="../src/sceneeditor/forms/dialogsceneeditor.ui" line="130"/>
-        <source>Избрани сензори</source>
-        <translation type="unfinished"></translation>
+        <source>Selected Sensors</source>
+        <translation>Избрани сензори</translation>
     </message>
     <message>
         <location filename="../src/sceneeditor/forms/dialogsceneeditor.ui" line="175"/>
-        <source>Затвори</source>
-        <translation type="unfinished"></translation>
+        <source>Close</source>
+        <translation>Затвори</translation>
     </message>
 </context>
 <context>
     <name>DialogTemperatureTarget</name>
     <message>
         <location filename="../src/forms/dialogtemperaturetarget.ui" line="29"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <source>Target temperature</source>
+        <translation>Желана температура</translation>
     </message>
     <message>
         <location filename="../src/forms/dialogtemperaturetarget.ui" line="73"/>
         <source>27.5 /</source>
-        <translation type="unfinished"></translation>
+        <translation>27.5 /</translation>
     </message>
 </context>
 <context>
@@ -108,66 +108,100 @@
     <message>
         <location filename="../src/forms/mainwindow.ui" line="14"/>
         <source>SpaCentralSoft</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SpaCentralSoft</translation>
     </message>
     <message>
         <location filename="../src/forms/mainwindow.ui" line="23"/>
-        <source>Сензори</source>
-        <translation type="unfinished"></translation>
+        <source>Sensors</source>
+        <translation>Сензори</translation>
     </message>
     <message>
         <location filename="../src/forms/mainwindow.ui" line="73"/>
-        <source>Сцени</source>
-        <translation type="unfinished"></translation>
+        <source>Scenes</source>
+        <translation>Сцени</translation>
     </message>
     <message>
         <location filename="../src/forms/mainwindow.ui" line="97"/>
-        <source>Активирай</source>
-        <translation type="unfinished"></translation>
+        <source>Set</source>
+        <translation>Активирай</translation>
     </message>
     <message>
         <location filename="../src/forms/mainwindow.ui" line="104"/>
-        <source>Редактор</source>
-        <translation type="unfinished"></translation>
+        <source>Editor</source>
+        <translation>Редактор</translation>
     </message>
     <message>
         <location filename="../src/forms/mainwindow.ui" line="138"/>
-        <source>Помощ</source>
-        <translation type="unfinished"></translation>
+        <source>Help</source>
+        <translation>Помощ</translation>
     </message>
     <message>
         <location filename="../src/forms/mainwindow.ui" line="144"/>
-        <source>Меню</source>
-        <translation type="unfinished"></translation>
+        <source>Menu</source>
+        <translation>Меню</translation>
     </message>
     <message>
         <location filename="../src/forms/mainwindow.ui" line="153"/>
-        <source>За SpaCentralSoft</source>
-        <translation type="unfinished"></translation>
+        <source>About SpaCentralSoft</source>
+        <translation>Относно SpaCentralSoft</translation>
     </message>
     <message>
         <location filename="../src/forms/mainwindow.ui" line="158"/>
-        <source>Изход</source>
-        <translation type="unfinished"></translation>
+        <source>Exit</source>
+        <translation>Изход</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="53"/>
+        <source>%1 Initializing...</source>
+        <translation>%1 Инициализация...</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="330"/>
+        <source>Set: %1</source>
+        <translation>Активиране: %1</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="331"/>
+        <source>Are you sure?</source>
+        <translation>Сигурни ли сте?</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="411"/>
+        <source>%1 Connecting... %2:%3</source>
+        <translation>%1 Свръзване... %2:%3</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="530"/>
+        <source>Connection error</source>
+        <translation>Грешка при свързване</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="531"/>
+        <source>Connection error: </source>
+        <translation type="unfinished">Грешка при свързване: </translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="533"/>
+        <source>Please restart the application!</source>
+        <translation>Моля рестартирайте приложението!</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="67"/>
+        <location filename="../src/main.cpp" line="51"/>
         <source>ERROR: Application is already instanciated!</source>
-        <translation type="unfinished"></translation>
+        <translation>ГРЕШКА: Приложението вече е стартирано!</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="68"/>
+        <location filename="../src/main.cpp" line="52"/>
         <source>Application is already instanciated!!!</source>
-        <translation type="unfinished"></translation>
+        <translation>Приложението вече е стартирано!!!</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="69"/>
-        <source>
-Can&apos;t run a second instance.</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/main.cpp" line="53"/>
+        <source>Can&apos;t run a second instance.</source>
+        <translation>Не можете да стартирате приложението повторно.</translation>
     </message>
 </context>
 </TS>
