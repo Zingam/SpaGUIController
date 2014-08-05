@@ -221,3 +221,4 @@ pip-log.txt
 .dropbox
 SpaCentralSoft.pro.user.*
 build-*/
+*.qm

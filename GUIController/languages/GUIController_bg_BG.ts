@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en_US">
+<TS version="2.1" language="bg_BG">
 <context>
     <name>DialogAbout</name>
     <message>
@@ -154,17 +154,17 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="17"/>
+        <location filename="../src/main.cpp" line="67"/>
         <source>ERROR: Application is already instanciated!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="18"/>
+        <location filename="../src/main.cpp" line="68"/>
         <source>Application is already instanciated!!!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="19"/>
+        <location filename="../src/main.cpp" line="69"/>
         <source>
 Can&apos;t run a second instance.</source>
         <translation type="unfinished"></translation>

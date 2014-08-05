@@ -61,8 +61,9 @@ FORMS    += src/forms/mainwindow.ui \
     src/sceneeditor/forms/dialogsceneeditor.ui \
     src/sceneeditor/forms/dialogaddscene.ui
 
-TRANSLATIONS = languages/GUIController_en.ts \
-    languages/GUIController_bg.ts
+TRANSLATIONS = languages/$${TARGET}_bg_BG.ts \
+    languages/$${TARGET}_en_US.ts
+CODECFORSRC = UTF-8
 
 ###################################################################################################
 # Copy assets to DESTDIR
@@ -82,16 +83,20 @@ CONFIG += copy_dir_files # Enables the install rule to also copy directories, no
 CONFIG += no_check_exist
 
 assets.path = $$DESTDIR/assets
-assets.files +=$$files(assets/*.*)
+assets.files += $$files(assets/*.*)
 INSTALLS += assets
 
 assetsImagesDark.path = $$DESTDIR/assets/dark
-assetsImagesDark.files +=$$files(assets/dark/*.*)
+assetsImagesDark.files += $$files(assets/dark/*.*)
 INSTALLS += assetsImagesDark
 
 assetsImagesLight.path = $$DESTDIR/assets/light
-assetsImagesLight.files +=$$files(assets/light/*.*)
+assetsImagesLight.files += $$files(assets/light/*.*)
 INSTALLS += assetsImagesLight
+
+#assetsLanguages.path = $$DESTDIR
+#assetsLanguages.files += $$files(languages/*.qm)
+#INSTALLS += assetsLanguages
 
 #copydata.commands = $(COPY_DIR) $$PWD/assets $$DESTDIR
 #first.depends = $(first) copydata

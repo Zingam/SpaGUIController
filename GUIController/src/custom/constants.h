@@ -1,6 +1,8 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#define APPLICATION_NAME "GUIController_"
+
 #define ORGANIZATION_NAME "MSD Systems"
 #define ORGANIZATION_DOMAIN "msd-systems.com"
 
