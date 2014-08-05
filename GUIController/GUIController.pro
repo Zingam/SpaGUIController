@@ -34,7 +34,8 @@ SOURCES += src/main.cpp\
     src/utilities/configloader.cpp \
     src/utilities/xmlloader.cpp \
     src/sceneeditor/spinboxdelegate.cpp \
-    src/sceneeditor/forms/dialogaddscene.cpp
+    src/sceneeditor/forms/dialogaddscene.cpp \
+    src/utilities/singleinstanceapplication.cpp
 
 HEADERS  += src/mainwindow.h \
     src/custom/constants.h \
@@ -51,7 +52,8 @@ HEADERS  += src/mainwindow.h \
     src/utilities/xmlloader.h \
     src/sceneeditor/forms/dialogaddscene.h \
     src/custom/utilities.h \
-    src/sceneeditor/doublespinboxdelegate.h
+    src/sceneeditor/doublespinboxdelegate.h \
+    src/utilities/singleinstanceapplication.h
 
 FORMS    += src/forms/mainwindow.ui \
     src/forms/dialogabout.ui \
