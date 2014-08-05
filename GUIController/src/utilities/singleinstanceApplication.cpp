@@ -1,4 +1,4 @@
-#include "singleapplicationinstance.h"
+#include "singleinstanceapplication.h"
 
 #include <QtCore/QDebug>
 #include <QtCore/QSharedMemory>

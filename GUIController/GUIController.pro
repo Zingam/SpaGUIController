@@ -61,6 +61,9 @@ FORMS    += src/forms/mainwindow.ui \
     src/sceneeditor/forms/dialogsceneeditor.ui \
     src/sceneeditor/forms/dialogaddscene.ui
 
+TRANSLATIONS = languages/GUIController_en.ts \
+    languages/GUIController_bg.ts
+
 ###################################################################################################
 # Copy assets to DESTDIR
 ###################################################################################################
