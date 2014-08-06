@@ -143,6 +143,9 @@
     <property name="title">
      <string>Menu</string>
     </property>
+    <addaction name="action_Export_Scenes"/>
+    <addaction name="action_Import_Scenes"/>
+    <addaction name="separator"/>
     <addaction name="action_Exit"/>
    </widget>
    <addaction name="menu"/>
@@ -156,6 +159,16 @@
   <action name="action_Exit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="action_Export_Scenes">
+   <property name="text">
+    <string>Export Scenes</string>
+   </property>
+  </action>
+  <action name="action_Import_Scenes">
+   <property name="text">
+    <string>Import Scenes</string>
    </property>
   </action>
  </widget>
