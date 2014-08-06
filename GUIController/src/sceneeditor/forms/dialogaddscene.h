@@ -7,6 +7,7 @@ namespace Ui {
 class DialogAddScene;
 }
 
+
 class DialogAddScene : public QDialog
 {
     Q_OBJECT

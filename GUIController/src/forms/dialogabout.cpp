@@ -3,6 +3,7 @@
 
 #include <QtCore/QString>
 
+
 DialogAbout::DialogAbout(const ProgramSettings& programSettings,
                          QWidget *parent) :
     QDialog(parent),
@@ -19,9 +20,9 @@ DialogAbout::DialogAbout(const ProgramSettings& programSettings,
 
     // Set labels
     ui->label_ApplicationName->setText(programSettings.application.name);
-    ui->label_ApplicationVersion->setText(QString(tr("Version: %1; Date: %2"))
-                                           .arg(programSettings.application.version)
-                                           .arg(programSettings.application.date));
+    ui->label_ApplicationVersion->setText(QString(tr("Version:") + " %1; " + tr("Date:") + " %2")
+                                          .arg(programSettings.application.version)
+                                          .arg(programSettings.application.date));
 }
 
 DialogAbout::~DialogAbout()

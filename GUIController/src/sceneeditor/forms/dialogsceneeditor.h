@@ -14,6 +14,7 @@ class DialogSceneEditor;
 
 class MainWindow;
 
+
 class DialogSceneEditor : public QDialog
 {
     Q_OBJECT

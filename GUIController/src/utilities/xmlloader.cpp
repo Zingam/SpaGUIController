@@ -1,9 +1,11 @@
 #include "xmlloader.h"
 
 #include <QtCore/QDebug>
+#include <QtCore/QObject>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QSpacerItem>
+
 
 XmlLoader::XmlLoader(const QString& errorMessage, QMainWindow* mainWindow) :
     _errorMessage(errorMessage),
@@ -27,7 +29,7 @@ QDomElement XmlLoader::firstChildElement(const QString& tagName, QDomDocument& d
 {
     QDomElement childElement = document.firstChildElement(tagName);
     if (childElement.isNull()) {
-        this->showFatalError("Failed to load <"+ tagName + ">");
+        this->showFatalError(QObject::tr("Failed to load") + " <"+ tagName + ">");
     }
     this->logToConsole(childElement);
 
@@ -46,7 +48,7 @@ QDomElement XmlLoader::firstChildElement(const QString& tagName, QDomElement& el
 {
     QDomElement childElement = element.firstChildElement(tagName);
     if (childElement.isNull()) {
-        this->showFatalError("Failed to load <"+ tagName + ">");
+        this->showFatalError(QObject::tr("Failed to load") + " <"+ tagName + ">");
     }
     this->logToConsole(childElement);
 
@@ -65,7 +67,7 @@ QDomElement XmlLoader::nextSiblingElement(const QString& tagName, QDomElement& e
 {
     QDomElement childElement = element.nextSiblingElement(tagName);
     if (childElement.isNull()) {
-        this->showFatalError("Failed to load <"+ tagName + ">");
+        this->showFatalError(QObject::tr("Failed to load") + " <"+ tagName + ">");
     }
     this->logToConsole(childElement);
 
@@ -76,7 +78,10 @@ QString XmlLoader::getAttributeValue(const QString& attributeName, QDomElement& 
 {
     QDomAttr attribute = element.attributeNode(attributeName);
     if(attribute.isNull()) {
-        this->showFatalError("No valid attribute <" + attributeName + "> found for <" + element.tagName() + ">");
+        this->showFatalError(QObject::tr("No valid attribute")
+                             + " <" + attributeName + "> "
+                             + QObject::tr("found for")
+                             + " <" + element.tagName() + ">");
     }
     this->logToConsole(attribute);
 
@@ -97,7 +102,8 @@ QString XmlLoader::getAttributeValue(const QString& attributeName, QDomElement& 
 void XmlLoader::logToConsole(const QDomElement& element) const
 {
     Q_UNUSED(element)
-#ifdef NO_DEBUG_OUTPUT
+
+#ifdef DEBUG_OUTPUT
     qDebug() << "Loaded element:" << element.tagName();
 #endif
 }
@@ -111,7 +117,8 @@ void XmlLoader::logToConsole(const QDomElement& element) const
 void XmlLoader::logToConsole(const QDomAttr& attribute) const
 {
     Q_UNUSED(attribute)
-#ifdef NO_DEBUG_OUTPUT
+
+#ifdef DEBUG_OUTPUT
     qDebug() << "Loaded attribute: " + attribute.name() + "=\"" + attribute.value() +"\"";
 #endif
 }
@@ -125,8 +132,9 @@ void XmlLoader::logToConsole(const QDomAttr& attribute) const
 void XmlLoader::showFatalError(const QString errorMessage) const
 {
     qDebug() << errorMessage;
+
     QMessageBox messageBox(_mainWindow);
-    messageBox.setWindowTitle("ERROR");
+    messageBox.setWindowTitle(QObject::tr("ERROR"));
     messageBox.setIcon(QMessageBox::Critical);
     messageBox.setText(_errorMessage);
     messageBox.setInformativeText(errorMessage);

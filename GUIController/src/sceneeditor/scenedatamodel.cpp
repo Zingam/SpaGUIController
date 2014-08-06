@@ -1,5 +1,6 @@
 #include "scenedatamodel.h"
 
+#include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QString>
 #include <QtCore/QXmlStreamWriter>
@@ -7,11 +8,10 @@
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QSpacerItem>
 
-#include <QtCore/QDebug>
 
 SceneDataModel::SceneDataModel(QString filePath, QString fileName, MainWindow* mainWindow):
     QObject(mainWindow),
-    XmlLoader(QString(SCENEDATAMODEL_ERROR_MESSAGE )+ " " + fileName, mainWindow),
+    XmlLoader(QString(tr(SCENEDATAMODEL_ERROR_MESSAGE))+ " " + fileName, mainWindow),
     _filePath(filePath),
     _fileName(fileName),
     _mainWindow(mainWindow)
@@ -73,7 +73,10 @@ void SceneDataModel::xmlSceneDataFileLoad()
     // Open SceneData file from device
     isOk = fileSceneData.open(QIODevice::ReadOnly | QIODevice::Text);
     if (!isOk) {
-        this->showFatalError("Failed to open " + _fileName + " in path: \n" + _filePath);
+        this->showFatalError(tr("Failed to open") + " "
+                             + _fileName + " "
+                             + tr("in path:") + "\n"
+                             + _filePath);
     }
 
     // Set config.xml as content of the dom document
@@ -83,15 +86,17 @@ void SceneDataModel::xmlSceneDataFileLoad()
 
     isOk = _documentSceneData.setContent(&fileSceneData, false, &errorMessage, &errorLine, &errorColumn);
     if (!isOk) {
-        this->showFatalError("Failed to read " + _fileName + " from device with:\n    "
-                        + errorMessage
-                        + "\nat line "
-                        + QString::number(errorLine)
-                        + ", column "
-                        + QString::number(errorColumn));
+        this->showFatalError(tr("Failed to read") + " "
+                             + _fileName + " "
+                             + tr("from device with:") + "\n"
+                             + "    " + errorMessage + "\n"
+                             + tr("at line") + " "
+                             + QString::number(errorLine)
+                             + ", " + tr("column") + " "
+                             + QString::number(errorColumn));
     }
 
-    qDebug() << "Begin parsing: " << _fileName;
+    qDebug() << "Begin parsing:" << _fileName;
 
     QDomElement elementScenes = this->firstChildElement("scenes", _documentSceneData);
 
@@ -100,14 +105,14 @@ void SceneDataModel::xmlSceneDataFileLoad()
     for (int i = 0; listSceneElement.count() > i; i++) {
         QDomElement currentSceneElement = listSceneElement.at(i).toElement();
         if (currentSceneElement.isNull()) {
-            this->showFatalError("Failed loading <scene>");
+            this->showFatalError(tr("Failed loading") + " <scene>");
         }
         this->logToConsole(currentSceneElement);
 
         xmlSceneDataParse(currentSceneElement);
     }
 
-    qDebug() << "Succeeded parsing: " << _fileName;
+    qDebug() << "Succeeded parsing:" << _fileName;
 }
 
 void SceneDataModel::xmlSceneDataFileSave()
@@ -155,8 +160,10 @@ void SceneDataModel::xmlSceneDataFileSave()
             // Start new <sensor> tag
             fileSceneDataWriter.writeStartElement("sensor");
             // Add attributes to the current <sensor> tag
-            fileSceneDataWriter.writeAttribute("id", QString::number(currentSensor.sensorId));
-            fileSceneDataWriter.writeAttribute("target", QString::number(currentSensor.temperatureTarget));
+            fileSceneDataWriter.writeAttribute("id",
+                                               QString::number(currentSensor.sensorId));
+            fileSceneDataWriter.writeAttribute("target",
+                                               QString::number(currentSensor.temperatureTarget));
             // Close <sensor/> tag
             fileSceneDataWriter.writeEndElement();
         }
@@ -169,7 +176,7 @@ void SceneDataModel::xmlSceneDataFileSave()
     fileSceneDataWriter.writeEndElement();
     fileSceneDataWriter.writeEndDocument();
 
-    QString messageSave = QString("Scenes saved to: %1").arg(_fileName);
+    QString messageSave = QString(tr("Scenes saved to:") + " %1").arg(_fileName);
 
     qDebug() << messageSave;
 }
@@ -187,7 +194,7 @@ void SceneDataModel::xmlSceneDataParse(QDomElement &element)
         QDomElement currentChildElement = listChildElement.at(i).toElement();
 
         if (currentChildElement.isNull()) {
-            this->showFatalError("Failed to load <sensor>");
+            this->showFatalError(tr("Failed to load") + " <sensor>");
         }
         this->logToConsole(currentChildElement);
 

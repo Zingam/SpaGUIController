@@ -5,6 +5,7 @@
 #include <QtNetwork/QLocalSocket>
 #include <QtWidgets/QMessageBox>
 
+
 SingleInstanceApplication::SingleInstanceApplication(int &argc,
                                                      char *argv[],
                                                      const QString& uniqueKey,

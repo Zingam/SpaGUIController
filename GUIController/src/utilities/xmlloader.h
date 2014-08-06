@@ -6,6 +6,7 @@
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
+
 class XmlLoader
 {
 public:

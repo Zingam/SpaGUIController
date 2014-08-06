@@ -5,6 +5,7 @@
 #include <QPointF>
 #include <QFont>
 
+
 struct ProgramSettings
 {
     struct DataFile

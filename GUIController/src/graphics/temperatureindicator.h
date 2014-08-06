@@ -13,6 +13,7 @@
 
 class CGraphicsScene;
 
+
 class TemperatureIndicator : public QObject
 {
     Q_OBJECT

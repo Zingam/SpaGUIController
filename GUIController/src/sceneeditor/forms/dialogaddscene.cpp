@@ -1,6 +1,7 @@
 #include "dialogaddscene.h"
 #include "ui_dialogaddscene.h"
 
+
 DialogAddScene::DialogAddScene(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogAddScene)

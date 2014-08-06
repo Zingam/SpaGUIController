@@ -1,25 +1,37 @@
 #include "mainwindow.h"
 
+#include <QtCore/QDebug>
 #include <QtCore/QLibraryInfo>
 #include <QtCore/QObject>
 #include <QtCore/QTranslator>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMessageBox>
 
+// Custom constants and structures
 #include "custom/constants.h"
+#include "custom/structures.h"
+
+// Utilities
+#include "utilities/configloader.h"
 #include "utilities/singleinstanceapplication.h"
+
 
 int main(int argc, char *argv[])
 {
     bool isOk;
-    QString language = "bg";
 
     SingleInstanceApplication app(argc,
                                   argv,
                                   QString(GUID),
                                   SingleInstanceApplication::SingletonType::LocalSocket);
 
+    // Program settings: Load program settings from "assets/config.xml"
+    // The ConfigLoader uses QWidgets so it needs to be instanciated after QApplication
+    ConfigLoader configLoader(CONFIG_FILE);
+
+    // Get the language for the UI from the CONFIG_FILE
     QLocale locale;
+    QString language = configLoader.getProgramSettings().language;
     if ("bg" == language) {
         locale = QLocale(QLocale::Bulgarian, QLocale::Bulgaria);
     }
@@ -56,7 +68,7 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    MainWindow mainWindow;
+    MainWindow mainWindow(configLoader);
     mainWindow.show();
     
     return app.exec();

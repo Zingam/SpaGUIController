@@ -5,6 +5,7 @@
 #include <QtNetwork/QLocalServer>
 #include <QtWidgets/QApplication>
 
+
 class SingleInstanceApplication : public QApplication
 {
     Q_OBJECT

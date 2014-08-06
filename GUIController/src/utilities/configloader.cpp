@@ -2,16 +2,16 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
+#include <QtCore/QObject>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QSpacerItem>
 #include <QtXml/QDomNodeList>
 #include <QtXml/QDomAttr>
 
-ConfigLoader::ConfigLoader(QString fileName, QMainWindow* mainWindow)
-{
-    _mainWindow = mainWindow;
 
+ConfigLoader::ConfigLoader(QString fileName)
+{
     QFile configFile(fileName);
 
     bool isOk;
@@ -19,7 +19,7 @@ ConfigLoader::ConfigLoader(QString fileName, QMainWindow* mainWindow)
     // Open config.xml file from device
     isOk = configFile.open(QIODevice::ReadOnly | QIODevice::Text);
     if (!isOk) {
-        this->showFatalError("Failed to open file in path: \n" + fileName);
+        this->showFatalError(QObject::tr("Failed to open file in path: ") + "\n" + fileName);
     }
 
     // Set config.xml as content of the dom document
@@ -29,16 +29,19 @@ ConfigLoader::ConfigLoader(QString fileName, QMainWindow* mainWindow)
 
     isOk = _configDocument.setContent(&configFile, false, &errorMessage, &errorLine, &errorColumn);
     if (!isOk) {
-        this->showFatalError("Failed to read config.xml from device with:\n    "
-                        + errorMessage
-                        + "\nat line "
-                        + QString::number(errorLine)
-                        + ", column "
-                        + QString::number(errorColumn));
+        this->showFatalError(QObject::tr("Failed to read")
+                             + " config.xml "
+                             + QObject::tr("from device with:")
+                             + "\n    "                          // End of line
+                             + errorMessage + "\n"               // End of line
+                             + QObject::tr("at line ")
+                             + QString::number(errorLine) + ", "
+                             + QObject::tr("column") + " "
+                             + QString::number(errorColumn));
     }
 
     // Start parsing the document
-    qDebug() << "Begin parsing: " << fileName;
+    qDebug() << "Begin parsing:" << fileName;
 
     QDomElement elementConfig = this->firstChildElement("config", _configDocument);
 
@@ -55,7 +58,7 @@ ConfigLoader::ConfigLoader(QString fileName, QMainWindow* mainWindow)
     for (int i = 0; listIndicatorsElement.count() > i; i++) {
         QDomElement currentIndicatorsElement = listIndicatorsElement.at(i).toElement();
         if (currentIndicatorsElement.isNull()) {
-            this->showFatalError("Failed at loading <indicators>");
+            this->showFatalError(QObject::tr("Failed at loading") + " <indicators>");
         }
         this->logToConsole(currentIndicatorsElement);
 
@@ -67,10 +70,10 @@ ConfigLoader::ConfigLoader(QString fileName, QMainWindow* mainWindow)
     }
 
     if (foundNoValidLanguage) {
-        showFatalError("Could not find a valid language strings in \"config.xml\"");
+        showFatalError(QObject::tr("Could not find valid language strings in") + " \"config.xml\"");
     }
 
-    qDebug() << "Succeeded parsing: " << fileName;
+    qDebug() << "Succeeded parsing:" << fileName;
 }
 
 /*
@@ -89,7 +92,7 @@ QDomElement ConfigLoader::firstChildElement(const QString& tagName, QDomDocument
 {
     QDomElement childElement = document.firstChildElement(tagName);
     if (childElement.isNull()) {
-        this->showFatalError("Failed to load <"+ tagName + ">");
+        this->showFatalError(QObject::tr("Failed to load") + " <"+ tagName + ">");
     }
     this->logToConsole(childElement);
 
@@ -108,7 +111,7 @@ QDomElement ConfigLoader::firstChildElement(const QString& tagName, QDomElement&
 {
     QDomElement childElement = element.firstChildElement(tagName);
     if (childElement.isNull()) {
-        this->showFatalError("Failed to load <"+ tagName + ">");
+        this->showFatalError(QObject::tr("Failed to load") + " <"+ tagName + ">");
     }
     this->logToConsole(childElement);
 
@@ -127,7 +130,7 @@ QDomElement ConfigLoader::nextSiblingElement(const QString& tagName, QDomElement
 {
     QDomElement childElement = element.nextSiblingElement(tagName);
     if (childElement.isNull()) {
-        this->showFatalError("Failed to load <"+ tagName + ">");
+        this->showFatalError(QObject::tr("Failed to load") + " <"+ tagName + ">");
     }
     this->logToConsole(childElement);
 
@@ -138,7 +141,8 @@ QString ConfigLoader::getAttributeValue(const QString& attributeName, QDomElemen
 {
     QDomAttr attribute = element.attributeNode(attributeName);
     if(attribute.isNull()) {
-        this->showFatalError("No valid attribute <" + attributeName + "> found for <" + element.tagName() + ">");
+        this->showFatalError(QObject::tr("No valid attribute") + " <" + attributeName + "> "
+                             + QObject::tr("found for") + " <" + element.tagName() + ">");
     }
     this->logToConsole(attribute);
 
@@ -151,7 +155,9 @@ QString ConfigLoader::getAttributeValue(const QString& attributeName, QDomElemen
 
 void ConfigLoader::parseProgramSettings(QDomElement& element)
 {
+#ifdef DEBUG_OUTPUT
     qDebug() << "Parsing <" + element.tagName() + ">";
+#endif // DEBUG_OUTPUT
 
     QDomElement currentElement;
 
@@ -238,7 +244,9 @@ void ConfigLoader::parseProgramSettings(QDomElement& element)
 
 void ConfigLoader::parseIndicatorProperties(QDomElement& element)
 {
+#ifdef DEBUG_OUTPUT
     qDebug() << "Parsing <" + element.tagName() + ">";
+#endif // DEBUG_OUTPUT
 
     QDomNodeList listChildElement = element.childNodes();
 
@@ -246,7 +254,7 @@ void ConfigLoader::parseIndicatorProperties(QDomElement& element)
         QDomElement currentChildElement = listChildElement.at(i).toElement();
 
         if (currentChildElement.isNull()) {
-            this->showFatalError("Failed to load <item>");
+            this->showFatalError(QObject::tr("Failed to load") + " <item>");
         }
         this->logToConsole(currentChildElement);
 
@@ -292,7 +300,7 @@ QList<IndicatorProperties> ConfigLoader::getIndicatorProperties() const
 void ConfigLoader::logToConsole(const QDomElement& element) const
 {
     Q_UNUSED(element)
-#ifdef NO_DEBUG_OUTPUT
+#ifdef DEBUG_OUTPUT
     qDebug() << "Loaded element:" << element.tagName();
 #endif
 }
@@ -306,7 +314,7 @@ void ConfigLoader::logToConsole(const QDomElement& element) const
 void ConfigLoader::logToConsole(const QDomAttr& attribute) const
 {
     Q_UNUSED(attribute)
-#ifdef NO_DEBUG_OUTPUT
+#ifdef DEBUG_OUTPUT
     qDebug() << "Loaded attribute: " + attribute.name() + "=\"" + attribute.value() +"\"";
 #endif
 }
@@ -320,10 +328,11 @@ void ConfigLoader::logToConsole(const QDomAttr& attribute) const
 void ConfigLoader::showFatalError(const QString errorMessage) const
 {
     qDebug() << errorMessage;
-    QMessageBox messageBox(_mainWindow);
-    messageBox.setWindowTitle("ERROR");
+//    QMessageBox messageBox(_mainWindow);
+    QMessageBox messageBox;
+    messageBox.setWindowTitle(QObject::tr("ERROR"));
     messageBox.setIcon(QMessageBox::Critical);
-    messageBox.setText(ERROR_MESSAGE);
+    messageBox.setText(QString(QObject::tr(ERROR_MESSAGE_01)) + QString(ERROR_MESSAGE_02));
     messageBox.setInformativeText(errorMessage);
 
     // MessageBox size hack
@@ -332,5 +341,6 @@ void ConfigLoader::showFatalError(const QString errorMessage) const
     layout->addItem(horizontalSpacer, layout->rowCount(), 0, 1, layout->columnCount());
 
     messageBox.exec(); // Show modal
+
     exit(-1);
 }

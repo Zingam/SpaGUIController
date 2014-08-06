@@ -32,10 +32,10 @@ SOURCES += src/main.cpp\
     src/sceneeditor/forms/dialogsceneeditor.cpp \
     src/sceneeditor/scenedatamodel.cpp \
     src/utilities/configloader.cpp \
+    src/utilities/singleinstanceapplication.cpp \
     src/utilities/xmlloader.cpp \
     src/sceneeditor/spinboxdelegate.cpp \
     src/sceneeditor/forms/dialogaddscene.cpp \
-    src/utilities/singleinstanceapplication.cpp
 
 HEADERS  += src/mainwindow.h \
     src/custom/constants.h \
@@ -48,12 +48,12 @@ HEADERS  += src/mainwindow.h \
     src/forms/dialogtemperaturetarget.h \
     src/sceneeditor/scenedatamodel.h \
     src/sceneeditor/forms/dialogsceneeditor.h \
-    src/utlities/configloader.h \
+    src/utilities/configloader.h \
+    src/utilities/singleinstanceapplication.h \
+    src/utilities/utilities.h \
     src/utilities/xmlloader.h \
     src/sceneeditor/forms/dialogaddscene.h \
-    src/custom/utilities.h \
     src/sceneeditor/doublespinboxdelegate.h \
-    src/utilities/singleinstanceapplication.h
 
 FORMS    += src/forms/mainwindow.ui \
     src/forms/dialogabout.ui \
@@ -61,8 +61,7 @@ FORMS    += src/forms/mainwindow.ui \
     src/sceneeditor/forms/dialogsceneeditor.ui \
     src/sceneeditor/forms/dialogaddscene.ui
 
-TRANSLATIONS = languages/$${TARGET}_bg_BG.ts \
-    languages/$${TARGET}_en_US.ts
+TRANSLATIONS = languages/$${TARGET}_bg_BG.ts
 
 ###################################################################################################
 # Copy assets to DESTDIR

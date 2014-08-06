@@ -1,6 +1,7 @@
 #include "dialogtemperaturetarget.h"
 #include "ui_dialogtemperaturetarget.h"
 
+
 DialogTemperatureTarget::DialogTemperatureTarget(QWidget* parent,
                                                  QString dialogTitle,
                                                  quint8 sensorId,

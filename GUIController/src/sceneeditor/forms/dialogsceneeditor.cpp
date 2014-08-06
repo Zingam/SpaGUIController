@@ -6,11 +6,12 @@
 #include <QtWidgets/QMessageBox>
 
 #include "../../custom/structures.h"
-#include "../../custom/utilities.h"
+#include "../../utilities/utilities.h"
 
 #include "dialogaddscene.h"
 #include "../doublespinboxdelegate.h"
 #include "../scenedatamodel.h"
+
 
 DialogSceneEditor::DialogSceneEditor(MainWindow* mainWindow) :
     QDialog(mainWindow),

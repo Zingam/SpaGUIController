@@ -18,6 +18,7 @@ class CGraphicsScene;
 class SceneDataModel;
 class TemperatureIndicator;
 
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -25,12 +26,13 @@ class MainWindow : public QMainWindow
     friend class SceneDataModel;
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(const ConfigLoader& configLoader, QWidget* parent = 0);
     ~MainWindow();
 
 private:
     Ui::MainWindow* ui;
 
+    const ConfigLoader& _configLoader;
     ProgramSettings _programSettings;
     QSettings* _programSettingsPersistant;
     QList<IndicatorProperties> _listIndicatorProperties;

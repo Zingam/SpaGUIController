@@ -7,6 +7,7 @@ namespace Ui {
 class DialogTemperatureTarget;
 }
 
+
 class DialogTemperatureTarget : public QDialog
 {
     Q_OBJECT

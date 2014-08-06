@@ -4,6 +4,7 @@
 #include <QtWidgets/QStyle>
 #include <QtWidgets/QStyleOptionGraphicsItem>
 
+
 CGraphicsRectItem::CGraphicsRectItem(QGraphicsItem *parent) :
     QGraphicsRectItem(parent)
 {

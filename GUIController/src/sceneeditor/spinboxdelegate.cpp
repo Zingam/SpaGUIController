@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QDoubleSpinBox>
 
+
 DoubleSpinBoxDelegate::DoubleSpinBoxDelegate(QObject *parent) :
     QStyledItemDelegate(parent)
 {

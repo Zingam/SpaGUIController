@@ -2,25 +2,26 @@
 #define CONFIGLOADER_H
 
 #include <QMainWindow>
-#include <QString>
+#include <QtCore/QString>
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
 #include "../custom/structures.h"
 
-#define ERROR_MESSAGE "Failed to load \"config.xml\""
+#define ERROR_MESSAGE_01 "Failed to load:"
+#define ERROR_MESSAGE_02 " \"config.xml\""
+
 
 class ConfigLoader
 {
 private:
     QDomDocument _configDocument;
-    QMainWindow* _mainWindow;
 
     ProgramSettings _programSettings;
     QList<IndicatorProperties> _listIndicatorProperties;
 
 public:
-    ConfigLoader(QString fileName, QMainWindow* mainWindow);
+    ConfigLoader(QString fileName);
 
 private:
     QDomElement firstChildElement(const QString& tagName, QDomDocument& document) const;

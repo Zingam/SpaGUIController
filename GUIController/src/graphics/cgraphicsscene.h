@@ -7,6 +7,7 @@
 
 class MainWindow;
 
+
 class CGraphicsScene : public QGraphicsScene
 {
 private:

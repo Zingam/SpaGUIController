@@ -1,6 +1,7 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
+
 #if __cplusplus > 199711L
     #define CPLUSPLUS11
 #endif // __cplusplus < 199711L

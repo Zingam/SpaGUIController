@@ -3,6 +3,7 @@
 
 #include <QtWidgets/QStyledItemDelegate>
 
+
 class DoubleSpinBoxDelegate : public QStyledItemDelegate
 {
     Q_OBJECT

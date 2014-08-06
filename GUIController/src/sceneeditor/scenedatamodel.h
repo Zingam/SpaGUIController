@@ -18,6 +18,7 @@
 
 class MainWindow;
 
+
 class SceneDataModel : public QObject, public XmlLoader
 {
     Q_OBJECT

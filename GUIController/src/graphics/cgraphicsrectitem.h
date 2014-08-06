@@ -4,6 +4,7 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
 
+
 class CGraphicsRectItem : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT

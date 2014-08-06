@@ -21,24 +21,25 @@
 #include "custom/structures.h"
 #include "custom/types.h"
 
-// Utility functions
-#include "custom/utilities.h"
+// Utilities
+#include "utilities/utilities.h"
 
 // Temperature indicator
 #include "graphics/cgraphicsrectitem.h"
 #include "graphics/temperatureindicator.h"
 
-MainWindow::MainWindow(QWidget *parent) :
+
+MainWindow::MainWindow(const ConfigLoader& configLoader, QWidget* parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    _configLoader(configLoader),
+    _programSettings(configLoader.getProgramSettings())
 {
     bool isOk;
 
     qDebug() << "Current directory is:" << QDir::currentPath();
 
-    // Program settings: Load program settings from "assets/config.xml"
-    ConfigLoader configLoader(CONFIG_FILE, this);
-    _programSettings = configLoader.getProgramSettings();
+//    _programSettings = configLoader.getProgramSettings();
 
     // Program settings: Load program setting from persistant storage
     QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
@@ -50,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // UI: Setup UI
     ui->setupUi(this);
 
-    setWindowTitle(QString(tr("%1 Initializing..."))
+    setWindowTitle(QString("%1 " + tr("Initializing..."))
                    .arg(_programSettings.application.name));
 
     // UI: Setup indicators display area
@@ -70,7 +71,7 @@ MainWindow::MainWindow(QWidget *parent) :
     sceneRectItemBackground->setBrush(QBrush(imageBackgroundImage));
 
     // UI: Load indicators
-    _listIndicatorProperties = configLoader.getIndicatorProperties();
+    _listIndicatorProperties = _configLoader.getIndicatorProperties();
 
     for (IndicatorProperties currentIndicatorProperties: _listIndicatorProperties) {
         TemperatureIndicator* temperatureIndicator =
@@ -327,7 +328,7 @@ void MainWindow::on_pushButton_ScenesSet_clicked()
     QString sceneName = listWidgetItem->text();
 
     int answer = QMessageBox::question(this,
-                                       QString(tr("Set: %1")).arg(sceneName),
+                                       QString(tr("Set:") + " %1").arg(sceneName),
                                        tr("Are you sure?"),
                                        QMessageBox::Ok,
                                        QMessageBox::Cancel);
@@ -408,7 +409,7 @@ void MainWindow::connectSocket()
 
     _socket->connectToHost(_programSettings.server.ipV4Address,
                            _programSettings.server.port);
-    setWindowTitle(QString(tr("%1 Connecting... %2:%3"))
+    setWindowTitle(QString("%1 " + tr("Connecting...") + " %2:%3")
                    .arg(_programSettings.application.name)
                    .arg(_programSettings.server.ipV4Address)
                    .arg(_programSettings.server.port));
@@ -439,8 +440,8 @@ void MainWindow::sendTemperatureTarget(TemperatureIndicator* temperatureIndicato
 void MainWindow::onConnected()
 {
     qDebug() << "Connected!";
-    qDebug() << "Local address" << QString("%1:%2").arg(_socket->localAddress().toString())
-                                           .arg(_socket->localPort());
+    qDebug() << "Local address:" << QString("%1:%2").arg(_socket->localAddress().toString())
+                                            .arg(_socket->localPort());
     qDebug() << "Peer address:" << QString("%1:%2").arg(_socket->peerAddress().toString())
                                            .arg(_socket->localPort());
 
@@ -524,7 +525,7 @@ void MainWindow::onErrorSocket(QAbstractSocket::SocketError socketError)
 
     _isConnected = false;
 
-    qDebug() << "Error connecting: " << _socket->errorString();
+    qDebug() << "Error connecting:" << _socket->errorString();
 
     QMessageBox::critical(this,
                           tr("Connection error"),

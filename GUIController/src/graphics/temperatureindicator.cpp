@@ -3,6 +3,7 @@
 #include <QtCore/QDebug>
 #include <QtGui/QFontMetrics>
 
+
 TemperatureIndicator::TemperatureIndicator(IndicatorProperties indicatorProperties,
                                            ProgramSettings programSettings,
                                            QListWidget *listWidget,
