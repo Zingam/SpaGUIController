@@ -39,8 +39,6 @@ MainWindow::MainWindow(const ConfigLoader& configLoader, QWidget* parent) :
 
     qDebug() << "Current directory is:" << QDir::currentPath();
 
-//    _programSettings = configLoader.getProgramSettings();
-
     // Program settings: Load program setting from persistant storage
     QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
     QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
@@ -123,6 +121,8 @@ MainWindow::MainWindow(const ConfigLoader& configLoader, QWidget* parent) :
                    SLOT(onListWidgetItemDoubleClicked(QListWidgetItem*)));
     Q_ASSERT(isOk);
     Q_UNUSED(isOk);
+
+    // Check if data file exists in
 
     // NOTE: SceneDataModel object has to be crated after all _temperatureIndicators
     // have been loaded from config.xml as SceneDataModel uses getSensors() to
@@ -324,12 +324,17 @@ void MainWindow::on_pushButton_ScenesEditor_clicked()
 
 void MainWindow::on_pushButton_ScenesSet_clicked()
 {
-    QListWidgetItem* listWidgetItem = ui->listWidget_Scenes->currentItem();
+    QListWidgetItem* listWidgetItem = ui->listWidget_Scenes->currentItem();  
+    if (nullptr == listWidgetItem) {
+        return;
+    }
+
     QString sceneName = listWidgetItem->text();
+    QString message = tr("Do you want to activate:") + "\n" + sceneName;
 
     int answer = QMessageBox::question(this,
-                                       QString(tr("Set:") + " %1").arg(sceneName),
-                                       tr("Are you sure?"),
+                                       sceneName,
+                                       message,
                                        QMessageBox::Ok,
                                        QMessageBox::Cancel);
     if (QMessageBox::Ok == answer)
