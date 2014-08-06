@@ -156,37 +156,32 @@
         <translation>Изход</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="332"/>
-        <source>Are you sure?</source>
-        <translation>Сигурни ли сте?</translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.cpp" line="54"/>
         <source>Initializing...</source>
         <translation>Инициализация...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="331"/>
-        <source>Set:</source>
-        <translation>Активиране:</translation>
+        <location filename="../src/mainwindow.cpp" line="333"/>
+        <source>Do you want to activate:</source>
+        <translation>Искате ли да активирате:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="412"/>
+        <location filename="../src/mainwindow.cpp" line="417"/>
         <source>Connecting...</source>
         <translation>Свързване...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="531"/>
+        <location filename="../src/mainwindow.cpp" line="536"/>
         <source>Connection error</source>
         <translation>Грешка при свързване</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="532"/>
+        <location filename="../src/mainwindow.cpp" line="537"/>
         <source>Connection error: </source>
         <translation>Грешка при свързване: </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="534"/>
+        <location filename="../src/mainwindow.cpp" line="539"/>
         <source>Please restart the application!</source>
         <translation>Моля рестартирайте приложението!</translation>
     </message>
