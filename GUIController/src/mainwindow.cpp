@@ -6,6 +6,7 @@
 #include <QtCore/QTime>
 #include <QtCore/QtMath>
 #include <QtNetwork/QHostAddress>
+#include <QtWidgets/QFileDialog>
 #include <QtWidgets/QGraphicsItem>
 #include <QtWidgets/QGraphicsSceneMouseEvent>
 #include <QtWidgets/QMessageBox>
@@ -32,7 +33,6 @@
 MainWindow::MainWindow(const ConfigLoader& configLoader, QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    _configLoader(configLoader),
     _programSettings(configLoader.getProgramSettings())
 {
     bool isOk;
@@ -69,7 +69,7 @@ MainWindow::MainWindow(const ConfigLoader& configLoader, QWidget* parent) :
     sceneRectItemBackground->setBrush(QBrush(imageBackgroundImage));
 
     // UI: Load indicators
-    _listIndicatorProperties = _configLoader.getIndicatorProperties();
+    _listIndicatorProperties = configLoader.getIndicatorProperties();
 
     for (IndicatorProperties currentIndicatorProperties: _listIndicatorProperties) {
         TemperatureIndicator* temperatureIndicator =
@@ -294,6 +294,25 @@ void MainWindow::on_action_About_triggered()
 
     dialogAbout.exec();
 } // on_action_About_triggered()
+
+void MainWindow::on_action_Export_Scenes_triggered()
+{
+    qDebug() << "Exporting scenes";
+
+    QFileDialog fileDialog;
+    fileDialog.setWindowTitle(tr("Export Scenes"));
+    fileDialog.show();
+} // on_action_Export_Scenes_triggered()
+
+void MainWindow::on_action_Import_Scenes_triggered()
+{
+    qDebug() << "Importing scenes";
+
+    qDebug() << "Import scenes";
+    QFileDialog fileDialog;
+    fileDialog.setWindowTitle(tr("Import Scenes"));
+    fileDialog.show();
+} // on_action_Import_Scenes_triggered()
 
 void MainWindow::on_dial_sliderMoved(int position)
 {

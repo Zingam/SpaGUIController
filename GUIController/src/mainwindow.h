@@ -32,7 +32,6 @@ public:
 private:
     Ui::MainWindow* ui;
 
-    const ConfigLoader& _configLoader;
     ProgramSettings _programSettings;
     QSettings* _programSettingsPersistant;
     QList<IndicatorProperties> _listIndicatorProperties;
@@ -68,6 +67,8 @@ private:
 private slots:
     // Automatically connected
     void on_action_About_triggered();
+    void on_action_Export_Scenes_triggered();
+    void on_action_Import_Scenes_triggered();
 
     void on_dial_sliderMoved(int position);
     void on_dial_valueChanged(int value);
