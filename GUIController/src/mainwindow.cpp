@@ -37,8 +37,6 @@ MainWindow::MainWindow(const ConfigLoader& configLoader, QWidget* parent) :
 {
     bool isOk;
 
-    qDebug() << "Current directory is:" << QDir::currentPath();
-
     // Program settings: Load program setting from persistant storage
     _programSettingsPersistant = new QSettings(this);
 
