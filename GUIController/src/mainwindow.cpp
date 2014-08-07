@@ -40,10 +40,6 @@ MainWindow::MainWindow(const ConfigLoader& configLoader, QWidget* parent) :
     qDebug() << "Current directory is:" << QDir::currentPath();
 
     // Program settings: Load program setting from persistant storage
-    QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
-    QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
-    QCoreApplication::setApplicationName(_programSettings.application.name);
-
     _programSettingsPersistant = new QSettings(this);
 
     // UI: Setup UI

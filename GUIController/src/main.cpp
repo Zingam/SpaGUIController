@@ -28,6 +28,12 @@ int main(int argc, char *argv[])
     // Program settings: Load program settings from "assets/config.xml"
     // The ConfigLoader uses QWidgets so it needs to be instanciated after QApplication
     ConfigLoader configLoader(CONFIG_FILE);
+    ProgramSettings programSettings = configLoader.getProgramSettings();
+
+    // Set application properties
+    QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
+    QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
+    QCoreApplication::setApplicationName(programSettings.application.name);
 
     // Get the language for the UI from the CONFIG_FILE
     QLocale locale;
