@@ -5,11 +5,19 @@
 #include <QtCore/QStandardPaths>
 
 
-SceneDataFile::SceneDataFile(QObject *parent) :
-    QObject(parent)
+SceneDataFile::SceneDataFile(QString sceneDataFilePath,
+                             QString sceneDataFileName,
+                             QObject* parent) :
+    QObject(parent),
+    _sceneDataFileName(sceneDataFileName)
 {
-    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    QString sceneDataFilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
     qDebug() << path;
+    QFile sceneDataFile(sceneDataFilePath + "/" + sceneDataFileName);
+    bool fileExists = sceneDataFile.exists();
+    if (!fileExists) {
+        sceneDataFile
+    }
 }
 
 void SceneDataFile::exportTo(QString filePath)

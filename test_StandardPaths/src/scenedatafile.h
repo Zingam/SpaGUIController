@@ -8,7 +8,9 @@ class SceneDataFile : public QObject
 {
     Q_OBJECT
 public:
-    explicit SceneDataFile(QObject *parent = 0);
+    explicit SceneDataFile(QString sceneDataFilePath,
+                           QString sceneDataFileName,
+                           QObject* parent = 0);
 
 private:
     QString _sceneDataFileName;
