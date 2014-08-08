@@ -4,18 +4,29 @@
 #include <QtCore/QDebug>
 #include <QtWidgets/QFileDialog>
 
-#include "../scenedatafile.h"
+#define ASSETS_PATH "assets/"
+#define ASSETS_DATAFILENAME "SceneData.xml"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    try {
+
+        _sceneDataFile = SceneDataFile::getInstance(ASSETS_PATH, ASSETS_DATAFILENAME, parent);
+    }
+    catch (ExceptionInitialization& exception) {
+        throw exception;
+    }
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+
+    qDebug() << "Destroying: MainWindow";
 }
 
 void MainWindow::on_action_Export_triggered()

@@ -1,20 +1,34 @@
 #include <QtCore/QCoreApplication>
+#include <QtCore/QObject>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QMessageBox>
 
 #include "src/forms/mainwindow.h"
 
-#define ASSETS_PATH "assets/"
+#include "src/scenedatafile.h"
+
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QCoreApplication::setApplicationName("SpaCentralSoft");
 
+    MainWindow* w;
 
-    SceneDataFile sceneDataFile;
+    try {
+        w = new MainWindow();
+        w->show();
+    }
+    catch (ExceptionInitialization& exception) {
+        QMessageBox::critical(nullptr,
+                              QObject::tr("ERROR"),
+                              exception.getMessage());
+        return (-1);
+    }
 
-    MainWindow w;
-    w.show();
+    int returnCode = a.exec();
 
-    return a.exec();
+    delete w;
+
+    return returnCode;
 }

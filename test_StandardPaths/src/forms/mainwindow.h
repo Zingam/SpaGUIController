@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 
+#include "../scenedatafile.h"
+
+
 namespace Ui {
 class MainWindow;
 }
@@ -21,6 +24,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    SceneDataFile* _sceneDataFile;
 };
 
 #endif // MAINWINDOW_H
