@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     try {
 
-        _sceneDataFile = SceneDataFile::getInstance(ASSETS_PATH, ASSETS_DATAFILENAME, parent);
+        _sceneDataFile = SceneDataFile::getInstance(ASSETS_PATH, ASSETS_DATAFILENAME, this);
     }
     catch (ExceptionInitialization& exception) {
         throw exception;

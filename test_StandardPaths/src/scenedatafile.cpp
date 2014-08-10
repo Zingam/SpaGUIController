@@ -31,7 +31,7 @@ SceneDataFile::SceneDataFile(QString sceneDataFilePath,
         }
     }
 
-    QString sceneDataFileFullPath(sceneDataFileStandardPath + "/" + sceneDataFileName);
+    QString sceneDataFileFullPath(sceneDataFileStandardPath + "/" + _sceneDataFileName);
 
     QFile sceneDataFile(sceneDataFileFullPath);
     doesExist = sceneDataFile.exists();
@@ -77,6 +77,14 @@ void SceneDataFile::exportTo(QString filePath)
 
 void SceneDataFile::importFrom(QString filePath)
 {
-    QFile sceneDataFile(filePath);
-    sceneDataFile.copy(_sceneDataFileName);
+    QString sceneDataFileStandardPath =
+            QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    QString sceneDataFileFullPath(sceneDataFileStandardPath + "/" + _sceneDataFileName);
+    QFile sceneDataFile;
+    bool doesExist = sceneDataFile.exists(sceneDataFileFullPath);
+    if (doesExist) {
+        sceneDataFile.remove(sceneDataFileFullPath);
+    }
+
+    sceneDataFile.copy(filePath, sceneDataFileFullPath);
 }
