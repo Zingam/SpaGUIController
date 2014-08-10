@@ -18,6 +18,7 @@ SceneDataFile::SceneDataFile(QString sceneDataFilePath,
 
     QString sceneDataFileStandardPath =
             QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+
     QDir standardDataLocationDir;
     doesExist = standardDataLocationDir.exists(sceneDataFileStandardPath);
     if (!doesExist) {
@@ -32,23 +33,30 @@ SceneDataFile::SceneDataFile(QString sceneDataFilePath,
     }
 
     QString sceneDataFileFullPath(sceneDataFileStandardPath + "/" + _sceneDataFileName);
+    QString sceneDataFileSpareFullPath(sceneDataFilePath + "/" + _sceneDataFileName);
 
-    QFile sceneDataFile(sceneDataFileFullPath);
-    doesExist = sceneDataFile.exists();
+    QString errorMessage =
+            " " + sceneDataFileName + "\n"
+            + QObject::tr("Unable to restore file from default source!") + "\n"
+            + QObject::tr("Please reinstall this application!");
+
+    QFile sceneDataFile;
+    doesExist = sceneDataFile.exists(sceneDataFileFullPath);
     if (!doesExist) {
-        QFile spareSceneDataFile(sceneDataFilePath + "/" + sceneDataFileName);
-        bool fileExists = spareSceneDataFile.exists();
+        bool fileExists = sceneDataFile.exists(sceneDataFileSpareFullPath);
         if (fileExists) {
-            bool isOk = spareSceneDataFile.copy(sceneDataFileFullPath);
+            bool isOk = sceneDataFile.copy(sceneDataFileSpareFullPath,
+                                           sceneDataFileFullPath);
             if (!isOk) {
-                QString errorMessage =
-                        QObject::tr("File not found: ")
-                        + sceneDataFileName + "\n"
-                        + QObject::tr("Unable to restore file from default source!") + "\n"
-                        + QObject::tr("Please reinstall this application!");
+                errorMessage.prepend(tr("Unable to copy file:"));
 
                 throw ExceptionInitialization(errorMessage);
             }
+        }
+        else {
+            errorMessage.prepend(QObject::tr("File not found:"));
+
+            throw ExceptionInitialization(errorMessage);
         }
     }
 }

@@ -14,8 +14,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     try {
-
-        _sceneDataFile = SceneDataFile::getInstance(ASSETS_PATH, ASSETS_DATAFILENAME, this);
+        _sceneDataFile = SceneDataFile::getInstance(ASSETS_PATH,
+                                                    ASSETS_DATAFILENAME,
+                                                    this);
     }
     catch (ExceptionInitialization& exception) {
         throw exception;

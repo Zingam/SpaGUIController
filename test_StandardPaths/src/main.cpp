@@ -1,4 +1,5 @@
 #include <QtCore/QCoreApplication>
+#include <QtCore/QDebug>
 #include <QtCore/QObject>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMessageBox>
@@ -13,22 +14,18 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     QCoreApplication::setApplicationName("SpaCentralSoft");
 
-    MainWindow* w;
-
     try {
-        w = new MainWindow();
-        w->show();
+        MainWindow w;
+        w.show();
+
+        return a.exec();
     }
     catch (ExceptionInitialization& exception) {
+        qDebug() << exception.getMessage();
         QMessageBox::critical(nullptr,
                               QObject::tr("ERROR"),
                               exception.getMessage());
+
         return (-1);
     }
-
-    int returnCode = a.exec();
-
-    delete w;
-
-    return returnCode;
 }
