@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 
         return a.exec();
     }
-    catch (ExceptionInitialization& exception) {
+    catch (SceneDataFileException& exception) {
         qDebug() << exception.getMessage();
         QMessageBox::critical(nullptr,
                               QObject::tr("ERROR"),

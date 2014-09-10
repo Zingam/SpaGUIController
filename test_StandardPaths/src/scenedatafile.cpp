@@ -5,7 +5,6 @@
 #include <QtCore/QFile>
 #include <QtCore/QObject>
 #include <QtCore/QStandardPaths>
-#include <QtWidgets/QMessageBox>
 
 
 SceneDataFile::SceneDataFile(QString sceneDataFilePath,
@@ -28,11 +27,11 @@ SceneDataFile::SceneDataFile(QString sceneDataFilePath,
                     QObject::tr("Unable to create standard folder:") + "\n"
                     + sceneDataFileStandardPath;
 
-            throw ExceptionInitialization(errorMessage);
+            throw SceneDataFileException(errorMessage);
         }
     }
 
-    QString sceneDataFileFullPath(sceneDataFileStandardPath + "/" + _sceneDataFileName);
+    _sceneDataFileFullPath = sceneDataFileStandardPath + "/" + _sceneDataFileName;
     QString sceneDataFileSpareFullPath(sceneDataFilePath + "/" + _sceneDataFileName);
 
     QString errorMessage =
@@ -41,22 +40,22 @@ SceneDataFile::SceneDataFile(QString sceneDataFilePath,
             + QObject::tr("Please reinstall this application!");
 
     QFile sceneDataFile;
-    doesExist = sceneDataFile.exists(sceneDataFileFullPath);
+    doesExist = sceneDataFile.exists(_sceneDataFileFullPath);
     if (!doesExist) {
         bool fileExists = sceneDataFile.exists(sceneDataFileSpareFullPath);
         if (fileExists) {
             bool isOk = sceneDataFile.copy(sceneDataFileSpareFullPath,
-                                           sceneDataFileFullPath);
+                                           _sceneDataFileFullPath);
             if (!isOk) {
                 errorMessage.prepend(tr("Unable to copy file:"));
 
-                throw ExceptionInitialization(errorMessage);
+                throw SceneDataFileException(errorMessage);
             }
         }
         else {
             errorMessage.prepend(QObject::tr("File not found:"));
 
-            throw ExceptionInitialization(errorMessage);
+            throw SceneDataFileException(errorMessage);
         }
     }
 }
@@ -79,20 +78,46 @@ SceneDataFile* SceneDataFile::getInstance(QString sceneDataFilePath,
 
 void SceneDataFile::exportTo(QString filePath)
 {
-    QFile sceneDataFile(_sceneDataFileName);
-    sceneDataFile.copy(filePath);
+    QFile sceneDataFile(_sceneDataFileFullPath);
+
+    bool isOk = sceneDataFile.copy(filePath);
+    if (!isOk) {
+        QString errorMessage =
+                QObject::tr("Unable to export file:") + "\n"
+                + filePath;
+
+        throw SceneDataFileException(errorMessage);
+    }
 }
 
 void SceneDataFile::importFrom(QString filePath)
 {
-    QString sceneDataFileStandardPath =
-            QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-    QString sceneDataFileFullPath(sceneDataFileStandardPath + "/" + _sceneDataFileName);
-    QFile sceneDataFile;
-    bool doesExist = sceneDataFile.exists(sceneDataFileFullPath);
+    bool isOk;
+
+    QFile sceneDataFile(_sceneDataFileFullPath);
+
+    bool doesExist = sceneDataFile.exists();
     if (doesExist) {
-        sceneDataFile.remove(sceneDataFileFullPath);
+        isOk = sceneDataFile.remove(_sceneDataFileFullPath);
+        if (!isOk) {
+            QString errorMessage =
+                    QObject::tr("Removing old file failed.") + "\n"
+                    + QObject::tr("Unable to import file:") + "\n"
+                    + filePath;
+
+            throw SceneDataFileException(errorMessage);
+
+            return;
+        }
     }
 
-    sceneDataFile.copy(filePath, sceneDataFileFullPath);
+    isOk = sceneDataFile.copy(filePath, _sceneDataFileFullPath);
+    if (!isOk) {
+        QString errorMessage =
+                QObject::tr("Unable to copy file.") + "\n"
+                + QObject::tr("Unable to import file:") + "\n"
+                + filePath;
+
+        throw SceneDataFileException(errorMessage);
+    }
 }

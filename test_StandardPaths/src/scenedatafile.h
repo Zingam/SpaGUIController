@@ -7,10 +7,10 @@
 #include <exception>
 
 
-class ExceptionInitialization : public std::exception
+class SceneDataFileException : public std::exception
 {
 public:
-    ExceptionInitialization(QString message) : _message(message) {}
+    SceneDataFileException(QString message) : _message(message) {}
 
     QString getMessage() { return _message; }
 
@@ -42,6 +42,7 @@ public:
                                       QObject* parent);
 private:
     QString _sceneDataFileName;
+    QString _sceneDataFileFullPath;
 
 signals:
 
