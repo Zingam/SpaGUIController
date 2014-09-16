@@ -137,8 +137,10 @@ MainWindow::MainWindow(const ConfigLoader& configLoader, QWidget* parent) :
 
     this->listWidget_Scenes_Update();
 
+#ifdef USE_NETWORKING
     // TcpSocket: Setup
-    //connectSocket();
+    connectSocket();
+#endif
 }
 
 MainWindow::~MainWindow()
