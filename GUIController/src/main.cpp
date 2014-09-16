@@ -1,5 +1,3 @@
-#include "mainwindow.h"
-
 #include <QtCore/QDebug>
 #include <QtCore/QLibraryInfo>
 #include <QtCore/QObject>
@@ -7,12 +5,14 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMessageBox>
 
+#include "forms/mainwindow.h"
+
 // Custom constants and structures
 #include "custom/constants.h"
 #include "custom/structures.h"
 
-// Utilities
-#include "utilities/configloader.h"
+// Intialization and utilities
+#include "initialization/configloader.h"
 #include "utilities/singleinstanceapplication.h"
 
 

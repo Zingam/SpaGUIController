@@ -23,37 +23,42 @@ TEMPLATE = app
 DESTDIR = ../../SpaCentralSoftBin
 
 SOURCES += src/main.cpp\
-    src/mainwindow.cpp \
+    src/forms/dialogabout.cpp \
+    src/forms/dialogtemperaturetarget.cpp \
+    src/forms/mainwindow.cpp \
     src/graphics/cgraphicsrectitem.cpp \
     src/graphics/cgraphicsscene.cpp \
     src/graphics/temperatureindicator.cpp \
-    src/forms/dialogabout.cpp \
-    src/forms/dialogtemperaturetarget.cpp \
-    src/sceneeditor/forms/dialogsceneeditor.cpp \
+    src/initialization/configloader.cpp \
+    src/initialization/scenedatafile.cpp \
+    src/sceneeditor/doublespinboxdelegate.cpp \
     src/sceneeditor/scenedatamodel.cpp \
-    src/utilities/configloader.cpp \
+    src/sceneeditor/forms/dialogaddscene.cpp \
+    src/sceneeditor/forms/dialogsceneeditor.cpp \
     src/utilities/singleinstanceapplication.cpp \
     src/utilities/xmlloader.cpp \
-    src/sceneeditor/spinboxdelegate.cpp \
-    src/sceneeditor/forms/dialogaddscene.cpp \
 
-HEADERS  += src/mainwindow.h \
+
+HEADERS  += \
     src/custom/constants.h \
     src/custom/structures.h \
     src/custom/types.h \
+    src/forms/dialogabout.h \
+    src/forms/dialogtemperaturetarget.h \
+    src/forms/mainwindow.h \
     src/graphics/cgraphicsrectitem.h \
     src/graphics/cgraphicsscene.h \
     src/graphics/temperatureindicator.h \
-    src/forms/dialogabout.h \
-    src/forms/dialogtemperaturetarget.h \
+    src/initialization/configloader.h \
+    src/initialization/scenedatafile.h \
+    src/sceneeditor/doublespinboxdelegate.h \
     src/sceneeditor/scenedatamodel.h \
+    src/sceneeditor/forms/dialogaddscene.h \
     src/sceneeditor/forms/dialogsceneeditor.h \
-    src/utilities/configloader.h \
     src/utilities/singleinstanceapplication.h \
     src/utilities/utilities.h \
     src/utilities/xmlloader.h \
-    src/sceneeditor/forms/dialogaddscene.h \
-    src/sceneeditor/doublespinboxdelegate.h \
+
 
 FORMS    += src/forms/mainwindow.ui \
     src/forms/dialogabout.ui \

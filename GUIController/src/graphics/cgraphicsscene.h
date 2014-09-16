@@ -3,7 +3,7 @@
 
 #include <QtWidgets/QGraphicsScene>
 
-#include "../mainwindow.h"
+#include "../forms/mainwindow.h"
 
 class MainWindow;
 

@@ -5,10 +5,10 @@
 #include <QtWidgets/QMainWindow>
 #include <QtNetwork/QTcpSocket>
 
-#include "graphics/cgraphicsscene.h"
-#include "graphics/temperatureindicator.h"
-#include "sceneeditor/scenedatamodel.h"
-#include "utilities/configloader.h"
+#include "../graphics/cgraphicsscene.h"
+#include "../graphics/temperatureindicator.h"
+#include "../initialization/configloader.h"
+#include "../sceneeditor/scenedatamodel.h"
 
 namespace Ui {
     class MainWindow;

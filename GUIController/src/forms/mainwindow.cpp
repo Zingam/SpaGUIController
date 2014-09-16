@@ -13,21 +13,21 @@
 
 // Forms
 #include "ui_mainwindow.h"
-#include "forms/dialogabout.h"
-#include "forms/dialogtemperaturetarget.h"
-#include "sceneeditor/forms/dialogsceneeditor.h"
+#include "dialogabout.h"
+#include "dialogtemperaturetarget.h"
+#include "../sceneeditor/forms/dialogsceneeditor.h"
 
 // Custom constants and structures
-#include "custom/constants.h"
-#include "custom/structures.h"
-#include "custom/types.h"
+#include "../custom/constants.h"
+#include "../custom/structures.h"
+#include "../custom/types.h"
 
 // Utilities
-#include "utilities/utilities.h"
+#include "../utilities/utilities.h"
 
 // Temperature indicator
-#include "graphics/cgraphicsrectitem.h"
-#include "graphics/temperatureindicator.h"
+#include "../graphics/cgraphicsrectitem.h"
+#include "../graphics/temperatureindicator.h"
 
 
 MainWindow::MainWindow(const ConfigLoader& configLoader, QWidget* parent) :

@@ -4,7 +4,7 @@
 #include <QtWidgets/QDialog>
 
 #include "../scenedatamodel.h"
-#include "../../mainwindow.h"
+#include "../../forms/mainwindow.h"
 
 #define SENSORSSELECTED_COLUMNS 2
 

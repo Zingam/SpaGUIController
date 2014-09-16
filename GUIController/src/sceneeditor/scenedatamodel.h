@@ -11,7 +11,7 @@
 
 #include "../custom/structures.h"
 
-#include "../mainwindow.h"
+#include "../forms/mainwindow.h"
 #include "../utilities/xmlloader.h"
 
 #define SCENEDATAMODEL_ERROR_MESSAGE "Failed to load "
