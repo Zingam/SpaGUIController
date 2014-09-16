@@ -21,7 +21,7 @@ SceneDataFile::SceneDataFile(QString sceneDataFilePath,
     QDir standardDataLocationDir;
     doesExist = standardDataLocationDir.exists(sceneDataFileStandardPath);
     if (!doesExist) {
-        bool isOk = standardDataLocationDir.mkdir(sceneDataFileStandardPath);
+        bool isOk = standardDataLocationDir.mkpath(sceneDataFileStandardPath);
         if (!isOk) {
             QString errorMessage =
                     QObject::tr("Unable to create standard folder:") + "\n"

@@ -8,6 +8,7 @@
 #include "../graphics/cgraphicsscene.h"
 #include "../graphics/temperatureindicator.h"
 #include "../initialization/configloader.h"
+#include "../initialization/scenedatafile.h"
 #include "../sceneeditor/scenedatamodel.h"
 
 namespace Ui {
@@ -41,6 +42,7 @@ private:
     QList<TemperatureIndicator*> _temperatureIndicators;
     TemperatureIndicator* _currentTemperatureIndicator;
 
+    SceneDataFile* _sceneDataFile;
     SceneDataModel* _sceneDataModel;
 
     QTcpSocket* _socket = nullptr;

@@ -22,7 +22,7 @@
 #include "../custom/structures.h"
 #include "../custom/types.h"
 
-// Utilities
+// Initialization and utilities
 #include "../utilities/utilities.h"
 
 // Temperature indicator
@@ -39,6 +39,15 @@ MainWindow::MainWindow(const ConfigLoader& configLoader, QWidget* parent) :
 
     // Program settings: Load program setting from persistant storage
     _programSettingsPersistant = new QSettings(this);
+
+    try {
+        _sceneDataFile = SceneDataFile::getInstance(_programSettings.datafile.path,
+                                                    _programSettings.datafile.name,
+                                                    this);
+    }
+    catch (SceneDataFileException& exception) {
+        throw exception;
+    }
 
     // UI: Setup UI
     ui->setupUi(this);
@@ -129,7 +138,7 @@ MainWindow::MainWindow(const ConfigLoader& configLoader, QWidget* parent) :
     this->listWidget_Scenes_Update();
 
     // TcpSocket: Setup
-    connectSocket();
+    //connectSocket();
 }
 
 MainWindow::~MainWindow()
@@ -291,21 +300,56 @@ void MainWindow::on_action_About_triggered()
 
 void MainWindow::on_action_Export_Scenes_triggered()
 {
-    qDebug() << "Exporting scenes";
-
     QFileDialog fileDialog;
-    fileDialog.setWindowTitle(tr("Export Scenes"));
-    fileDialog.show();
+    fileDialog.setWindowTitle(tr("Export"));
+    // Set the dialog for saving files, sets the dialog button to "Save"
+    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+    // Set the dialog to return the file name wheather the file exists or not
+    fileDialog.setFileMode(QFileDialog::AnyFile);
+    fileDialog.setNameFilter(tr("XML Data File") + " (*.xml)");
+
+    bool wasFileSelected = fileDialog.exec();
+    QString filePath;
+    if (wasFileSelected) {
+        filePath = fileDialog.selectedFiles().at(0);
+
+        qDebug() << "Exporting file: " + filePath;
+        try {
+            _sceneDataFile->exportTo(filePath);
+        }
+        catch (SceneDataFileException& exception)
+        {
+            QMessageBox::critical(this,
+                                  tr("ERROR: File Export Failed"),
+                                  exception.getMessage());
+        }
+    }
 } // on_action_Export_Scenes_triggered()
 
 void MainWindow::on_action_Import_Scenes_triggered()
 {
-    qDebug() << "Importing scenes";
-
-    qDebug() << "Import scenes";
     QFileDialog fileDialog;
-    fileDialog.setWindowTitle(tr("Import Scenes"));
-    fileDialog.show();
+    fileDialog.setWindowTitle(tr("Export"));
+    // Set the dialog to return the file name of a single existing file
+    fileDialog.setFileMode(QFileDialog::ExistingFile);
+    fileDialog.setNameFilter(tr("XML Data File") + " (*.xml)");
+
+    bool wasFileSelected = fileDialog.exec();
+    QString filePath;
+    if (wasFileSelected) {
+        filePath = fileDialog.selectedFiles().at(0);
+
+        qDebug() << "Importing file: " + filePath;
+        try {
+            _sceneDataFile->importFrom(filePath);
+        }
+        catch (SceneDataFileException& exception)
+        {
+            QMessageBox::critical(this,
+                                  tr("ERROR: File Import Failed"),
+                                  exception.getMessage());
+        }
+    }
 } // on_action_Import_Scenes_triggered()
 
 void MainWindow::on_dial_sliderMoved(int position)

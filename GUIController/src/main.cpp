@@ -13,6 +13,7 @@
 
 // Intialization and utilities
 #include "initialization/configloader.h"
+#include "initialization/scenedatafile.h"
 #include "utilities/singleinstanceapplication.h"
 
 
@@ -74,8 +75,18 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    MainWindow mainWindow(configLoader);
-    mainWindow.show();
-    
-    return app.exec();
+    try {
+        MainWindow mainWindow(configLoader);
+        mainWindow.show();
+
+        return app.exec();
+    }
+    catch (SceneDataFileException& exception) {
+        qDebug() << exception.getMessage();
+        QMessageBox::critical(nullptr,
+                              QObject::tr("ERROR"),
+                              exception.getMessage());
+
+        return (-1);
+    }
 }
