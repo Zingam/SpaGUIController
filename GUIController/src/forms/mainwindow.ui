@@ -141,7 +141,7 @@
    </widget>
    <widget class="QMenu" name="menu">
     <property name="title">
-     <string>Menu</string>
+     <string>File</string>
     </property>
     <addaction name="action_Export_Scenes"/>
     <addaction name="action_Import_Scenes"/>
@@ -165,10 +165,16 @@
    <property name="text">
     <string>Export Scenes</string>
    </property>
+   <property name="toolTip">
+    <string>Export scenes data file</string>
+   </property>
   </action>
   <action name="action_Import_Scenes">
    <property name="text">
     <string>Import Scenes</string>
+   </property>
+   <property name="toolTip">
+    <string>Import scenes data file</string>
    </property>
   </action>
  </widget>

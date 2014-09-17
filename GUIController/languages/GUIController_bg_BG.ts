@@ -142,46 +142,107 @@
     </message>
     <message>
         <location filename="../src/forms/mainwindow.ui" line="144"/>
-        <source>Menu</source>
-        <translation>Меню</translation>
+        <source>File</source>
+        <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../src/forms/mainwindow.ui" line="153"/>
+        <location filename="../src/forms/mainwindow.ui" line="156"/>
         <source>About SpaCentralSoft</source>
         <translation>Относно SpaCentralSoft</translation>
     </message>
     <message>
-        <location filename="../src/forms/mainwindow.ui" line="158"/>
+        <location filename="../src/forms/mainwindow.ui" line="161"/>
         <source>Exit</source>
         <translation>Изход</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="54"/>
+        <location filename="../src/forms/mainwindow.ui" line="166"/>
+        <source>Export Scenes</source>
+        <translation>Експортиране на сцени</translation>
+    </message>
+    <message>
+        <location filename="../src/forms/mainwindow.ui" line="169"/>
+        <source>Export scenes data file</source>
+        <translation>Eкспортиране на файла със сцени</translation>
+    </message>
+    <message>
+        <location filename="../src/forms/mainwindow.ui" line="174"/>
+        <source>Import Scenes</source>
+        <translation>Импортиране на сцени</translation>
+    </message>
+    <message>
+        <location filename="../src/forms/mainwindow.ui" line="177"/>
+        <source>Import scenes data file</source>
+        <translation>Импортиране на файл със сцени</translation>
+    </message>
+    <message>
+        <location filename="../src/forms/mainwindow.cpp" line="59"/>
         <source>Initializing...</source>
         <translation>Инициализация...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="333"/>
+        <location filename="../src/forms/mainwindow.cpp" line="308"/>
+        <source>Export</source>
+        <translation>Експортиране</translation>
+    </message>
+    <message>
+        <location filename="../src/forms/mainwindow.cpp" line="315"/>
+        <location filename="../src/forms/mainwindow.cpp" line="349"/>
+        <source>XML Data File</source>
+        <translation>XML файл с данни</translation>
+    </message>
+    <message>
+        <location filename="../src/forms/mainwindow.cpp" line="329"/>
+        <source>ERROR: File Export Failed</source>
+        <translation>Грешка: Файлът не може да бъде експортиран</translation>
+    </message>
+    <message>
+        <location filename="../src/forms/mainwindow.cpp" line="344"/>
+        <source>Import</source>
+        <translation>Импортиране</translation>
+    </message>
+    <message>
+        <location filename="../src/forms/mainwindow.cpp" line="363"/>
+        <source>ERROR: File Import Failed</source>
+        <translation>Грешка: Файлът не може да бъде импортиран</translation>
+    </message>
+    <message>
+        <location filename="../src/forms/mainwindow.cpp" line="374"/>
+        <source>File imported:</source>
+        <translation>Файлът бе импортиран успешно:</translation>
+    </message>
+    <message>
+        <location filename="../src/forms/mainwindow.cpp" line="375"/>
+        <source>The application will now attempt to now restart.</source>
+        <translation>Приложението ще се опита да се рестартира.</translation>
+    </message>
+    <message>
+        <location filename="../src/forms/mainwindow.cpp" line="378"/>
+        <source>Import Success</source>
+        <translation>Успешно импортиране</translation>
+    </message>
+    <message>
+        <location filename="../src/forms/mainwindow.cpp" line="420"/>
         <source>Do you want to activate:</source>
         <translation>Искате ли да активирате:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="417"/>
+        <location filename="../src/forms/mainwindow.cpp" line="504"/>
         <source>Connecting...</source>
         <translation>Свързване...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="536"/>
+        <location filename="../src/forms/mainwindow.cpp" line="623"/>
         <source>Connection error</source>
         <translation>Грешка при свързване</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="537"/>
+        <location filename="../src/forms/mainwindow.cpp" line="624"/>
         <source>Connection error: </source>
         <translation>Грешка при свързване: </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="539"/>
+        <location filename="../src/forms/mainwindow.cpp" line="626"/>
         <source>Please restart the application!</source>
         <translation>Моля рестартирайте приложението!</translation>
     </message>
@@ -189,60 +250,60 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="63"/>
+        <location filename="../src/main.cpp" line="70"/>
         <source>ERROR: Application is already instanciated!</source>
         <translation>ГРЕШКА: Приложението вече е стартирано!</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="64"/>
+        <location filename="../src/main.cpp" line="71"/>
         <source>Application is already instanciated!!!</source>
         <translation>Приложението вече е стартирано!!!</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="65"/>
+        <location filename="../src/main.cpp" line="72"/>
         <source>Can&apos;t run a second instance.</source>
         <translation>Не можете да стартирате приложението повторно.</translation>
     </message>
     <message>
-        <location filename="../src/utilities/configloader.cpp" line="22"/>
+        <location filename="../src/initialization/configloader.cpp" line="22"/>
         <source>Failed to open file in path: </source>
         <translation>Не може да отвори файл в директория:</translation>
     </message>
     <message>
-        <location filename="../src/utilities/configloader.cpp" line="32"/>
+        <location filename="../src/initialization/configloader.cpp" line="32"/>
         <source>Failed to read</source>
         <translation>Грешка при отваряне на</translation>
     </message>
     <message>
-        <location filename="../src/utilities/configloader.cpp" line="34"/>
+        <location filename="../src/initialization/configloader.cpp" line="34"/>
         <source>from device with:</source>
         <translation>от устройството:</translation>
     </message>
     <message>
-        <location filename="../src/utilities/configloader.cpp" line="37"/>
+        <location filename="../src/initialization/configloader.cpp" line="37"/>
         <source>at line </source>
         <translation>на ред</translation>
     </message>
     <message>
-        <location filename="../src/utilities/configloader.cpp" line="39"/>
+        <location filename="../src/initialization/configloader.cpp" line="39"/>
         <source>column</source>
         <translation>колона</translation>
     </message>
     <message>
-        <location filename="../src/utilities/configloader.cpp" line="61"/>
+        <location filename="../src/initialization/configloader.cpp" line="61"/>
         <source>Failed at loading</source>
         <translation>Грешка при зареждане на</translation>
     </message>
     <message>
-        <location filename="../src/utilities/configloader.cpp" line="73"/>
+        <location filename="../src/initialization/configloader.cpp" line="73"/>
         <source>Could not find valid language strings in</source>
         <translation>Не са намерени валидни езикови низове в</translation>
     </message>
     <message>
-        <location filename="../src/utilities/configloader.cpp" line="95"/>
-        <location filename="../src/utilities/configloader.cpp" line="114"/>
-        <location filename="../src/utilities/configloader.cpp" line="133"/>
-        <location filename="../src/utilities/configloader.cpp" line="257"/>
+        <location filename="../src/initialization/configloader.cpp" line="95"/>
+        <location filename="../src/initialization/configloader.cpp" line="114"/>
+        <location filename="../src/initialization/configloader.cpp" line="133"/>
+        <location filename="../src/initialization/configloader.cpp" line="257"/>
         <location filename="../src/utilities/xmlloader.cpp" line="32"/>
         <location filename="../src/utilities/xmlloader.cpp" line="51"/>
         <location filename="../src/utilities/xmlloader.cpp" line="70"/>
@@ -250,22 +311,72 @@
         <translation>Грешка при зареждане</translation>
     </message>
     <message>
-        <location filename="../src/utilities/configloader.cpp" line="144"/>
+        <location filename="../src/initialization/configloader.cpp" line="144"/>
         <location filename="../src/utilities/xmlloader.cpp" line="81"/>
         <source>No valid attribute</source>
         <translation>Не е намерен валиден атрибут</translation>
     </message>
     <message>
-        <location filename="../src/utilities/configloader.cpp" line="145"/>
+        <location filename="../src/initialization/configloader.cpp" line="145"/>
         <location filename="../src/utilities/xmlloader.cpp" line="83"/>
         <source>found for</source>
         <translation>за</translation>
     </message>
     <message>
-        <location filename="../src/utilities/configloader.cpp" line="333"/>
+        <location filename="../src/initialization/configloader.cpp" line="333"/>
+        <location filename="../src/main.cpp" line="87"/>
         <location filename="../src/utilities/xmlloader.cpp" line="137"/>
         <source>ERROR</source>
         <translation>ГРЕШКА</translation>
+    </message>
+    <message>
+        <location filename="../src/initialization/scenedatafile.cpp" line="26"/>
+        <source>Unable to create standard folder:</source>
+        <translation>Стандартната папка не може да бъде създадена:</translation>
+    </message>
+    <message>
+        <location filename="../src/initialization/scenedatafile.cpp" line="38"/>
+        <source>Unable to restore file from default source!</source>
+        <translation>Файлът не може да бъде възстановен от стандартния източник!</translation>
+    </message>
+    <message>
+        <location filename="../src/initialization/scenedatafile.cpp" line="39"/>
+        <source>Please reinstall this application!</source>
+        <translation>Моля исталирайлте приложението отново!</translation>
+    </message>
+    <message>
+        <location filename="../src/initialization/scenedatafile.cpp" line="55"/>
+        <source>File not found:</source>
+        <translation>Файлът не бе намерен:</translation>
+    </message>
+    <message>
+        <location filename="../src/initialization/scenedatafile.cpp" line="102"/>
+        <source>Unable to export file:</source>
+        <translation>Файлът не може да бъде експортиран:</translation>
+    </message>
+    <message>
+        <location filename="../src/initialization/scenedatafile.cpp" line="120"/>
+        <source>Removing old file failed.</source>
+        <translation>Старият файл не може да бъде изтрит.</translation>
+    </message>
+    <message>
+        <location filename="../src/initialization/scenedatafile.cpp" line="121"/>
+        <location filename="../src/initialization/scenedatafile.cpp" line="134"/>
+        <source>Unable to import file:</source>
+        <translation>Файлът не може да бъде импортиран:</translation>
+    </message>
+    <message>
+        <location filename="../src/initialization/scenedatafile.cpp" line="133"/>
+        <source>Unable to copy file.</source>
+        <translation>Файлът не може да бъде копиран.</translation>
+    </message>
+</context>
+<context>
+    <name>SceneDataFile</name>
+    <message>
+        <location filename="../src/initialization/scenedatafile.cpp" line="49"/>
+        <source>Unable to copy file:</source>
+        <translation>Файлът не може да бъде копиран:</translation>
     </message>
 </context>
 <context>
