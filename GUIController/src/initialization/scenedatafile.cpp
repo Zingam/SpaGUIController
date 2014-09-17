@@ -15,23 +15,22 @@ SceneDataFile::SceneDataFile(QString sceneDataFilePath,
 {
     bool doesExist = false;
 
-    QString sceneDataFileStandardPath =
-            QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    _sceneDataFileStandardPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
 
     QDir standardDataLocationDir;
-    doesExist = standardDataLocationDir.exists(sceneDataFileStandardPath);
+    doesExist = standardDataLocationDir.exists(_sceneDataFileStandardPath);
     if (!doesExist) {
-        bool isOk = standardDataLocationDir.mkpath(sceneDataFileStandardPath);
+        bool isOk = standardDataLocationDir.mkpath(_sceneDataFileStandardPath);
         if (!isOk) {
             QString errorMessage =
                     QObject::tr("Unable to create standard folder:") + "\n"
-                    + sceneDataFileStandardPath;
+                    + _sceneDataFileStandardPath;
 
             throw SceneDataFileException(errorMessage);
         }
     }
 
-    _sceneDataFileFullPath = sceneDataFileStandardPath + "/" + _sceneDataFileName;
+    _sceneDataFileFullPath = _sceneDataFileStandardPath + "/" + _sceneDataFileName;
     QString sceneDataFileSpareFullPath(sceneDataFilePath + "/" + _sceneDataFileName);
 
     QString errorMessage =
@@ -62,9 +61,16 @@ SceneDataFile::SceneDataFile(QString sceneDataFilePath,
 
 SceneDataFile::~SceneDataFile()
 {
-     qDebug() << "SceneDataFile";
+     qDebug() << "Destroying SceneDataFile object";
 }
 
+///
+/// \brief SceneDataFile::getInstance
+/// \param sceneDataFilePath - a path to a spare data file
+/// \param sceneDataFileName - a name of a spare data file
+/// \param parent
+/// \return
+///
 SceneDataFile* SceneDataFile::getInstance(QString sceneDataFilePath,
                                           QString sceneDataFileName,
                                           QObject* parent)
@@ -74,6 +80,16 @@ SceneDataFile* SceneDataFile::getInstance(QString sceneDataFilePath,
                               sceneDataFileName,
                               parent);
     return _instance;
+}
+
+const QString& SceneDataFile::getSceneDataFilePath() const
+{
+    return _sceneDataFileStandardPath;
+}
+
+const QString& SceneDataFile::getSceneDataFileName() const
+{
+    return _sceneDataFileName;
 }
 
 void SceneDataFile::exportTo(QString filePath)

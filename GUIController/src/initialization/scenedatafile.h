@@ -40,8 +40,12 @@ public:
     static SceneDataFile* getInstance(QString sceneDataFilePath,
                                       QString sceneDataFileName,
                                       QObject* parent);
+    const QString& getSceneDataFilePath() const;
+    const QString& getSceneDataFileName() const;
+
 private:
     QString _sceneDataFileName;
+    QString _sceneDataFileStandardPath;
     QString _sceneDataFileFullPath;
 
 signals:

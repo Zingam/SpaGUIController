@@ -2,6 +2,8 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
+#include <QtCore/QProcess>
+#include <QtCore/QStandardPaths>
 #include <QtCore/QString>
 #include <QtCore/QTime>
 #include <QtCore/QtMath>
@@ -37,9 +39,8 @@ MainWindow::MainWindow(const ConfigLoader& configLoader, QWidget* parent) :
 {
     bool isOk;
 
-    // Program settings: Load program setting from persistant storage
-    _programSettingsPersistant = new QSettings(this);
-
+    // Initialize the Scene Data file - this copies a spare copy if the file is missing
+    // in the Standard Folders path
     try {
         _sceneDataFile = SceneDataFile::getInstance(_programSettings.datafile.path,
                                                     _programSettings.datafile.name,
@@ -48,6 +49,9 @@ MainWindow::MainWindow(const ConfigLoader& configLoader, QWidget* parent) :
     catch (SceneDataFileException& exception) {
         throw exception;
     }
+
+    // Program settings: Load program setting from persistant storage
+    _programSettingsPersistant = new QSettings(this);
 
     // UI: Setup UI
     ui->setupUi(this);
@@ -125,14 +129,12 @@ MainWindow::MainWindow(const ConfigLoader& configLoader, QWidget* parent) :
     Q_ASSERT(isOk);
     Q_UNUSED(isOk);
 
-    // Check if data file exists in
-
-    // NOTE: SceneDataModel object has to be crated after all _temperatureIndicators
+    // NOTE: SceneDataModel object has to be created after all _temperatureIndicators
     // have been loaded from config.xml as SceneDataModel uses getSensors() to
     // retrieve a list of all sensors.
     // All available sensors on the remote controller need to be defined in config.xml
-    _sceneDataModel = new SceneDataModel(_programSettings.datafile.path,
-                                         _programSettings.datafile.name,
+    _sceneDataModel = new SceneDataModel(_sceneDataFile->getSceneDataFilePath(),
+                                         _sceneDataFile->getSceneDataFileName(),
                                          this);
 
     this->listWidget_Scenes_Update();
@@ -306,6 +308,8 @@ void MainWindow::on_action_Export_Scenes_triggered()
     fileDialog.setWindowTitle(tr("Export"));
     // Set the dialog for saving files, sets the dialog button to "Save"
     fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+    // Set the dialog to display the Desktop folder as default location
+    fileDialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation));
     // Set the dialog to return the file name wheather the file exists or not
     fileDialog.setFileMode(QFileDialog::AnyFile);
     fileDialog.setNameFilter(tr("XML Data File") + " (*.xml)");
@@ -324,14 +328,22 @@ void MainWindow::on_action_Export_Scenes_triggered()
             QMessageBox::critical(this,
                                   tr("ERROR: File Export Failed"),
                                   exception.getMessage());
+
+            return; // If export failed
         }
+    }
+    else
+    {
+        return; // If no file was selected
     }
 } // on_action_Export_Scenes_triggered()
 
 void MainWindow::on_action_Import_Scenes_triggered()
 {
     QFileDialog fileDialog;
-    fileDialog.setWindowTitle(tr("Export"));
+    fileDialog.setWindowTitle(tr("Import"));
+    // Set the dialog to display the Desktop folder as default location
+    fileDialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation));
     // Set the dialog to return the file name of a single existing file
     fileDialog.setFileMode(QFileDialog::ExistingFile);
     fileDialog.setNameFilter(tr("XML Data File") + " (*.xml)");
@@ -350,8 +362,24 @@ void MainWindow::on_action_Import_Scenes_triggered()
             QMessageBox::critical(this,
                                   tr("ERROR: File Import Failed"),
                                   exception.getMessage());
+
+            return; // If import failed
         }
     }
+    else
+    {
+        return; // If no file was selected
+    }
+
+    QString message = tr("File imported:") + " " + filePath + "\n\n"
+            + tr("The application will now attempt to now restart.");
+
+    QMessageBox::information(this,
+                             tr("Import Success"),
+                             message);
+
+    QProcess::startDetached(QApplication::applicationFilePath());
+    exit(12);
 } // on_action_Import_Scenes_triggered()
 
 void MainWindow::on_dial_sliderMoved(int position)
