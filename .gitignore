@@ -223,3 +223,5 @@ SpaCentralSoft.pro.user.*
 build-*/
 *.qm
 *.exe
+__reports__/
+__tools__/
