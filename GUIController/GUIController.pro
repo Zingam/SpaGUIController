@@ -36,9 +36,9 @@ SOURCES += src/main.cpp\
     src/sceneeditor/scenedatamodel.cpp \
     src/sceneeditor/forms/dialogaddscene.cpp \
     src/sceneeditor/forms/dialogsceneeditor.cpp \
+    src/utilities/resourcefilemanager.cpp \
     src/utilities/singleinstanceapplication.cpp \
-    src/utilities/xmlloader.cpp \
-
+    src/utilities/xmlloader.cpp
 
 HEADERS  += \
     src/custom/constants.h \
@@ -56,10 +56,10 @@ HEADERS  += \
     src/sceneeditor/scenedatamodel.h \
     src/sceneeditor/forms/dialogaddscene.h \
     src/sceneeditor/forms/dialogsceneeditor.h \
+    src/utilities/resourcefilemanager.h \
     src/utilities/singleinstanceapplication.h \
     src/utilities/utilities.h \
-    src/utilities/xmlloader.h \
-
+    src/utilities/xmlloader.h
 
 FORMS    += src/forms/mainwindow.ui \
     src/forms/dialogabout.ui \
