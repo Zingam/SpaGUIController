@@ -13,6 +13,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = test_ResourceFileManager
 TEMPLATE = app
 
+DESTDIR = ../../SpaCentralSoftBin
 
 SOURCES += src/main.cpp\
     src/forms/mainwindow.cpp \
@@ -22,3 +23,6 @@ HEADERS  += src/forms/mainwindow.h \
     src/utilities/resourcefilemanager.h
 
 FORMS    += src/forms/mainwindow.ui
+
+RESOURCES += \
+    res/resources.qrc
