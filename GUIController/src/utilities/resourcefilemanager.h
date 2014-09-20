@@ -9,19 +9,17 @@ class ResourceFileManager : public QObject
 {
     Q_OBJECT
 public:
-    explicit ResourceFileManager(QObject* parent = 0);
+    explicit ResourceFileManager(QString resourceFolderPath, QObject* parent = 0);
 
 public:
-    QByteArray* loadFrom(const QString& pathName, const QString& fileName);
+    QByteArray loadFrom(const QString& resourceFileName, const QString& fileName);
 
 private:
-    QByteArray* loadFromFolder(const QString& folderPath, const QString& fileName);
-    QByteArray* loadFromResourceFile(const QString& resourceFilePath, const QString& fileName);
+    QByteArray loadFromFolder(const QString& folderPath, const QString& fileName);
+    QByteArray loadFromResourceFile(const QString& resourceFilePath, const QString& fileName);
 
-signals:
-
-public slots:
-
+private:
+    QString _resourceFolderPath;
 };
 
 #endif // RESOURCEFILEMANAGER_H
