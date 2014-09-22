@@ -53,6 +53,6 @@ QByteArray ResourceFileManager::loadFromResourceFile(const QString& resourceFile
     Q_UNUSED(resourceFilePath);
     Q_UNUSED(fileName);
 
-    qDebug() << "ResourceFile::loadFromResourceFile - Note implemented";
+    qDebug() << "ResourceFile::loadFromResourceFile - Not implemented";
     return nullptr;
 }
