@@ -50,8 +50,8 @@ QByteArray ResourceFileManager::loadFromFolder(const QString& folderPath, const 
 
 QByteArray ResourceFileManager::loadFromResourceFile(const QString& resourceFilePath, const QString& fileName)
 {
-    Q_UNUSED(resourceFilePath);
-    Q_UNUSED(fileName);
+    Q_UNUSED(resourceFilePath)
+    Q_UNUSED(fileName)
 
     qDebug() << "ResourceFile::loadFromResourceFile - Not implemented";
     return nullptr;
