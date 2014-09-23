@@ -25,6 +25,7 @@
 #include "../custom/types.h"
 
 // Initialization and utilities
+#include "../utilities/resourcefilemanager.h"
 #include "../utilities/utilities.h"
 
 // Temperature indicator
@@ -49,6 +50,10 @@ MainWindow::MainWindow(const ConfigLoader& configLoader, QWidget* parent) :
     catch (SceneDataFileException& exception) {
         throw exception;
     }
+
+    // TO DO
+    ResourceFileManager resourceFileManager();
+    QByteArray buffer = resourceFileManager().loadFrom("", "logo.png");
 
     // Program settings: Load program setting from persistant storage
     _programSettingsPersistant = new QSettings(this);

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QtCore/QSettings>
+#include <QtGui/QPixmap>
 #include <QtWidgets/QMainWindow>
 #include <QtNetwork/QTcpSocket>
 
@@ -10,6 +11,7 @@
 #include "../initialization/configloader.h"
 #include "../initialization/scenedatafile.h"
 #include "../sceneeditor/scenedatamodel.h"
+
 
 namespace Ui {
     class MainWindow;
@@ -36,6 +38,8 @@ private:
     ProgramSettings _programSettings;
     QSettings* _programSettingsPersistant;
     QList<IndicatorProperties> _listIndicatorProperties;
+
+    QPixmap _pixmapLogo;
 
     CGraphicsScene* _scene;
 
