@@ -6,7 +6,7 @@
 
 
 DialogAbout::DialogAbout(const ProgramSettings& programSettings,
-                         QPixmap& logoImage,
+                         QPixmap& pixmapLogo,
                          QWidget* parent) :
     QDialog(parent),
     ui(new Ui::DialogAbout)
@@ -21,9 +21,9 @@ DialogAbout::DialogAbout(const ProgramSettings& programSettings,
     ui->setupUi(this);
 
     // Setup logo
-    if (!logoImage.isNull()) {
-        this->resizeLogoPixmap(logoImage);
-        ui->label_Logo->setPixmap(logoImage);
+    if (!pixmapLogo.isNull()) {
+        this->resizePixmapLogo(pixmapLogo);
+        ui->label_Logo->setPixmap(pixmapLogo);
     }
 
     // Set labels
@@ -39,7 +39,7 @@ DialogAbout::~DialogAbout()
     delete ui;
 }
 
-void DialogAbout::resizeLogoPixmap(QPixmap& pixmap)
+void DialogAbout::resizePixmapLogo(QPixmap& pixmap)
 {
     qDebug() << "Resizing logo:";
     quint32 labelWidth = ui->label_Logo->width();
