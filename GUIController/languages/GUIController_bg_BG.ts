@@ -5,26 +5,31 @@
     <name>DialogAbout</name>
     <message>
         <location filename="../src/forms/dialogabout.ui" line="26"/>
-        <source>About SpaCentralSoft</source>
-        <translation>Относно SpaCentralSoft</translation>
+        <source>About GUIController</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/forms/dialogabout.ui" line="65"/>
-        <source>SpaCentralSoft</source>
-        <translation>SpaCentralSoft</translation>
+        <location filename="../src/forms/dialogabout.ui" line="34"/>
+        <source>Made by</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/forms/dialogabout.ui" line="81"/>
+        <location filename="../src/forms/dialogabout.ui" line="85"/>
+        <source>GUI Controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/forms/dialogabout.ui" line="101"/>
         <source>Version: 1.0</source>
         <translation>Версия: 1.0</translation>
     </message>
     <message>
-        <location filename="../src/forms/dialogabout.cpp" line="23"/>
+        <location filename="../src/forms/dialogabout.cpp" line="31"/>
         <source>Version:</source>
         <translation>Версия:</translation>
     </message>
     <message>
-        <location filename="../src/forms/dialogabout.cpp" line="23"/>
+        <location filename="../src/forms/dialogabout.cpp" line="32"/>
         <source>Date:</source>
         <translation>Дата:</translation>
     </message>
@@ -112,8 +117,8 @@
     <name>MainWindow</name>
     <message>
         <location filename="../src/forms/mainwindow.ui" line="14"/>
-        <source>SpaCentralSoft</source>
-        <translation>SpaCentralSoft</translation>
+        <source>GUIController</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/forms/mainwindow.ui" line="23"/>
@@ -147,8 +152,8 @@
     </message>
     <message>
         <location filename="../src/forms/mainwindow.ui" line="156"/>
-        <source>About SpaCentralSoft</source>
-        <translation>Относно SpaCentralSoft</translation>
+        <source>About GUIController</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/forms/mainwindow.ui" line="161"/>
@@ -176,73 +181,73 @@
         <translation>Импортиране на файл със сцени</translation>
     </message>
     <message>
-        <location filename="../src/forms/mainwindow.cpp" line="59"/>
+        <location filename="../src/forms/mainwindow.cpp" line="73"/>
         <source>Initializing...</source>
         <translation>Инициализация...</translation>
     </message>
     <message>
-        <location filename="../src/forms/mainwindow.cpp" line="308"/>
+        <location filename="../src/forms/mainwindow.cpp" line="322"/>
         <source>Export</source>
         <translation>Експортиране</translation>
     </message>
     <message>
-        <location filename="../src/forms/mainwindow.cpp" line="315"/>
-        <location filename="../src/forms/mainwindow.cpp" line="349"/>
+        <location filename="../src/forms/mainwindow.cpp" line="329"/>
+        <location filename="../src/forms/mainwindow.cpp" line="363"/>
         <source>XML Data File</source>
         <translation>XML файл с данни</translation>
     </message>
     <message>
-        <location filename="../src/forms/mainwindow.cpp" line="329"/>
+        <location filename="../src/forms/mainwindow.cpp" line="343"/>
         <source>ERROR: File Export Failed</source>
         <translation>Грешка: Файлът не може да бъде експортиран</translation>
     </message>
     <message>
-        <location filename="../src/forms/mainwindow.cpp" line="344"/>
+        <location filename="../src/forms/mainwindow.cpp" line="358"/>
         <source>Import</source>
         <translation>Импортиране</translation>
     </message>
     <message>
-        <location filename="../src/forms/mainwindow.cpp" line="363"/>
+        <location filename="../src/forms/mainwindow.cpp" line="377"/>
         <source>ERROR: File Import Failed</source>
         <translation>Грешка: Файлът не може да бъде импортиран</translation>
     </message>
     <message>
-        <location filename="../src/forms/mainwindow.cpp" line="374"/>
+        <location filename="../src/forms/mainwindow.cpp" line="388"/>
         <source>File imported:</source>
         <translation>Файлът бе импортиран успешно:</translation>
     </message>
     <message>
-        <location filename="../src/forms/mainwindow.cpp" line="375"/>
+        <location filename="../src/forms/mainwindow.cpp" line="389"/>
         <source>The application will now attempt to now restart.</source>
         <translation>Приложението ще се опита да се рестартира.</translation>
     </message>
     <message>
-        <location filename="../src/forms/mainwindow.cpp" line="378"/>
+        <location filename="../src/forms/mainwindow.cpp" line="392"/>
         <source>Import Success</source>
         <translation>Успешно импортиране</translation>
     </message>
     <message>
-        <location filename="../src/forms/mainwindow.cpp" line="420"/>
+        <location filename="../src/forms/mainwindow.cpp" line="434"/>
         <source>Do you want to activate:</source>
         <translation>Искате ли да активирате:</translation>
     </message>
     <message>
-        <location filename="../src/forms/mainwindow.cpp" line="504"/>
+        <location filename="../src/forms/mainwindow.cpp" line="518"/>
         <source>Connecting...</source>
         <translation>Свързване...</translation>
     </message>
     <message>
-        <location filename="../src/forms/mainwindow.cpp" line="623"/>
+        <location filename="../src/forms/mainwindow.cpp" line="637"/>
         <source>Connection error</source>
         <translation>Грешка при свързване</translation>
     </message>
     <message>
-        <location filename="../src/forms/mainwindow.cpp" line="624"/>
+        <location filename="../src/forms/mainwindow.cpp" line="638"/>
         <source>Connection error: </source>
         <translation>Грешка при свързване: </translation>
     </message>
     <message>
-        <location filename="../src/forms/mainwindow.cpp" line="626"/>
+        <location filename="../src/forms/mainwindow.cpp" line="640"/>
         <source>Please restart the application!</source>
         <translation>Моля рестартирайте приложението!</translation>
     </message>
@@ -303,7 +308,7 @@
         <location filename="../src/initialization/configloader.cpp" line="95"/>
         <location filename="../src/initialization/configloader.cpp" line="114"/>
         <location filename="../src/initialization/configloader.cpp" line="133"/>
-        <location filename="../src/initialization/configloader.cpp" line="257"/>
+        <location filename="../src/initialization/configloader.cpp" line="264"/>
         <location filename="../src/utilities/xmlloader.cpp" line="32"/>
         <location filename="../src/utilities/xmlloader.cpp" line="51"/>
         <location filename="../src/utilities/xmlloader.cpp" line="70"/>
@@ -323,7 +328,7 @@
         <translation>за</translation>
     </message>
     <message>
-        <location filename="../src/initialization/configloader.cpp" line="333"/>
+        <location filename="../src/initialization/configloader.cpp" line="340"/>
         <location filename="../src/main.cpp" line="87"/>
         <location filename="../src/utilities/xmlloader.cpp" line="137"/>
         <source>ERROR</source>

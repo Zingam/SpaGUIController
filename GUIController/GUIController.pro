@@ -19,7 +19,7 @@ QT += network
 TARGET = GUIController
 TEMPLATE = app
 
-DESTDIR = ../../SpaCentralSoftBin
+DESTDIR = ../../SpaGUIControllerBin
 
 SOURCES += src/main.cpp\
     src/forms/dialogabout.cpp \

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>SpaCentralSoft</string>
+   <string>GUIController</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -153,7 +153,7 @@
   </widget>
   <action name="action_About">
    <property name="text">
-    <string>About SpaCentralSoft</string>
+    <string>About GUIController</string>
    </property>
   </action>
   <action name="action_Exit">
