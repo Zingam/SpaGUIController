@@ -1,7 +1,8 @@
 #ifndef DIALOGABOUT_H
 #define DIALOGABOUT_H
 
-#include <QDialog>
+#include <QtWidgets/QDialog>
+#include <QtGui/QPixmap>
 
 #include "../custom/structures.h"
 
@@ -15,8 +16,13 @@ class DialogAbout : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogAbout(const ProgramSettings& programSettings, QWidget *parent = 0);
+    explicit DialogAbout(const ProgramSettings& programSettings,
+                         QPixmap& logoImage,
+                         QWidget* parent = 0);
     ~DialogAbout();
+
+private:
+    void resizeLogoPixmap(QPixmap& pixmap);
 
 private:
     Ui::DialogAbout *ui;

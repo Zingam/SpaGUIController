@@ -52,8 +52,17 @@ MainWindow::MainWindow(const ConfigLoader& configLoader, QWidget* parent) :
     }
 
     // TO DO
-    ResourceFileManager resourceFileManager();
-    QByteArray buffer = resourceFileManager().loadFrom("", "logo.png");
+    ResourceFileManager resourceFileManager(_programSettings.resourcefile.path);
+    QByteArray buffer = resourceFileManager.loadFrom(_programSettings.resourcefile.name,
+                                                     _programSettings.logoImageFileName);
+    if (nullptr == buffer) {
+        qDebug() << "Unable to load: " + _programSettings.logoImageFileName
+                    + " from resource: " + _programSettings.resourcefile.name
+                    + " in path: " + _programSettings.resourcefile.path;
+    }
+    else {
+        _pixmapLogo.loadFromData(buffer);
+    }
 
     // Program settings: Load program setting from persistant storage
     _programSettingsPersistant = new QSettings(this);
@@ -302,7 +311,7 @@ void MainWindow::setTemperatureSensorDisconnected(quint8 sensorId)
 // Automatically connected
 void MainWindow::on_action_About_triggered()
 {
-    DialogAbout dialogAbout(_programSettings);
+    DialogAbout dialogAbout(_programSettings, _pixmapLogo);
 
     dialogAbout.exec();
 } // on_action_About_triggered()

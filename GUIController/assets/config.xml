@@ -2,10 +2,12 @@
     <settings>
         <application date="2014-09-16" name="SpaCentralSoft" version="1.1.0.0"/>
         <datafile name="SceneData.xml" path="assets/"/>
+        <resourcefile name="resourcefile" path="assets"/>
         <server ipV4Address="127.0.0.1" port="7812"/>
         <language value="bg"/>
         <assets path="dark/"/>
         <background imageSource="_0010_Background.png"/>
+        <logo imageSource="logo.png"/>
         <highlight opacity="0.6"/>
         <indicator>
             <opacity value="1"/>

@@ -170,6 +170,10 @@ void ConfigLoader::parseProgramSettings(QDomElement& element)
     _programSettings.datafile.name = getAttributeValue("name", currentElement);
     _programSettings.datafile.path = getAttributeValue("path", currentElement);
 
+    currentElement = this->nextSiblingElement("resourcefile", currentElement);
+    _programSettings.resourcefile.name = getAttributeValue("name", currentElement);
+    _programSettings.resourcefile.path = getAttributeValue("path", currentElement);
+
     currentElement = this->nextSiblingElement("server", currentElement);
     _programSettings.server.ipV4Address = getAttributeValue("ipV4Address", currentElement);
     _programSettings.server.port = getAttributeValue("port", currentElement).toInt();
@@ -182,6 +186,9 @@ void ConfigLoader::parseProgramSettings(QDomElement& element)
 
     currentElement = this->nextSiblingElement("background", currentElement);
     _programSettings.backgroundImageFileName = getAttributeValue("imageSource", currentElement);
+
+    currentElement = this->nextSiblingElement("logo", currentElement);
+    _programSettings.logoImageFileName = getAttributeValue("imageSource", currentElement);
 
     currentElement = this->nextSiblingElement("highlight", currentElement);
     _programSettings.highlightOpacity = getAttributeValue("opacity", currentElement).toFloat();

@@ -14,6 +14,12 @@ struct ProgramSettings
         QString path;
     } datafile;
 
+    struct ResourceFile
+    {
+        QString name;
+        QString path;
+    } resourcefile;
+
     struct Server
     {
         QString ipV4Address;
@@ -31,6 +37,7 @@ struct ProgramSettings
     QString language;
     QString assetsPath;
     QString backgroundImageFileName;
+    QString logoImageFileName;
     qreal highlightOpacity;
 
     struct IndicatorProperties
@@ -58,14 +65,16 @@ struct IndicatorProperties
     qreal temperatureTarget;
 };
 
-struct Sensor {
+struct Sensor
+{
     QString sceneName;
     quint8 sensorId;
     QString text;
     qreal temperatureTarget;
 };
 
-struct Scene {
+struct Scene
+{
     QString name;
     QList<Sensor> sensors;
 };
