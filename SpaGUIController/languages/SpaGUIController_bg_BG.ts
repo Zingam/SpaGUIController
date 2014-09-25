@@ -5,18 +5,18 @@
     <name>DialogAbout</name>
     <message>
         <location filename="../src/forms/dialogabout.ui" line="26"/>
-        <source>About GUIController</source>
-        <translation type="unfinished"></translation>
+        <source>About</source>
+        <translation>За програмата</translation>
     </message>
     <message>
         <location filename="../src/forms/dialogabout.ui" line="34"/>
         <source>Made by</source>
-        <translation type="unfinished"></translation>
+        <translation>Made by</translation>
     </message>
     <message>
         <location filename="../src/forms/dialogabout.ui" line="85"/>
-        <source>GUI Controller</source>
-        <translation type="unfinished"></translation>
+        <source>SpaGUIController</source>
+        <translation>SpaGUIController</translation>
     </message>
     <message>
         <location filename="../src/forms/dialogabout.ui" line="101"/>
@@ -117,8 +117,8 @@
     <name>MainWindow</name>
     <message>
         <location filename="../src/forms/mainwindow.ui" line="14"/>
-        <source>GUIController</source>
-        <translation type="unfinished"></translation>
+        <source>SpaGUIController</source>
+        <translation>SpaGUIController</translation>
     </message>
     <message>
         <location filename="../src/forms/mainwindow.ui" line="23"/>
@@ -152,8 +152,8 @@
     </message>
     <message>
         <location filename="../src/forms/mainwindow.ui" line="156"/>
-        <source>About GUIController</source>
-        <translation type="unfinished"></translation>
+        <source>About</source>
+        <translation>За програмата</translation>
     </message>
     <message>
         <location filename="../src/forms/mainwindow.ui" line="161"/>
@@ -255,17 +255,17 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="70"/>
+        <location filename="../src/main.cpp" line="69"/>
         <source>ERROR: Application is already instanciated!</source>
         <translation>ГРЕШКА: Приложението вече е стартирано!</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="71"/>
+        <location filename="../src/main.cpp" line="70"/>
         <source>Application is already instanciated!!!</source>
         <translation>Приложението вече е стартирано!!!</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="72"/>
+        <location filename="../src/main.cpp" line="71"/>
         <source>Can&apos;t run a second instance.</source>
         <translation>Не можете да стартирате приложението повторно.</translation>
     </message>
@@ -329,7 +329,7 @@
     </message>
     <message>
         <location filename="../src/initialization/configloader.cpp" line="340"/>
-        <location filename="../src/main.cpp" line="87"/>
+        <location filename="../src/main.cpp" line="86"/>
         <location filename="../src/utilities/xmlloader.cpp" line="137"/>
         <source>ERROR</source>
         <translation>ГРЕШКА</translation>

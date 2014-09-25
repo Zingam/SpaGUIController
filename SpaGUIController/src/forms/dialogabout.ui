@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>About GUIController</string>
+   <string>About</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -82,7 +82,7 @@
         </font>
        </property>
        <property name="text">
-        <string>GUI Controller</string>
+        <string>SpaGUIController</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>

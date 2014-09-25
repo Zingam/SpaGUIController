@@ -3,7 +3,7 @@
 
 #define GUID "140805-roccoor-ab8f8ec8-f505-41b0-9b67-916cfb54c88a-b5755918-24c4-4b05-bf96-f41d7065e241"
 
-#define APPLICATION_NAME "GUIController_"
+#define APPLICATION_NAME "SpaGUIController"
 
 #define ORGANIZATION_NAME "MSD Systems"
 #define ORGANIZATION_DOMAIN "msd-systems.com"

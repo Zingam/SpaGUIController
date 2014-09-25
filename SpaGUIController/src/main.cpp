@@ -47,8 +47,7 @@ int main(int argc, char *argv[])
     }
 
     // Load translation of the application for the selected language
-    QString translationFileNameApp(QString(APPLICATION_NAME)
-                                   + locale.name());
+    QString translationFileNameApp(QString(APPLICATION_NAME) + "_" + locale.name());
     QString translationPathApp("assets/languages");
 
     QTranslator translatorApp;
