@@ -19,7 +19,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ResourceFileManager resourceFileManager(ASSETS_FOLDER);
 
     QByteArray buffer = resourceFileManager.loadFrom(RESOURCE_FILEPATH, IMAGE_FILE);
-    if (nullptr == buffer) {
+      // QByteArray possesses the following operator
+      //     QByteArray operator==(const char *a1, const QByteArray &a2)
+      // thus the following code is valid as it compares nullptr (const char*)
+      // to a QByteArray argument:
+      //     if (nullptr == buffer) {
+      // It is still better to just use buffer.isEmpty()
+    if (buffer.isEmpty()) {
         qDebug() << IMAGE_FILE << "not found";
     }
     else {
@@ -59,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
         qDebug() << "newWidth:" << newWidth << ", newHeight:" << newHeight;
 
-        pixmap = pixmap.scaled(newWidth, newHeight);
+        pixmap = pixmap.scaled(newWidth, newHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         ui->label->setPixmap(pixmap);
     }
 }

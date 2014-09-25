@@ -13,7 +13,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = test_ResourceFileManager
 TEMPLATE = app
 
-DESTDIR = ../../SpaCentralSoftBin
+DESTDIR = ../../SpaGUIControllerBin
 
 SOURCES += src/main.cpp\
     src/forms/mainwindow.cpp \
