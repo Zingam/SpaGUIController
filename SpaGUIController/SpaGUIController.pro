@@ -4,19 +4,26 @@
 #
 #-------------------------------------------------
 
+# Note:
+# To enable Qt Creator to copy all the assets to the DESTDIR (output directory):
+# In Qt Creator -> Projects -> Build Steps -> Make -> Make arguments: Add "install"
+
+# These defines are used to enable/disable fine tuning and debugging
 #DEFINES += DEBUG_MODE_FINETUNING
 DEFINES += USE_GRAPHICSRECTITEM_ZONE
 DEFINES += USE_HIGHLIGHTING
 DEFINES += USE_NETWORKING
 
+# Enable C++ 11
 QMAKE_CXXFLAGS += -std=c++11
 
+# Core Qt modules
 QT += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 QT += xml
 QT += network
 
-TARGET = GUIController
+TARGET = SpaGUIController
 TEMPLATE = app
 
 DESTDIR = ../../SpaGUIControllerBin
@@ -83,6 +90,8 @@ RESOURCES += \
 #CONFIG(debug, debug|release): DESTDIR = debug
 #
 # Finally add "make install" as a post-build step
+#
+# In Qt Creator -> Projects -> Build Steps -> Make -> Make arguments: Add "install"
 
 CONFIG += copy_dir_files # Enables the install rule to also copy directories, not just files
 CONFIG += no_check_exist
