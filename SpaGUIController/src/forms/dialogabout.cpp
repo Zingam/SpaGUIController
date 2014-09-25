@@ -75,5 +75,5 @@ void DialogAbout::resizePixmapLogo(QPixmap& pixmap)
 
     qDebug() << "newWidth:" << newWidth << ", newHeight:" << newHeight;
 
-    pixmap =  pixmap.scaled(newWidth, newHeight);
+    pixmap =  pixmap.scaled(newWidth, newHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 }

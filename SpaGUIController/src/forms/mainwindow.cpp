@@ -51,11 +51,11 @@ MainWindow::MainWindow(const ConfigLoader& configLoader, QWidget* parent) :
         throw exception;
     }
 
-    // TO DO
+    // Load logo image from a resource file
     ResourceFileManager resourceFileManager(_programSettings.resourcefile.path);
     QByteArray buffer = resourceFileManager.loadFrom(_programSettings.resourcefile.name,
                                                      _programSettings.logoImageFileName);
-    if (nullptr == buffer) {
+    if (buffer.isEmpty()) {
         qDebug() << "Unable to load: " + _programSettings.logoImageFileName
                     + " from resource: " + _programSettings.resourcefile.name
                     + " in path: " + _programSettings.resourcefile.path;

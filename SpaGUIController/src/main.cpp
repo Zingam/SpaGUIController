@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
         message += "\n" + QObject::tr("Can't run a second instance.");
         QMessageBox::critical(nullptr, titleMessage, message);
 
-        return -1;
+        return (-1);
     }
 
     try {
